@@ -1,3 +1,5 @@
+// 檔案路徑：d-league web/components/VideoHub.tsx
+
 import React from 'react';
 import { MOCK_VIDEOS } from '../constants';
 import { ExternalLink, MonitorPlay, Youtube, Signal, Instagram } from 'lucide-react'; // 確保所有圖標都被導入
@@ -33,6 +35,7 @@ const SideVideoCard: React.FC<{
                         e.currentTarget.src = 'https://images.unsplash.com/photo-1579952363873-27f3bade8f55?q=80&w=800&auto=format&fit=crop';
                     }}
                     className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700 ease-out"
+                    loading="lazy" // ✅ 新增：懶惰載入
                 />
                 
                 {/* 類型標示 ICON */}
