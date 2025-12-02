@@ -116,6 +116,8 @@ const PhotoCarousel: React.FC = () => {
                                     src={image.src} 
                                     alt={`賽事精選圖片 ${image.id}`} 
                                     className="w-full h-full object-cover" 
+                                    // ✅ 新增：圖片延遲載入 (Lazy Loading)
+                                    loading="lazy" 
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-black/10 pointer-events-none"></div>
                             </div>
