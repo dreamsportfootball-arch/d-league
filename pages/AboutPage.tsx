@@ -110,7 +110,7 @@ const VenueSection: React.FC = () => {
                         <div className="relative aspect-[4/3] rounded-sm overflow-hidden border border-white/10 group bg-neutral-900 p-2">
                              {/* 大圖照片路徑更新 */}
                              <img 
-                                src="/assets/aboutpage/The Home Ground.jpg" 
+                                src="/d-league/assets/aboutpage/The Home Ground.jpg" 
                                 alt="The Home Ground" 
                                 className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
                                 onError={(e) => {
