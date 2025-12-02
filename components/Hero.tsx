@@ -1,4 +1,8 @@
+// 檔案路徑：d-league web/components/Hero.tsx
+
 import React, { useEffect, useState } from 'react';
+// 1. ✅ 新增：從 react-router-dom 導入 Link
+import { Link } from 'react-router-dom'; 
 import { ArrowRight, FileText } from 'lucide-react';
 
 const Hero: React.FC = () => {
@@ -47,8 +51,11 @@ const Hero: React.FC = () => {
                 {/* 按鈕群組 */}
                 <div className={`flex flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0 md:space-x-6 transition-all duration-1000 delay-700 ease-out transform ${loaded ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
                         
-                        {/* Primary Button */}
-                        <button className="group relative px-8 py-4 font-bold uppercase tracking-widest text-brand-black transition-colors duration-300">
+                        {/* Primary Button - 已更改為 Link to="/schedule" */}
+                        <Link 
+                            to="/schedule" // 2. ✅ 將按鈕替換為 Link，目標是賽程頁面
+                            className="group relative px-8 py-4 font-bold uppercase tracking-widest text-brand-black transition-colors duration-300"
+                        >
                         {/* 獨立的傾斜背景層 */}
                         <div className="absolute inset-0 bg-brand-accent -skew-x-12 group-hover:bg-white transition-colors duration-300 shadow-lg shadow-brand-accent/20">
                             <div className="absolute inset-0 w-0 bg-white/20 transition-all duration-[250ms] ease-out group-hover:w-full"></div>
@@ -58,7 +65,7 @@ const Hero: React.FC = () => {
                         <span className="relative z-10 flex items-center">
                             查看賽程 <ArrowRight className="ml-2 w-5 h-5 transition-transform group-hover:translate-x-1" />
                         </span>
-                        </button>
+                        </Link>
 
                         {/* Secondary Button */}
                         <a 
