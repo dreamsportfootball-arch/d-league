@@ -1,4 +1,4 @@
-// 檔案路徑：tailwind.config.js
+// 檔案路徑：tailwind.config.cjs
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
