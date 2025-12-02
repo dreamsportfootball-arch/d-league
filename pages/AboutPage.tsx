@@ -110,7 +110,7 @@ const VenueSection: React.FC = () => {
                         <div className="relative aspect-[4/3] rounded-sm overflow-hidden border border-white/10 group bg-neutral-900 p-2">
                              {/* 大圖照片路徑更新 */}
                              <img 
-                                src="/d-league/assets/aboutpage/The Home Ground.jpg" 
+                                src="/d-league/assets/aboutpage/venue" 
                                 alt="The Home Ground" 
                                 className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
                                 onError={(e) => {
@@ -175,7 +175,7 @@ const VenueSection: React.FC = () => {
                     <div className="hidden lg:block relative">
                         <div className="relative aspect-[4/3] rounded-sm overflow-hidden border border-white/10 group">
                              <img 
-                                src="/assets/aboutpage/The Home Ground.jpg" 
+                                src="/assets/aboutpage/The Home Ground" 
                                 alt="The Home Ground" 
                                 className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                                 onError={(e) => {
