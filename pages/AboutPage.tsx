@@ -175,7 +175,7 @@ const VenueSection: React.FC = () => {
                     <div className="hidden lg:block relative">
                         <div className="relative aspect-[4/3] rounded-sm overflow-hidden border border-white/10 group">
                              <img 
-                                src="/assets/aboutpage/The Home Ground" 
+                                src="/assets/aboutpage/The Home Ground.JPG" 
                                 alt="The Home Ground" 
                                 className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                                 onError={(e) => {
