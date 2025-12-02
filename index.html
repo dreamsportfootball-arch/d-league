@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>D LEAGUE | Dream It, Play It</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Oswald:wght@400;500;700&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+              display: ['Oswald', 'sans-serif'],
+            },
+            colors: {
+              brand: {
+                black: '#0a0a0a',
+                dark: '#171717',
+                gray: '#f5f5f5', 
+                white: '#ffffff',
+                accent: '#ccff00', 
+                blue: '#0047AB',
+                text: '#0a0a0a', 
+                muted: '#737373', 
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      .no-scrollbar::-webkit-scrollbar {
+          display: none;
+      }
+      .no-scrollbar {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+      }
+
+      /* 關鍵修改：移除了 overscroll-behavior-y: none; 讓瀏覽器可以下拉刷新 */
+      html, body {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: hidden; 
+        position: relative; 
+        margin: 0;
+        padding: 0;
+      }
+      
+      #root {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: hidden;
+      }
+    </style>
+
+    <link rel="stylesheet" href="/index.css"> 
+  </head>
+  <body class="bg-brand-white text-brand-text font-sans antialiased selection:bg-brand-black selection:text-brand-accent">
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
