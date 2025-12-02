@@ -198,7 +198,7 @@ export const PLAYER_IMAGES: Record<string, string> = {
   '林鈺閔': '/d-league/assets/players/酒號矯正署/林鈺閔.png',
   '林思維': '/d-league/assets/players/酒號矯正署/林思維.png',
   '林冠亨': '/d-league/assets/players/酒號矯正署/林冠亨.png',
-  '鄭詠翰': '/d-league/assets/players/酒號矯正署/鄭詠翰',
+  '鄭詠翰': '/d-league/assets/players/cheng.png',
   '陳揚青澔': '/d-league/assets/players/酒號矯正署/陳揚青澔.png',
   '吳啓明': '/d-league/assets/players/酒號矯正署/吳啓明.png',
   '施聖章': '/d-league/assets/players/酒號矯正署/施聖章.png',
