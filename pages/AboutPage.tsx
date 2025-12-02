@@ -85,7 +85,7 @@ const OriginVisionSection: React.FC = () => {
 };
 
 // =========================================
-// 2. Venue Section (比賽場地 - 修正手機照片顯示)
+// 2. Venue Section (比賽場地 - 已修正間距)
 // =========================================
 const VenueSection: React.FC = () => {
     return (
@@ -102,15 +102,16 @@ const VenueSection: React.FC = () => {
             </div>
 
             <div className="container mx-auto px-6 md:px-12 relative z-10">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
+                {/* ✅ 修正點 1: 更改手機版間距從 gap-12 到 gap-6 */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-20 items-start">
                     
                     {/* Top/Left: 視覺裝飾區 (手機：顯示在上方) */}
-                    <div className="lg:hidden w-full relative mb-1">
+                    {/* ✅ 修正點 2: 移除 mb-1 */}
+                    <div className="lg:hidden w-full relative">
                         {/* 手機版照片容器：確保全寬顯示 */}
                         <div className="relative aspect-[4/3] rounded-sm overflow-hidden border border-white/10 group bg-neutral-900 p-2">
-                             {/* 大圖照片路徑更新 */}
                              <img 
-                                src="/d-league/assets/aboutpage/venue" 
+                                src="/d-league/assets/aboutpage/Venue.jpg" 
                                 alt="The Home Ground" 
                                 className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
                                 onError={(e) => {
@@ -128,7 +129,7 @@ const VenueSection: React.FC = () => {
                     {/* Bottom/Right: 資訊區 - Lg版靠右對齊 */}
                     <div>
                         {/* Label 改為 "台南" */}
-                        <div className="flex items-center space-x-3 mb-6">
+                        <div className="flex items-center space-x-2 mb-6">
                             <MapPin className="w-5 h-5 text-brand-accent" />
                             <span className="text-xs font-bold uppercase tracking-[0.3em] text-brand-accent">
                                 台南
@@ -146,7 +147,7 @@ const VenueSection: React.FC = () => {
                         {/* Description 更新 */}
                         <div className="space-y-4 mb-10 max-w-md">
                             <p className="text-neutral-400 text-sm md:text-base leading-relaxed font-medium">
-                                D LEAGUE 25/26 賽季比賽場地。
+                                D LEAGUE 25/26 賽季比賽場地
                                 <br/>
                                 人工草足球場
                             </p>
@@ -175,7 +176,7 @@ const VenueSection: React.FC = () => {
                     <div className="hidden lg:block relative">
                         <div className="relative aspect-[4/3] rounded-sm overflow-hidden border border-white/10 group">
                              <img 
-                                src="/assets/aboutpage/The Home Ground.JPG" 
+                                src="/d-league/assets/aboutpage/Venue.jpg" 
                                 alt="The Home Ground" 
                                 className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                                 onError={(e) => {

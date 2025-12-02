@@ -27,15 +27,23 @@ const MatchCard: React.FC<{
   const isLive = match.status === MatchStatus.LIVE;
   const isFinished = match.status === MatchStatus.FINISHED;
   
+  // 🎯 判斷是否可點擊：只有完賽或進行中才可點
+  const isClickable = isLive || isFinished;
+
   return (
     <div 
-        onClick={() => onClick(match.id)}
-        className="flex flex-col flex-shrink-0 w-[85vw] md:w-80 bg-white border border-neutral-200 shadow-sm hover:shadow-lg hover:-translate-y-1 active:scale-95 transition-all duration-200 group relative overflow-hidden mr-3 md:mr-4 last:mr-0 snap-center rounded-lg cursor-pointer select-none"
+        // 🎯 修改：只有可點擊時才觸發 onClick
+        onClick={() => { if (isClickable) onClick(match.id); }}
+        className={`
+            flex flex-col flex-shrink-0 w-[85vw] md:w-80 bg-white border border-neutral-200 
+            shadow-sm hover:shadow-lg transition-all duration-200 group relative overflow-hidden 
+            mr-3 md:mr-4 last:mr-0 snap-center rounded-lg select-none
+            ${isClickable ? 'cursor-pointer hover:-translate-y-1 active:scale-95' : 'cursor-default'}
+        `}
     >
       {/* Header */}
       <div className="bg-neutral-50 px-4 py-2 border-b border-neutral-100 flex justify-between items-center shrink-0">
          <div className="flex items-center">
-             {/* ✅ 關鍵修正：確保 {match.round} 左右都有空格 */}
              <span className="text-xs font-bold text-neutral-500 uppercase tracking-wider">{match.league} • 第{match.round}輪</span>
              <span className="text-xs font-medium text-neutral-400 ml-2 pl-2 border-l border-neutral-200">{dateString}</span>
          </div>
@@ -234,11 +242,9 @@ const MatchCenter: React.FC = () => {
                         </button>
 
                         <div className="text-center mb-4">
-                            {/* 這裡原本就正確，維持不變 */}
                             <span className="text-xs font-bold text-brand-blue bg-brand-blue/10 px-3 py-1 rounded-full uppercase tracking-widest">
                                 {selectedMatch.league} • 第 {selectedMatch.round} 輪
                             </span>
-                             {/* 日期與時間 (小字) */}
                             <p className="text-xs font-medium text-neutral-500 mt-2">
                                 {formatMatchDateTime(selectedMatch.timestamp)}
                             </p>

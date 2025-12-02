@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+// ✅ 1. 引入 Link 元件
+import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { fetchLeagueNews } from '../services/geminiService';
 import { NewsArticle } from '../types';
@@ -54,7 +56,12 @@ const NewsSection: React.FC = () => {
                     </div>
                 ) : (
                     displayNews.map((article) => (
-                        <div key={article.id} className="p-5 group cursor-pointer hover:bg-neutral-50 transition-colors flex items-start space-x-5 relative overflow-hidden">
+                        // ✅ 2. 改為 Link，點擊直接進入該文章內文
+                        <Link 
+                            key={article.id} 
+                            to={`/news/${article.id}`}
+                            className="p-5 group cursor-pointer hover:bg-neutral-50 transition-colors flex items-start space-x-5 relative overflow-hidden block text-left"
+                        >
                              {/* Hover Accent Line */}
                              <div className="absolute left-0 top-0 bottom-0 w-1 bg-brand-blue transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300"></div>
 
@@ -72,31 +79,34 @@ const NewsSection: React.FC = () => {
                                      {article.title}
                                  </h4>
                                  
-                                 {/* 👇 摘要回來了！限制顯示 2 行 (line-clamp-2) 以保持版面整潔 */}
                                  <p className="text-neutral-500 text-sm line-clamp-2 leading-relaxed opacity-80 group-hover:opacity-100 transition-opacity">
                                      {article.summary}
                                  </p>
                              </div>
 
-                             {/* 圖片區塊 (右) - 稍微加大一點以平衡文字高度 */}
+                             {/* 圖片區塊 (右) */}
                              {article.imageUrl && (
                                  <div className="shrink-0 w-28 h-20 md:w-32 md:h-24 rounded overflow-hidden bg-neutral-100 relative z-10 shadow-sm group-hover:shadow-md transition-shadow">
                                      <img 
-                                        src={article.imageUrl} 
-                                        alt={article.title}
-                                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
+                                         src={article.imageUrl} 
+                                         alt={article.title}
+                                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
                                      />
                                  </div>
                              )}
-                        </div>
+                        </Link>
                     ))
                 )}
             </div>
 
             <div className="p-4 border-t border-neutral-100 bg-neutral-50 group-hover:bg-white transition-colors mt-auto">
-                <button className="w-full py-2 text-center text-xs font-black text-neutral-400 hover:text-brand-black uppercase tracking-widest flex items-center justify-center group/btn transition-colors">
+                {/* ✅ 3. 改為 Link，點擊前往新聞列表頁 */}
+                <Link 
+                    to="/news"
+                    className="w-full py-2 text-center text-xs font-black text-neutral-400 hover:text-brand-black uppercase tracking-widest flex items-center justify-center group/btn transition-colors"
+                >
                     查看全部消息 <ArrowRight className="w-4 h-4 ml-2 transform group-hover/btn:translate-x-1 transition-transform" />
-                </button>
+                </Link>
             </div>
         </div>
     );

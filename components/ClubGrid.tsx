@@ -1,5 +1,3 @@
-// d-league-_-台南夢達七人足球聯賽 (4)/components/ClubGrid.tsx
-
 import React, { useRef, useState, useEffect, useMemo } from 'react';
 import { TEAMS } from '../constants';
 import { X } from 'lucide-react'; 
@@ -12,34 +10,15 @@ const ClubGrid: React.FC = () => {
     const teamIndex = activeTeamId ? (Object.keys(TEAMS).indexOf(activeTeamId) + 1) : 0;
     const teamNumber = teamIndex.toString().padStart(2, '0');
 
-    // 🎯 Logo 尺寸客製化邏輯 (Smart Size Logic)
-    // 根據隊伍名稱，自動分配最適合的視覺尺寸 (僅影響手機版，電腦版 md:w-40 固定不動)
+    // 🎯 Logo 尺寸客製化邏輯
     const getLogoSizeClasses = () => {
-        if (!activeTeam) return 'w-32 h-32 md:w-40 md:h-40'; // 預設安全值
+        if (!activeTeam) return 'w-32 h-32 md:w-40 md:h-40';
         
         const n = activeTeam.name;
-
-        // Level S (w-32): 針對 "超大" 的隊伍 - 鹿逐
-        if (n.includes('鹿逐')) {
-            return 'w-32 h-32 md:w-40 md:h-40';
-        }
-
-        // Level M- (w-36): 針對 "微縮" 的隊伍 - 陳公舘, 酒號 (酒號從 w-40 再次縮小)
-        if (n.includes('陳公舘') || n.includes('酒號')) {
-            return 'w-36 h-36 md:w-40 md:h-40';
-        }
-
-        // Level M (w-40): 針對 "標準大" 的隊伍 - 瘋Dog、屏東野猿 (酒號已移至 w-36)
-        if (n.includes('瘋') || n.includes('屏東')) {
-            return 'w-40 h-40 md:w-40 md:h-40';
-        }
-
-        // Level L (w-44): 針對 "稍大" 的隊伍 - 嘉義、PPI、鳥仕
-        if (n.includes('嘉義') || n.includes('PPI') || n.includes('鳥仕')) {
-            return 'w-44 h-44 md:w-40 md:h-40';
-        }
-
-        // Level XL (特大尺寸 w-48): 其他隊伍維持最大衝擊力
+        if (n.includes('鹿逐')) return 'w-32 h-32 md:w-40 md:h-40';
+        if (n.includes('陳公舘') || n.includes('酒號')) return 'w-36 h-36 md:w-40 md:h-40';
+        if (n.includes('瘋') || n.includes('屏東')) return 'w-40 h-40 md:w-40 md:h-40';
+        if (n.includes('嘉義') || n.includes('PPI') || n.includes('鳥仕')) return 'w-44 h-44 md:w-40 md:h-40';
         return 'w-48 h-48 md:w-40 md:h-40';
     };
 
@@ -85,13 +64,9 @@ const ClubGrid: React.FC = () => {
 
     return (
         <>
-            {/* =========================================
-                1. 原始列表區 (隊伍 Grid)
-               ========================================= */}
             <section className="pt-8 pb-6 md:pt-16 md:pb-12 bg-neutral-50 border-t border-neutral-200 overflow-hidden">
                 <div className="container mx-auto px-4 md:px-6 text-center">
                     
-                    {/* 標題區塊 */}
                     <div className="mb-6 md:mb-10 relative inline-block"> 
                         <span className="absolute -top-4 md:-top-6 left-1/2 -translate-x-1/2 text-5xl md:text-8xl font-black text-neutral-200/50 whitespace-nowrap select-none uppercase font-display">
                             The Teams
@@ -112,11 +87,11 @@ const ClubGrid: React.FC = () => {
                         ref={scrollRef}
                         onScroll={updateScrollState}
                         className="
-                            flex overflow-x-auto pb-6 pt-1 gap-3 snap-x snap-proximity touch-pan-x px-4 -mx-4
-                            scrollbar-thin scrollbar-thumb-neutral-300 scrollbar-track-transparent
+                            flex overflow-x-auto pb-6 pt-1 gap-5 snap-x snap-proximity touch-pan-x px-4 -mx-4
+                            no-scrollbar
                             
                             md:grid md:grid-cols-5 md:gap-y-16 md:gap-x-8 md:items-end md:justify-items-center
-                            md:overflow-visible md:pb-0 md:px-0 md:mx-0 md:scrollbar-none
+                            md:overflow-visible md:pb-0 md:px-0 md:mx-0
                         "
                     >
                         {Object.values(TEAMS).map(team => (
@@ -138,7 +113,7 @@ const ClubGrid: React.FC = () => {
                                     />
                                 </div>
 
-                                <h4 className="font-bold uppercase text-[10px] md:text-sm tracking-widest text-center transition-colors duration-300 truncate w-full text-brand-black md:text-neutral-400 md:group-hover:text-brand-black">
+                                <h4 className="font-bold uppercase text-[10px] md:text-sm tracking-widest text-center transition-colors duration-300 whitespace-nowrap text-brand-black md:text-neutral-400 md:group-hover:text-brand-black">
                                     {team.shortName}
                                 </h4>
 
@@ -162,9 +137,7 @@ const ClubGrid: React.FC = () => {
                 </div>
             </section>
 
-            {/* =========================================
-                2. 隊伍詳情卡片 (Modal) - Metavision Style
-               ========================================= */}
+            {/* 隊伍詳情 Modal */}
             {activeTeamId && activeTeam && (
                 <div className="fixed inset-0 z-[1000] flex items-center justify-center p-4 md:p-8 backdrop-blur-sm animate-in fade-in">
                     <div 
@@ -172,23 +145,16 @@ const ClubGrid: React.FC = () => {
                         onClick={() => setActiveTeamId(null)} 
                     ></div>
 
-                    {/* 卡片容器 */}
                     <div className="relative w-full max-w-4xl h-[650px] bg-white rounded-xl shadow-2xl overflow-hidden flex flex-row animate-in zoom-in-90 duration-300 border-2 border-brand-black/10">
-                        
-                        {/* === 左側：視覺區塊 (單一主色背景) === */}
                         <div 
                             style={{ backgroundColor: activeTeam.primaryColor }}
-                            // 🎯 左側欄：手機版 w-24 (固定不變)，電腦版 md:w-[24%]
                             className="h-full w-24 md:w-[24%] shrink-0 relative text-white p-4 md:p-10 flex flex-col justify-between"
                         >
-                            {/* 新增的背景隔離區 - 關住背景特效 */}
                             <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-l-xl">
-                                {/* 3D 空間陣 - 靜態背景 */}
                                 <div className="absolute inset-0 opacity-80"> 
                                     <div 
                                         className="absolute w-[200%] h-[200%] -left-1/2 -top-1/2"
                                         style={{
-                                            // 🎯 背景暗紋透明度 10% (0.1)
                                             backgroundImage: `
                                                 linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
                                                 linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)
@@ -201,12 +167,10 @@ const ClubGrid: React.FC = () => {
                                     <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-transparent"></div>
                                 </div>
 
-                                {/* 右上角小號碼 */}
                                 <span className="absolute top-4 right-4 text-3xl md:text-5xl font-display font-black text-white/90 z-20 mix-blend-overlay">
                                     {teamNumber}
                                 </span>
                                 
-                                {/* 原始半透明背景大號碼 */}
                                 <div className="absolute inset-0 overflow-hidden pointer-events-none">
                                     <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[200px] md:text-[300px] font-display font-black opacity-10 select-none">
                                         {teamNumber}
@@ -214,9 +178,7 @@ const ClubGrid: React.FC = () => {
                                 </div>
                             </div>
                             
-                            {/* Logo 在上層：z-50 */}
                             <div className="relative z-50 flex justify-between items-start flex-grow pointer-events-none">
-                                {/* 🎯 修正: 手機版移除 hover 放大 (改為 md:hover:scale-110，僅電腦版有互動) */}
                                 <div className={`${logoSizeClasses} absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform md:hover:scale-110 transition-transform duration-500 pointer-events-auto`}>
                                     <img 
                                         src={activeTeam.logo} 
@@ -225,7 +187,6 @@ const ClubGrid: React.FC = () => {
                                     />
                                 </div>
                                 
-                                {/* 底部 Slogan */}
                                 <div className="mt-auto pt-4 flex flex-col justify-end w-full text-right">
                                     <span className="block md:hidden text-[10px] font-black uppercase tracking-[0.3em] text-white/80 mt-2 leading-relaxed">
                                         DREAM&nbsp;IT<br />PLAY&nbsp;IT
@@ -237,9 +198,7 @@ const ClubGrid: React.FC = () => {
                             </div>
                         </div>
 
-                        {/* === 右側：內容區塊 === */}
                         <div className="flex-1 relative bg-white flex flex-col"> 
-                            
                             <button 
                                 onClick={() => setActiveTeamId(null)}
                                 className="absolute top-0 right-0 p-4 z-50 group"
@@ -249,7 +208,6 @@ const ClubGrid: React.FC = () => {
                                 </div>
                             </button>
                             
-                            {/* 1. 頂部資訊區 */}
                             <div className="p-6 md:p-8 pb-4 shrink-0 relative">
                                 <div className="absolute top-6 left-0 w-2 h-16 bg-brand-black"></div>
                                 
@@ -264,9 +222,14 @@ const ClubGrid: React.FC = () => {
                                     <h3 className="text-3xl sm:text-4xl md:text-5xl font-display font-black text-brand-black mb-0 leading-[0.85] uppercase tracking-tighter italic">
                                         {activeTeam.shortName}
                                     </h3>
-                                    <p className="text-xs font-bold text-neutral-400 uppercase tracking-[0.3em] mt-2">
-                                        {activeTeam.name}
-                                    </p>
+                                    <p 
+    className={`
+        text-xs font-bold text-neutral-400 uppercase tracking-[0.3em] mt-2 
+        ${activeTeam.name.includes('屏東') ? '' : 'whitespace-nowrap'}
+    `}
+>
+    {activeTeam.name}
+</p>
                                 </div>
 
                                 <div className="mt-6 bg-neutral-50 border-l-4 p-3 relative overflow-hidden" style={{ borderColor: activeTeam.primaryColor }}>
@@ -287,7 +250,6 @@ const ClubGrid: React.FC = () => {
                                 </div>
                             </div>
                             
-                            {/* 3. 球員名單列表 */}
                             <div className="flex-1 overflow-y-auto px-6 md:px-8 pb-8">
                                 <div className="mb-4 flex items-end justify-between border-b-2 border-brand-black pb-1">
                                     <span className="text-xl font-display font-black italic tracking-tighter text-brand-black">
@@ -299,7 +261,7 @@ const ClubGrid: React.FC = () => {
                                 </div>
 
                                 <div className="grid grid-cols-1 gap-2">
-                                    {activePlayers.map((player, index) => (
+                                    {activePlayers.map((player) => (
                                         <div 
                                             key={player.id} 
                                             className="group relative flex items-center bg-white border border-neutral-200 hover:border-brand-black transition-all duration-200 overflow-hidden"
@@ -338,7 +300,6 @@ const ClubGrid: React.FC = () => {
                                 </div>
                             </div>
                             
-                            {/* 底部裝飾條 */}
                             <div className="h-2 w-full bg-brand-black flex shrink-0">
                                 <div className="w-1/3 bg-brand-accent h-full"></div>
                                 <div className="w-1/3 bg-neutral-800 h-full"></div>

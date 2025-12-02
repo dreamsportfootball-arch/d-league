@@ -1,222 +1,233 @@
-import React, { useEffect, useState, useMemo } from 'react';
-// ✅ 導入 Link 元件
-import { Link } from 'react-router-dom';
+// pages/ArticleDetailPage.tsx
+import React, { useEffect, useState } from 'react';
+import { useParams, Link } from 'react-router-dom';
+import { ArrowLeft } from 'lucide-react';
 import { fetchLeagueNews } from '../services/geminiService';
-import { NewsArticle } from '../types';
-import { ArrowRight, Filter } from 'lucide-react';
+import { NewsArticle } from './types';
 
-// 定義分類對照表
-const CATEGORY_MAP: Record<string, string> = {
-    'Match Report': '賽事戰報',
-    'Official': '官方公告',
+// 日本質感風格：分類設定
+const CATEGORY_META: Record<
+  string,
+  {
+    label: string;      // 備用
+    subLabel: string;   // 主要顯示文字 (中文)
+  }
+> = {
+  'Match Report': {
+    label: 'Match Report',
+    subLabel: '賽事戰報',
+  },
+  Official: {
+    label: 'Official',
+    subLabel: '官方公告',
+  },
 };
 
-// 🎨 日系配色邏輯：保持您指定的顏色，但運用得更細緻
-const TAG_COLOR_MAP: Record<string, { bg: string, text: string }> = {
-    'Match Report': { bg: 'bg-brand-accent', text: 'text-black' }, // 品牌輔助色 + 黑字
-    'Official': { bg: 'bg-brand-blue', text: 'text-white' },             // 品牌藍 + 白字
-    'default': { bg: 'bg-neutral-100', text: 'text-neutral-600' }
+const DEFAULT_CATEGORY_META = {
+  label: 'News',
+  subLabel: '最新消息',
 };
 
-// 💡 格式化日期：YYYY/MM/DD
+// 標籤顏色邏輯
+const getBadgeStyle = (category: string) => {
+  if (category === 'Match Report' || category === '戰報') {
+    return 'bg-brand-accent text-brand-black border-transparent'; // 螢光綠
+  }
+  if (category === 'Official' || category === '公告') {
+    return 'bg-brand-blue text-white border-transparent'; // 品牌藍
+  }
+  return 'bg-neutral-100 text-neutral-600 border-transparent'; // 預設灰
+};
+
 const formatDate = (isoString: string) => {
-    const date = new Date(isoString);
-    const year = date.getFullYear();
-    // 確保月份和日期有兩位數，前面補 0
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    return `${year}/${month}/${day}`;
+  const date = new Date(isoString);
+  if (Number.isNaN(date.getTime())) return '';
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, '0');
+  const d = String(date.getDate()).padStart(2, '0');
+  return `${y}.${m}.${d}`;
 };
 
-// 🎨 輔助函式：取得標籤樣式
-const getTagClasses = (category: string) => {
-    const map = TAG_COLOR_MAP[category] || TAG_COLOR_MAP['default'];
-    return `${map.bg} ${map.text}`;
+// 文章內文組件
+const ArticleBody: React.FC<{ text: string }> = ({ text }) => {
+  if (!text) return null;
+
+  const blocks = text
+    .split(/\n{2,}/)       // 兩個以上換行視為新段落
+    .map((b) => b.trim())
+    .filter((b) => b.length > 0);
+
+  if (blocks.length === 0) return null;
+
+  return (
+    // 父層設定字級與行距
+    <div className="text-[15px] md:text-[16px] leading-[2.2] text-neutral-800 font-light md:font-medium text-justify">
+      {/* 引導段 (Lead Paragraph) */}
+      <div
+        className="
+          mb-10 
+          pl-4 md:pl-5 
+          border-l-[3px] border-[#0047AB] 
+          text-[18px] md:text-[20px] 
+          leading-[1.7] 
+          font-semibold
+          font-display
+          text-black 
+          tracking-wide
+          whitespace-pre-line
+        "
+      >
+        {blocks[0]}
+      </div>
+
+      {/* 正文段落 */}
+      {blocks.slice(1).map((block, idx) => (
+        <p
+          key={idx}
+          className="mb-8 tracking-wide whitespace-pre-line"
+        >
+          {block}
+        </p>
+      ))}
+    </div>
+  );
 };
 
+const ArticleDetailPage: React.FC = () => {
+  const { id } = useParams<{ id: string }>();
+  const [article, setArticle] = useState<NewsArticle | null>(null);
+  const [loading, setLoading] = useState(true);
 
-// 🎌 UI 元件：極簡過濾器 (Zen Filter)
-// 放棄膠囊按鈕，改用文字+底部線條，更輕盈
-const MinimalFilter: React.FC<{ 
-    label: string; 
-    isActive: boolean; 
-    onClick: () => void;
-}> = ({ label, isActive, onClick }) => (
-    <button
-        onClick={onClick}
-        className={`
-            relative px-1 py-2 text-sm font-bold uppercase tracking-widest transition-colors duration-300
-            ${isActive ? 'text-brand-black' : 'text-neutral-400 hover:text-brand-blue'}
-        `}
-    >
-        {label}
-        {/* 選中時底部的動態線條 */}
-        <span className={`
-            absolute bottom-0 left-0 w-full h-[2px] bg-brand-blue transform transition-transform duration-300 origin-left
-            ${isActive ? 'scale-x-100' : 'scale-x-0'}
-        `}></span>
-    </button>
-);
+  useEffect(() => {
+    const loadArticle = async () => {
+      try {
+        const news = await fetchLeagueNews();
+        const found = news.find((item) => item.id === id) || null;
+        setArticle(found);
+      } catch (error) {
+        console.error('Failed to load article:', error);
+        setArticle(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadArticle();
+  }, [id]);
 
-// 🎌 UI 元件：日系簡約新聞卡片 (Minimalist Card)
-const MinimalNewsCard: React.FC<{ article: NewsArticle }> = ({ article }) => (
-    <Link 
-        to={`/news/${article.id}`} 
-        className="group flex flex-col h-full cursor-pointer"
-    >
-        {/* 1. 圖片區：乾淨，無標籤遮擋，微圓角 */}
-        <div className="relative overflow-hidden rounded-lg aspect-[16/10] mb-5 bg-neutral-100">
-            <img 
-                src={article.imageUrl} 
-                alt={article.title}
-                className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-            />
-            {/* 圖片遮罩：hover 時極淡的變亮效果，增加互動感 */}
-            <div className="absolute inset-0 bg-white/0 group-hover:bg-white/10 transition-colors duration-300" />
-        </div>
-
-        {/* 2. 資訊區：極簡排列 */}
-        <div className="flex flex-col flex-grow">
-            
-            {/* Meta Row: 標籤與日期並列 */}
-            <div className="flex items-center mb-3 space-x-3">
-                {/* 分類標籤：小巧精緻 */}
-                <span className={`
-                    px-2 py-[2px] text-[10px] font-bold uppercase tracking-wider rounded-sm
-                    ${getTagClasses(article.category)}
-                `}>
-                    {CATEGORY_MAP[article.category] || article.category}
-                </span>
-
-                {/* 分隔線 */}
-                <span className="w-[1px] h-3 bg-neutral-300"></span>
-
-                {/* 日期：純粹的數字美感 */}
-                <span className="text-xs font-medium text-neutral-400 tracking-wide font-mono">
-                    {formatDate(article.timestamp)}
-                </span>
-            </div>
-            
-            {/* 標題：強調字體層級，Hover 時變色 */}
-            <h3 className="text-lg md:text-xl font-bold text-brand-black leading-snug mb-3 group-hover:text-brand-blue transition-colors duration-300">
-                {article.title}
-            </h3>
-            
-            {/* 摘要：灰色，更細的字重，增加留白 */}
-            <p className="text-neutral-500 text-sm leading-relaxed line-clamp-2 mb-4">
-                {article.summary}
-            </p>
-
-            {/* Read More: 極簡箭頭，推至底部 */}
-            <div className="mt-auto pt-2 flex items-center text-brand-blue font-bold text-xs tracking-widest uppercase group/btn">
-                <span className="mr-2 group-hover/btn:underline decoration-2 underline-offset-4">Read More</span>
-                <ArrowRight className="w-3 h-3 transform transition-transform duration-300 group-hover/btn:translate-x-1" />
-            </div>
-        </div>
-    </Link>
-);
-
-
-const NewsPage: React.FC = () => {
-    const [news, setNews] = useState<NewsArticle[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [activeFilter, setActiveFilter] = useState('ALL'); 
-
-    useEffect(() => {
-        const loadNews = async () => {
-            const articles = await fetchLeagueNews();
-            setNews(articles);
-            setLoading(false);
-        };
-        loadNews();
-    }, []);
-
-    const filteredNews = useMemo(() => {
-        const contentToDisplay = news.filter(item => 
-            item.category !== 'Feature' && item.category !== 'Interview'
-        );
-
-        if (activeFilter === 'ALL') return contentToDisplay; 
-
-        return contentToDisplay.filter(item => {
-            if (activeFilter === 'Match Report') return item.category === 'Match Report' || item.category === '戰報';
-            if (activeFilter === 'Official') return item.category === 'Official';
-            return false; 
-        });
-    }, [news, activeFilter]);
-    
+  if (loading) {
     return (
-        // 背景改為純白 (bg-white)，去除雜質
-        <div className="pt-20 min-h-screen bg-white pb-24">
-            <div className="container mx-auto px-6 md:px-12 max-w-7xl">
-                
-                {/* 1. Header 區塊：左對齊，大量留白 */}
-                <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 md:mb-16 border-b border-neutral-100 pb-8">
-                    <div>
-                        {/* 👇 標題已修改為中文：最新消息 */}
-                        <h1 className="font-display font-black text-4xl md:text-6xl text-brand-black mb-4 tracking-tight">
-                            最新<span className="text-brand-blue">消息</span>
-                        </h1>
-                        <p className="text-neutral-400 text-sm md:text-base font-medium tracking-wide">
-                            D LEAGUE 官方公告與賽事戰報
-                        </p>
-                    </div>
-
-                    {/* Filter 區塊：移至右側或下方，與標題呼應 */}
-                    <div className="flex gap-6 mt-6 md:mt-0">
-                        <MinimalFilter label="全部" isActive={activeFilter === 'ALL'} onClick={() => setActiveFilter('ALL')} />
-                        <MinimalFilter label="賽事戰報" isActive={activeFilter === 'Match Report'} onClick={() => setActiveFilter('Match Report')} />
-                        <MinimalFilter label="官方公告" isActive={activeFilter === 'Official'} onClick={() => setActiveFilter('Official')} />
-                    </div>
-                </div>
-
-                {/* 2. 內容顯示區 */}
-                <div className="w-full">
-                {loading ? (
-                    // Loading 狀態：保持簡約的骨架屏
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
-                        {[1, 2, 3, 4, 5, 6].map(i => (
-                            <div key={i} className="animate-pulse">
-                                <div className="bg-neutral-100 h-56 rounded-lg mb-4"></div>
-                                <div className="h-4 bg-neutral-100 w-1/3 mb-3 rounded"></div>
-                                <div className="h-6 bg-neutral-100 w-3/4 mb-2 rounded"></div>
-                                <div className="h-4 bg-neutral-100 w-full rounded"></div>
-                            </div>
-                        ))}
-                    </div>
-                ) : (
-                    <>
-                        {filteredNews.length > 0 ? (
-                            // Grid 設定：加大間距 (gap-x-10 gap-y-16) 增加呼吸感
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-16">
-                                {filteredNews.map((article, idx) => (
-                                    <div 
-                                        key={article.id} 
-                                        className="animate-in fade-in duration-1000 slide-in-from-bottom-4"
-                                        style={{ animationDelay: `${idx * 100}ms` }} 
-                                    >
-                                        <MinimalNewsCard article={article} />
-                                    </div>
-                                ))}
-                            </div>
-                        ) : (
-                            <div className="flex flex-col items-center justify-center py-32 text-neutral-300">
-                                <Filter className="w-10 h-10 mb-4 opacity-50" />
-                                <p className="text-sm font-medium tracking-widest uppercase">No Content Found</p>
-                                <button 
-                                    onClick={() => setActiveFilter('ALL')}
-                                    className="mt-6 text-brand-black border-b border-brand-black text-xs font-bold uppercase hover:text-brand-blue hover:border-brand-blue transition-colors"
-                                >
-                                    View All
-                                </button>
-                            </div>
-                        )}
-                    </>
-                )}
-                </div>
-            </div>
-        </div>
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="w-8 h-8 border-2 border-neutral-200 border-t-neutral-800 rounded-full animate-spin" />
+      </div>
     );
+  }
+
+  if (!article) {
+    return (
+      <div className="min-h-screen bg-white pt-32 px-6 text-center">
+        <h1 className="text-xl font-medium tracking-widest text-neutral-900 mb-4">
+          文章不存在
+        </h1>
+        <Link
+          to="/news"
+          className="text-xs tracking-[0.2em] text-neutral-400 hover:text-black transition-colors border-b border-transparent hover:border-black pb-1"
+        >
+          返回首頁
+        </Link>
+      </div>
+    );
+  }
+
+  const categoryMeta =
+    CATEGORY_META[article.category] || DEFAULT_CATEGORY_META;
+
+  // 若有 content 就用 content，否則退而用 summary 當內文
+  const contentText = article.content || article.summary || '';
+
+  return (
+    <article className="min-h-screen bg-white pt-14 md:pt-24 pb-32">
+      <div className="max-w-3xl mx-auto px-6 md:px-8">
+        {/* 頂部導航：返回最新消息 */}
+        <div className="mb-6 md:mb-8">
+          <Link
+            to="/news"
+            className="inline-flex items-center group text-[11px] md:text-[12px] tracking-[0.15em] text-neutral-400 hover:text-black transition-colors"
+          >
+            <ArrowLeft className="w-3 h-3 mr-2 transition-transform group-hover:-translate-x-1" />
+            返回最新消息
+          </Link>
+        </div>
+
+        {/* 標題區塊 Header */}
+        <header className="mb-12 md:mb-16 flex flex-col items-start text-left">
+          {/* 分類與日期 */}
+          <div className="flex flex-row items-center gap-3 mb-6 md:mb-8">
+            <span
+              className={`
+                text-[12px] tracking-[0.1em] font-bold px-2 py-1 rounded-sm
+                ${getBadgeStyle(article.category)}
+              `}
+            >
+              {categoryMeta.subLabel}
+            </span>
+
+            <span className="text-[11px] font-mono text-neutral-400 tracking-wider">
+              {formatDate(article.timestamp)}
+            </span>
+          </div>
+
+          {/* 標題 */}
+          <h1
+            className="
+              font-display font-bold uppercase
+              text-[26px] md:text-[34px] 
+              leading-[1.2] tracking-wider 
+              text-neutral-900 mb-4 md:mb-5
+            "
+          >
+            {article.title}
+          </h1>
+
+          {/* 摘要段落 */}
+          {article.summary && (
+            <p className="text-[13px] md:text-[14px] leading-relaxed text-neutral-500 tracking-wide mb-6 md:mb-7">
+              {article.summary}
+            </p>
+          )}
+
+          {/* 裝飾線 */}
+          <div className="w-10 h-[1px] bg-neutral-300" />
+        </header>
+
+        {/* 主圖 */}
+        {article.imageUrl && (
+          <figure className="mb-8 md:mb-10">
+            <div className="w-full bg-neutral-100 overflow-hidden">
+              <img
+                src={article.imageUrl}
+                alt={article.title}
+                className="w-full h-auto block grayscale-[10%] hover:grayscale-0 transition-all duration-700"
+              />
+            </div>
+          </figure>
+        )}
+
+        {/* 內文區域 */}
+        <div className="mx-auto max-w-[680px]">
+          <ArticleBody text={contentText} />
+        </div>
+
+        {/* 底部結束符號 (Logo) */}
+        <div className="mt-24 flex justify-center opacity-30 grayscale hover:grayscale-0 transition-all duration-500">
+          <img
+            src="https://cdn.store-assets.com/s/783745/f/16299215.png"
+            alt="End of Article"
+            className="w-12 h-auto object-contain"
+          />
+        </div>
+      </div>
+    </article>
+  );
 };
 
-export default NewsPage;
+export default ArticleDetailPage;

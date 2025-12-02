@@ -47,13 +47,7 @@ const renderScore = (match: typeof MATCHES[0]) => {
     return <span className="text-sm font-bold text-brand-black">-</span>;
 };
 
-// 依隊名長度動態調整「手機版」字級
-const getMobileNameSizeClass = (label: string) => {
-    const len = label.length;
-    if (len <= 4) return 'text-sm';          
-    if (len <= 8) return 'text-[13px]';      
-    return 'text-[11px]';                    
-};
+// 依隊名長度動態調整「手機版」字級 - ❌ 已移除此函數
 
 const FullSchedule: React.FC<{
     onMatchClick: (matchId: string) => void;
@@ -94,12 +88,7 @@ const FullSchedule: React.FC<{
                 const awayTeam = TEAMS[match.awayTeamId];
                 const isFinished = match.status === MatchStatus.FINISHED;
 
-                // 手機用短名
-                const homeShortLabel = homeTeam.shortName ?? homeTeam.name;
-                const awayShortLabel = awayTeam.shortName ?? awayTeam.name;
-
-                const homeMobileSize = getMobileNameSizeClass(homeShortLabel);
-                const awayMobileSize = getMobileNameSizeClass(awayShortLabel);
+                // ❌ 移除手機用短名、動態字級計算
 
                 return (
                     <React.Fragment key={match.id}>
@@ -165,13 +154,13 @@ const FullSchedule: React.FC<{
                                     <div className="flex items-center justify-end space-x-2 md:space-x-4 shrink-0 min-w-0">
                                         <span
                                             className={`
-                                                font-bold text-right text-brand-black truncate
-                                                md:text-base
+                                                font-bold text-right text-brand-black
+                                                md:text-base // ❌ 移除 truncate
                                             `}
                                         >
-                                            {/* 手機：短名＋動態字級 */}
-                                            <span className={`inline md:hidden ${homeMobileSize}`}>
-                                                {homeShortLabel}
+                                            {/* ✅ 手機：完整隊名＋最小字級＋不換行 */}
+                                            <span className={`inline md:hidden text-xs whitespace-nowrap`}>
+                                                {homeTeam.name}
                                             </span>
                                             {/* 桌機：完整隊名 */}
                                             <span className="hidden md:inline">
@@ -199,13 +188,13 @@ const FullSchedule: React.FC<{
                                         />
                                         <span
                                             className={`
-                                                font-bold text-left text-brand-black truncate
-                                                md:text-base
+                                                font-bold text-left text-brand-black
+                                                md:text-base // ❌ 移除 truncate
                                             `}
                                         >
-                                            {/* 手機：短名＋動態字級 */}
-                                            <span className={`inline md:hidden ${awayMobileSize}`}>
-                                                {awayShortLabel}
+                                            {/* ✅ 手機：完整隊名＋最小字級＋不換行 */}
+                                            <span className={`inline md:hidden text-xs whitespace-nowrap`}>
+                                                {awayTeam.name}
                                             </span>
                                             {/* 桌機：完整隊名 */}
                                             <span className="hidden md:inline">

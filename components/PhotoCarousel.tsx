@@ -11,7 +11,7 @@ const carouselImages = [
     },
     { 
         id: 2, 
-        src: '/d-league/assets/carousell/slide-2.JPG' 
+        src: '/d-league/assets/carousel/slide-2.JPG' 
     },
     { 
         id: 3, 
