@@ -4,6 +4,27 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>D LEAGUE | Dream It, Play It</title>
+    
+    <script>
+      (function() {
+        // 檢查網址是否帶有由 404.html 傳遞過來的 hash (例如 #/stats)
+        if (window.location.hash && window.location.hash.startsWith('#/')) {
+          
+          // 1. 取得基礎路徑 (必須與 vite.config.ts 的 base 一致)
+          var base = '/d-league/';
+          
+          // 2. 提取 hash 中的真實路徑 (移除 #/，例如 stats)
+          var path = window.location.hash.substring(2);
+          
+          // 3. 重組正確的網址 (例如 /d-league/stats)
+          var newUrl = base + path;
+          
+          // 4. 立即更新瀏覽器網址 (不會刷新頁面，但讓 Router 能讀到正確路徑)
+          window.history.replaceState(null, null, newUrl);
+        }
+      })();
+    </script>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -41,7 +62,6 @@
           scrollbar-width: none;
       }
 
-      /* 關鍵修改：移除了 overscroll-behavior-y: none; 讓瀏覽器可以下拉刷新 */
       html, body {
         width: 100%;
         max-width: 100%;
