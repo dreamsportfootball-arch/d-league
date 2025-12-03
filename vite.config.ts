@@ -1,26 +1,14 @@
-// 檔案路徑：vite.config.ts
+// 檔案路徑：d-league web/vite.config.ts
 
-import path from 'path';
-import { defineConfig, loadEnv } from 'vite';
-import react from '@vitejs/plugin-react';
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
 
-export default defineConfig(({ mode }) => {
-    const env = loadEnv(mode, '.', '');
-    return {
-      // 👇 新增這一行：這是你的 GitHub 倉庫名稱
-      base: '/d-league/', 
-      
-      server: {
-        port: 3000,
-        host: '0.0.0.0',
-      },
-      plugins: [react()],
-      define: {
-        'process.env.API_KEY': JSON.stringify(env.GEMINI_API_KEY),
-        'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY)
-      },
-      resolve: {
-        dedupe: ['react', 'react-dom'],
-      }
-    };
-});
+// https://vitejs.dev/config/
+export default defineConfig({
+  plugins: [react()],
+  // ✅ 修正：指定基礎路徑
+  // 由於您的 GitHub Pages 儲存庫名稱是 'd-league'，
+  // 網站會部署在 https://dreamsportfootball-arch.github.io/d-league/
+  // 所以必須明確設定 base 為 '/d-league/'。
+  base: '/d-league/',
+})
