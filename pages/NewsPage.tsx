@@ -31,10 +31,10 @@ const getTagClasses = (category: string) => {
   return `${map.bg} ${map.text}`;
 };
 
-// 單張新聞卡片 (新增圖片載入處理)
+// 單張新聞卡片
 const MinimalNewsCard: React.FC<{
   article: NewsArticle;
-  onImageLoaded: () => void; // 圖片載入完成的回調
+  onImageLoaded: () => void;
 }> = ({ article, onImageLoaded }) => (
   <Link
     to={`/news/${article.id}`}
@@ -50,9 +50,9 @@ const MinimalNewsCard: React.FC<{
         }
         alt={article.title}
         className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-        onLoad={onImageLoaded} // 圖片載入完成時觸發
-        onError={onImageLoaded} // 圖片載入失敗也視為處理完畢
-        loading="lazy" // 懶惰載入
+        onLoad={onImageLoaded}
+        onError={onImageLoaded}
+        // 🚀 關鍵修改：移除了 loading="lazy"，讓新聞圖片秒開，提升質感
       />
       <div className="absolute inset-0 bg-white/0 group-hover:bg-white/10 transition-colors duration-300" />
     </div>
@@ -100,7 +100,7 @@ const NewsPage: React.FC = () => {
   const [news, setNews] = useState<NewsArticle[]>([]);
   const [loading, setLoading] = useState(true);
   
-  // 修正 1: 使用 useState 的函數式更新，在初始化時同步讀取 Session Storage
+  // 使用 useState 的函數式更新，在初始化時同步讀取 Session Storage
   const [activeFilter, setActiveFilter] = useState<
     'ALL' | 'Match Report' | 'Official'
   >(() => {
@@ -116,7 +116,7 @@ const NewsPage: React.FC = () => {
   });
 
 
-  // 【新增】：追蹤圖片載入狀態
+  // 追蹤圖片載入狀態
   const [loadedImageCount, setLoadedImageCount] = useState(0);
   const [imagesAreLoaded, setImagesAreLoaded] = useState(false);
 
@@ -128,16 +128,15 @@ const NewsPage: React.FC = () => {
   // 移除原本的 useEffect 載入狀態邏輯，只保留圖片延遲相關邏輯
   useEffect(() => {
     try {
-      // 【新增】：設定一個旗標，告訴 App.tsx 現在要等待圖片載入
       if (window.sessionStorage.getItem('lastNewsAnchorId')) {
         window.sessionStorage.setItem('isNewsImagesLoading', 'true');
       }
     } catch {
       // storage 被封鎖就維持預設
     }
-  }, []); // 只在掛載時執行
+  }, []);
 
-  // 修正 2: 切換篩選時，同步寫入 sessionStorage
+  // 切換篩選時，同步寫入 sessionStorage
   const updateFilter = (filter: 'ALL' | 'Match Report' | 'Official') => {
     setActiveFilter(filter);
     try {
@@ -183,7 +182,7 @@ const NewsPage: React.FC = () => {
     });
   }, [news, activeFilter]);
 
-  // 【新增】：所有圖片載入完成的邏輯
+  // 所有圖片載入完成的邏輯
   useEffect(() => {
     if (loading || filteredNews.length === 0) return;
 
@@ -192,7 +191,6 @@ const NewsPage: React.FC = () => {
 
     if (loadedImageCount >= totalImages && !imagesAreLoaded) {
       setImagesAreLoaded(true);
-      // 【關鍵】：圖片全部載入後，清除旗標
       window.sessionStorage.removeItem('isNewsImagesLoading');
     }
   }, [loadedImageCount, filteredNews.length, loading, imagesAreLoaded]);
@@ -209,11 +207,9 @@ const NewsPage: React.FC = () => {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 md:mb-16 border-b border-neutral-100 pb-8">
           <div>
-            {/* 🎯 主標題 (保留 StatsPage 風格，並修正尺寸為 text-4xl/6xl) */}
             <h1 className="font-display font-black md:font-extrabold text-4xl md:text-6xl uppercase text-brand-black mb-3 tracking-tight [-webkit-text-stroke:.25px_currentColor] md:[-webkit-text-stroke:0px]">
                 最新 <span className="text-brand-blue">消息</span>
             </h1>
-            {/* 副標題保持不變 */}
             <p className="text-neutral-400 text-sm md:text-base font-medium tracking-[0.18em] uppercase">
               最新賽事戰報、官方公告
             </p>

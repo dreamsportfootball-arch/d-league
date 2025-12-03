@@ -1,118 +1,155 @@
-// 檔案路徑：d-league web/components/NewsSection.tsx
+// 檔案路徑：d-league web/components/PhotoCarousel.tsx
 
-import React, { useEffect, useState } from 'react';
-// ✅ 1. 引入 Link 元件
-import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
-import { fetchLeagueNews } from '../services/geminiService';
-import { NewsArticle } from '../types';
+import React, { useState, useEffect } from 'react';
+import { Camera } from 'lucide-react';
 
-const NewsSection: React.FC = () => {
-    const [news, setNews] = useState<NewsArticle[]>([]);
-    const [loading, setLoading] = useState(true);
+// 圖片資料來源
+const carouselImages = [
+    { 
+        id: 1, 
+        src: '/d-league/assets/carousel/slide-1.JPG' 
+    },
+    { 
+        id: 2, 
+        src: '/d-league/assets/carousel/slide-2.JPG' 
+    },
+    { 
+        id: 3, 
+        src: '/d-league/assets/carousel/slide-3.JPG' 
+    },
+    { 
+        id: 4, 
+        src: '/d-league/assets/carousel/slide-4.JPG' 
+    },
+    { 
+        id: 5, 
+        src: '/d-league/assets/carousel/slide-5.JPG' 
+    },
+];
 
-    useEffect(() => {
-        const loadNews = async () => {
-            const articles = await fetchLeagueNews();
-            setNews(articles);
-            setLoading(false);
-        };
-        loadNews();
-    }, []);
+const PhotoCarousel: React.FC = () => {
+    const [activeIndex, setActiveIndex] = useState(0);
+    const [touchStartX, setTouchStartX] = useState(0); 
 
-    const displayNews = news.slice(0, 3);
-
-    // 標籤樣式判斷器
-    const getBadgeStyle = (category: string) => {
-        if (category === 'Match Report' || category === '戰報' || category === 'Feature') {
-            return 'bg-brand-blue text-white border-transparent';
-        }
-        return 'bg-neutral-800 text-white border-transparent';
+    const nextSlide = () => {
+        setActiveIndex((prevIndex) => (prevIndex + 1) % carouselImages.length);
+    };
+    
+    const prevSlide = () => {
+        setActiveIndex((prevIndex) => (prevIndex - 1 + carouselImages.length) % carouselImages.length);
     };
 
-    // 顯示名稱轉換
-    const getBadgeName = (category: string) => {
-        if (category === 'Match Report' || category === 'Feature') return '戰報';
-        return '公告';
+    // 自動輪播邏輯
+    useEffect(() => {
+        const interval = setInterval(() => {
+            nextSlide(); 
+        }, 5000); 
+        
+        return () => clearInterval(interval); 
+    }, []);
+
+    const goToSlide = (index: number) => {
+        setActiveIndex(index);
+    };
+    
+    // 觸控處理函式
+    const handleTouchStart = (e: React.TouchEvent) => {
+        setTouchStartX(e.touches[0].clientX);
+    };
+
+    const handleTouchEnd = (e: React.TouchEvent) => {
+        const touchEndX = e.changedTouches[0].clientX;
+        const swipeDistance = touchEndX - touchStartX;
+        const swipeThreshold = 50; 
+
+        if (touchStartX === 0) return; 
+
+        if (swipeDistance > swipeThreshold) {
+            prevSlide(); 
+        } else if (swipeDistance < -swipeThreshold) {
+            nextSlide(); 
+        }
+        setTouchStartX(0); 
     };
 
     return (
-        <div className="bg-white border border-neutral-200 shadow-sm rounded-lg overflow-hidden flex flex-col h-full hover:shadow-xl transition-shadow duration-500">
-            <div className="p-5 border-b border-neutral-100 flex justify-between items-center bg-white">
-                <h3 className="font-display font-bold text-xl uppercase text-brand-black tracking-tight">最新消息</h3>
-                <span className="text-[10px] font-black text-brand-blue bg-brand-blue/10 px-3 py-1 rounded-full uppercase tracking-wider">League News</span>
+        <section className="py-12 md:py-20 bg-gradient-to-b from-white via-neutral-50 to-white relative overflow-hidden">
+            
+            {/* 背景裝飾大字 */}
+            <div className="absolute top-10 left-1/2 -translate-x-1/2 text-[10rem] font-display font-black text-neutral-100 uppercase opacity-40 pointer-events-none whitespace-nowrap select-none">
+                MOMENTS
             </div>
 
-            <div className="flex-grow flex flex-col divide-y divide-neutral-100">
-                {loading ? (
-                    <div className="p-6 space-y-6 animate-pulse">
-                        {[1, 2, 3].map(i => (
-                             <div key={i} className="flex space-x-4">
-                                <div className="flex-1 space-y-2">
-                                    <div className="h-4 bg-neutral-100 rounded w-3/4"></div>
-                                    <div className="h-4 bg-neutral-100 rounded w-1/2"></div>
-                                </div>
-                                <div className="w-24 h-24 bg-neutral-100 rounded-md"></div>
-                             </div>
+            <div className="container mx-auto px-4 md:px-6 relative z-10">
+                
+                <div className="flex flex-col items-center mb-8 md:mb-12">
+                    <div className="flex items-center space-x-2 mb-2">
+                        <Camera className="w-4 h-4 text-brand-blue" />
+                        <span className="text-brand-blue font-black tracking-[0.3em] text-[10px] uppercase">Official Gallery</span>
+                    </div>
+                    <h2 className="font-display font-black text-3xl md:text-4xl uppercase text-brand-black tracking-tight text-center">
+                        賽事 <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-blue to-cyan-500">精選圖集</span>
+                    </h2>
+                    <div className="w-12 h-1 bg-brand-blue mt-4 rounded-full"></div>
+                </div>
+
+                {/* 輪播主體框 */}
+                <div className="relative w-full max-w-5xl mx-auto">
+                    
+                    <div 
+                        className="
+                            aspect-[16/10] md:aspect-[16/7] 
+                            relative overflow-hidden 
+                            group
+                            bg-neutral-200 rounded-lg shadow-2xl
+                        "
+                        onTouchStart={handleTouchStart} 
+                        onTouchEnd={handleTouchEnd}     
+                    >
+                        {carouselImages.map((image, index) => (
+                            <div 
+                                key={image.id}
+                                className={`absolute inset-0 transition-all duration-1000 ease-in-out ${
+                                    index === activeIndex ? 'opacity-100 scale-100 z-10' : 'opacity-0 scale-105 z-0'
+                                }`}
+                            >
+                                <img 
+                                    src={image.src} 
+                                    alt={`賽事精選圖片 ${image.id}`} 
+                                    className="w-full h-full object-cover"
+                                    // 🚀 關鍵修改：移除了 loading="lazy"
+                                    // 這會讓瀏覽器在背景就預先下載這些圖片，
+                                    // 當輪播切換時，圖片已經準備好了，不會有任何延遲或卡頓。
+                                    onError={(e) => {
+                                        e.currentTarget.src = 'https://images.unsplash.com/photo-1517466787929-bc90951d0974?q=80&w=1200&auto=format&fit=crop';
+                                    }}
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-black/10 pointer-events-none"></div>
+                            </div>
                         ))}
                     </div>
-                ) : (
-                    displayNews.map((article) => (
-                        // ✅ 2. 改為 Link，點擊直接進入該文章內文
-                        <Link 
-                            key={article.id} 
-                            to={`/news/${article.id}`}
-                            className="p-5 group cursor-pointer hover:bg-neutral-50 transition-colors flex items-start space-x-5 relative overflow-hidden block text-left"
-                        >
-                             {/* Hover Accent Line */}
-                             <div className="absolute left-0 top-0 bottom-0 w-1 bg-brand-blue transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300"></div>
 
-                             {/* 文字區塊 (左) */}
-                             <div className="flex-1 min-w-0 z-10">
-                                 <div className="flex items-center space-x-2 mb-2">
-                                     <span className={`text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded shadow-sm ${getBadgeStyle(article.category)}`}>
-                                         {getBadgeName(article.category)}
-                                     </span>
-                                     <span className="text-[10px] font-bold text-neutral-400">
-                                         {new Date(article.timestamp).toLocaleDateString()}
-                                     </span>
-                                 </div>
-                                 <h4 className="font-display font-bold text-lg text-brand-black uppercase leading-tight mb-2 group-hover:text-brand-blue transition-colors line-clamp-2">
-                                     {article.title}
-                                 </h4>
-                                 
-                                 <p className="text-neutral-500 text-sm line-clamp-2 leading-relaxed opacity-80 group-hover:opacity-100 transition-opacity">
-                                     {article.summary}
-                                 </p>
-                             </div>
-
-                             {/* 圖片區塊 (右) */}
-                             {article.imageUrl && (
-                                 <div className="shrink-0 w-28 h-20 md:w-32 md:h-24 rounded overflow-hidden bg-neutral-100 relative z-10 shadow-sm group-hover:shadow-md transition-shadow">
-                                     <img 
-                                         src={article.imageUrl} 
-                                         alt={article.title}
-                                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
-                                         // ❌ 移除 loading="lazy" 以確保捲動流暢
-                                     />
-                                 </div>
-                             )}
-                        </Link>
-                    ))
-                )}
+                    {/* 導航點 (Dots) */}
+                    <div className="flex justify-center space-x-3 mt-8">
+                        {carouselImages.map((_, index) => (
+                            <button
+                                key={index}
+                                onClick={() => goToSlide(index)}
+                                className={`
+                                    h-1.5 rounded-full transition-all duration-500 ease-out
+                                    ${index === activeIndex 
+                                        ? 'w-8 bg-brand-blue shadow-lg shadow-brand-blue/30' 
+                                        : 'w-2 bg-neutral-300 hover:bg-neutral-400'
+                                    }
+                                `}
+                                aria-label={`Go to slide ${index + 1}`}
+                            />
+                        ))}
+                    </div>
+                </div>
             </div>
-
-            <div className="p-4 border-t border-neutral-100 bg-neutral-50 group-hover:bg-white transition-colors mt-auto">
-                {/* ✅ 3. 改為 Link，點擊前往新聞列表頁 */}
-                <Link 
-                    to="/news"
-                    className="w-full py-2 text-center text-xs font-black text-neutral-400 hover:text-brand-black uppercase tracking-widest flex items-center justify-center group/btn transition-colors"
-                >
-                    查看全部消息 <ArrowRight className="w-4 h-4 ml-2 transform group-hover/btn:translate-x-1 transition-transform" />
-                </Link>
-            </div>
-        </div>
+        </section>
     );
 };
 
-export default NewsSection;
+export default PhotoCarousel;

@@ -2,10 +2,7 @@
 
 import React from 'react';
 import { MOCK_VIDEOS } from '../constants';
-import { ExternalLink, MonitorPlay, Youtube, Signal, Instagram } from 'lucide-react'; // 確保所有圖標都被導入
-
-// 格式化日期時間 helper
-// ... (此處省略 formatMatchDateTime 函式，假設它存在於你的專案中)
+import { ExternalLink, MonitorPlay, Signal, Instagram, Youtube } from 'lucide-react';
 
 // 1. 影片列表卡片
 const SideVideoCard: React.FC<{ 
@@ -35,7 +32,7 @@ const SideVideoCard: React.FC<{
                         e.currentTarget.src = 'https://images.unsplash.com/photo-1579952363873-27f3bade8f55?q=80&w=800&auto=format&fit=crop';
                     }}
                     className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700 ease-out"
-                    loading="lazy" // ✅ 新增：懶惰載入
+                    // 🚀 關鍵修改：移除了 loading="lazy"，讓縮圖瞬間載入
                 />
                 
                 {/* 類型標示 ICON */}
@@ -74,7 +71,6 @@ const SideVideoCard: React.FC<{
     );
 };
 
-
 const VideoHub: React.FC = () => {
   return (
     <section className="py-12 md:py-20 bg-neutral-950 border-y border-neutral-900 overflow-hidden relative">
@@ -91,7 +87,7 @@ const VideoHub: React.FC = () => {
                     </h2>
                 </div>
                 
-                {/* 🎯 關鍵修改 1：將追蹤 Instagram 的按鈕放在這裡 (電腦版) */}
+                {/* 追蹤 Instagram 按鈕 (電腦版) */}
                 <a 
                     href="https://www.instagram.com/d.league_tw/"
                     target="_blank"
@@ -116,7 +112,7 @@ const VideoHub: React.FC = () => {
                         ></iframe>
                     </div>
                     
-                    {/* 🎯 關鍵修改 2：主播放器下方資訊列 */}
+                    {/* 主播放器下方資訊列 */}
                     <div className="mt-5 flex items-start justify-between">
                          <div>
                             <div className="flex items-center space-x-2 mb-1">
@@ -127,7 +123,7 @@ const VideoHub: React.FC = () => {
                             <p className="text-neutral-400 text-sm">點擊播放清單即可觀看本季賽事影片</p>
                          </div>
                          
-                         {/* 🎯 關鍵修改 3：將訂閱頻道按鈕放在這裡 (文字連結樣式) */}
+                         {/* 訂閱頻道按鈕 */}
                          <a 
                             href="https://www.youtube.com/@DreamSportFootball"
                             target="_blank"
@@ -179,7 +175,6 @@ const VideoHub: React.FC = () => {
                         />
                     </div>
 
-                    {/* 🎯 移除：原本底部的 Instagram 追蹤按鈕，並替換為簡單提示文字 */}
                     <div className="mt-6 md:mt-8 w-full flex justify-center items-center">
                         <span className="text-neutral-500 text-xs font-medium uppercase tracking-widest">
                             更多精彩內容請前往社群平台

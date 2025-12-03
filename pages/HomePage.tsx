@@ -1,3 +1,5 @@
+// 檔案路徑：d-league web/pages/HomePage.tsx
+
 import React, { useState } from 'react';
 import Hero from '../components/Hero';
 import MatchCenter from '../components/MatchCenter';
@@ -11,40 +13,41 @@ import { ArrowRight, Trophy } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const HomePage: React.FC = () => {
-    // 首頁獨立的聯賽狀態
+    // 首頁獨立的聯賽狀態 (用於積分榜小工具)
+    // 這裡我們不使用 sessionStorage，因為首頁小工具通常只需要顯示預設狀態，
+    // 或者如果您希望它也記憶，我們可以像 StatsPage 那樣修改，但目前保持簡單即可。
     const [activeLeague, setActiveLeague] = useState<'L1' | 'L2'>('L1');
 
     return (
         <div className="w-full overflow-x-hidden"> 
+            {/* 1. 主視覺 Hero */}
             <Hero />
             
+            {/* 2. 賽事中心 (比分) */}
             <div id="match-center" className="relative z-20 container mx-auto px-0 md:px-6 pb-12 -mt-5">
                 <div className="bg-white rounded-t-xl shadow-2xl overflow-hidden md:border border-neutral-100 ring-1 ring-black/5">
                     <MatchCenter />
                 </div>
             </div>
 
+            {/* 3. 積分榜與最新消息區 (這是唯一的最新消息區) */}
             <section id="standings-and-news" className="container mx-auto px-4 md:px-6 py-4 mb-16">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:items-start">
                     
                     {/* 左側：積分榜 (首頁版) */}
                     <div className="lg:col-span-4 order-2 lg:order-1">
                         
-                        {/* 🎯 關鍵修改：將外部間距 mb-6 調整為 mb-4，減少標題與表格間隔 */}
                         <div className="flex items-end justify-between mb-4 pb-2 border-b border-neutral-100">
                             <div>
-                                {/* 英文小標 */}
                                 <span className="block text-[10px] font-bold tracking-[0.25em] text-neutral-400 uppercase mb-1 font-sans">
                                     RANKING
                                 </span>
-                                {/* 中文大標 + 圖示 */}
                                 <h3 className="font-display font-bold text-3xl text-brand-black tracking-wide flex items-center">
                                     <Trophy className="w-6 h-6 mr-2 text-brand-blue translate-y-[2px]" />
                                     戰績排名
                                 </h3>
                             </div>
                             
-                            {/* 保持：圓形膠囊按鈕 + 響應式文字 */}
                             <div className="flex space-x-1 bg-neutral-100 p-1 rounded-full">
                                 {(['L1', 'L2'] as const).map((league) => (
                                     <button
@@ -57,9 +60,7 @@ const HomePage: React.FC = () => {
                                                 : 'text-neutral-400 hover:text-neutral-600'}
                                         `}
                                     >
-                                        {/* 手機版文字 */}
                                         <span className="md:hidden">{league}</span>
-                                        {/* 電腦版文字 */}
                                         <span className="hidden md:inline">
                                             {league === 'L1' ? 'LEAGUE 1' : 'LEAGUE 2'}
                                         </span>
@@ -77,21 +78,25 @@ const HomePage: React.FC = () => {
                         </div>
                     </div>
 
+                    {/* 右側：最新消息 (這是正確的位置) */}
                     <div className="lg:col-span-8 order-1 lg:order-2">
                         <NewsSection />
                     </div>
                 </div>
             </section>
 
+            {/* 4. 賽事媒體中心 (VideoHub) */}
             <VideoHub /> 
             
+            {/* 5. 賽事精選圖集 (PhotoCarousel) - 這邊不應該有 NewsSection */}
             <PhotoCarousel />
             
-            {/* 🎯 關鍵修改 1: 新增 ID 定位點 (ClubGrid 區塊) */}
+            {/* 6. 參賽球隊 */}
             <div id="teams">
                 <ClubGrid />
             </div>
             
+            {/* 7. 品牌故事 */}
             <BrandStory />
         </div>
     );

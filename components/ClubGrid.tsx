@@ -112,7 +112,7 @@ const ClubGrid: React.FC = () => {
                                         src={team.logo}
                                         alt={team.name}
                                         className="relative z-10 max-w-full max-h-full drop-shadow-md object-contain transition-all duration-500 filter grayscale-0 md:grayscale-[30%] md:group-hover:grayscale-0"
-                                        loading="lazy"
+                                        // 🚀 關鍵修改：移除 loading="lazy"，讓 Logo 瞬間顯示
                                     />
                                 </div>
 
@@ -187,7 +187,7 @@ const ClubGrid: React.FC = () => {
                                         src={activeTeam.logo} 
                                         alt={activeTeam.shortName} 
                                         className="w-full h-full object-contain drop-shadow-2xl" 
-                                        loading="lazy"
+                                        // 🚀 關鍵修改：Modal 裡的 Logo 也要秒開
                                     />
                                 </div>
                                 
@@ -227,13 +227,13 @@ const ClubGrid: React.FC = () => {
                                         {activeTeam.shortName}
                                     </h3>
                                     <p 
-    className={`
-        text-xs font-bold text-neutral-400 uppercase tracking-[0.3em] mt-2 
-        ${activeTeam.name.includes('屏東') ? '' : 'whitespace-nowrap'}
-    `}
->
-    {activeTeam.name}
-</p>
+                                        className={`
+                                            text-xs font-bold text-neutral-400 uppercase tracking-[0.3em] mt-2 
+                                            ${activeTeam.name.includes('屏東') ? '' : 'whitespace-nowrap'}
+                                        `}
+                                    >
+                                        {activeTeam.name}
+                                    </p>
                                 </div>
 
                                 <div className="mt-6 bg-neutral-50 border-l-4 p-3 relative overflow-hidden" style={{ borderColor: activeTeam.primaryColor }}>
@@ -282,7 +282,6 @@ const ClubGrid: React.FC = () => {
 
                                             <div className="flex-1 px-4 py-2 flex justify-between items-center relative z-10">
                                                 <div className="flex flex-col">
-                                                    {/* ✅ 變更：針對 PPI 兩位長名球員，在手機版使用 text-xs */}
                                                     <span className={`
                                                         font-black text-brand-black uppercase tracking-wide leading-none group-hover:translate-x-1 transition-transform
                                                         ${player.id === 'ppi-29' || player.id === 'ppi-19' ? 'text-xs sm:text-sm' : 'text-sm'}

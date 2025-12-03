@@ -3,18 +3,18 @@ import { Team, Match, MatchStatus, Standing, Video, MatchEvent } from './types';
 // Real D LEAGUE Teams Data
 export const TEAMS: Record<string, Team> = {
   // L1 Teams (4 teams)
-  't_chiayi': { id: 't_chiayi', name: '嘉義諸羅山FC', shortName: '嘉義諸羅山FC', logo: 'https://cdn.store-assets.com/s/783745/f/16146068.png', primaryColor: '#90d1d2', secondaryColor: '#0e3679' },
-  't_jiuhao': { id: 't_jiuhao', name: '酒號矯正署', shortName: '酒號矯正署', logo: 'https://cdn.store-assets.com/s/783745/f/16146063.png', primaryColor: '#000000', secondaryColor: '#ffffff' },
-  't_tongque': { id: 't_tongque', name: '銅雀足球俱樂部', shortName: '銅雀足球俱樂部', logo: 'https://cdn.store-assets.com/s/783745/f/16146064.png', primaryColor: '#2a2b30', secondaryColor: '#ffffff' },
-  't_chen': { id: 't_chen', name: '陳公舘', shortName: '陳公舘', logo: 'https://cdn.store-assets.com/s/783745/f/16146061.png', primaryColor: '#000000', secondaryColor: '#8ac4e1' },
+  't_chiayi': { id: 't_chiayi', name: '嘉義諸羅山FC', shortName: '嘉義諸羅山FC', logo: '/d-league/assets/teams/chiayi.png', primaryColor: '#90d1d2', secondaryColor: '#0e3679' },
+  't_jiuhao': { id: 't_jiuhao', name: '酒號矯正署', shortName: '酒號矯正署', logo: '/d-league/assets/teams/jiuhao.png', primaryColor: '#000000', secondaryColor: '#ffffff' },
+  't_tongque': { id: 't_tongque', name: '銅雀足球俱樂部', shortName: '銅雀足球俱樂部',logo: '/d-league/assets/teams/tongque.png', primaryColor: '#2a2b30', secondaryColor: '#ffffff' },
+  't_chen': { id: 't_chen', name: '陳公舘', shortName: '陳公舘', logo: '/d-league/assets/teams/chen.png', primaryColor: '#000000', secondaryColor: '#8ac4e1' },
   
   // L2 Teams (6 teams)
-  't_luzhu': { id: 't_luzhu', name: '鹿逐俱樂部', shortName: '鹿逐俱樂部', logo: 'https://cdn.store-assets.com/s/783745/f/16146059.png', primaryColor: '#385984', secondaryColor: '#ffffff' },
-  't_pingtung': { id: 't_pingtung', name: '屏東野猿足球俱樂部', shortName: '屏東野猿足球俱樂部', logo: 'https://cdn.store-assets.com/s/783745/f/16146062.png', primaryColor: '#563e92', secondaryColor: '#ffffff' },
-  't_crazydog': { id: 't_crazydog', name: '瘋Dog', shortName: '瘋Dog', logo: 'https://cdn.store-assets.com/s/783745/f/16146067.png', primaryColor: '#ed8992', secondaryColor: '#000000' },
-  't_canglong': { id: 't_canglong', name: '蒼龍FC', shortName: '蒼龍FC', logo: 'https://cdn.store-assets.com/s/783745/f/16146065.png', primaryColor: '#0c2450', secondaryColor: '#ffffff' },
-  't_ppi': { id: 't_ppi', name: 'PPI TAINAN', shortName: 'PPI TAINAN', logo: 'https://cdn.store-assets.com/s/783745/f/16146066.png', primaryColor: '#004026', secondaryColor: '#ffffff' },
-  't_niaoshi': { id: 't_niaoshi', name: '鳥仕足球俱樂部', shortName: '鳥仕足球俱樂部', logo: 'https://cdn.store-assets.com/s/783745/f/16146060.png', primaryColor: '#2f4d4f' },
+  't_luzhu': { id: 't_luzhu', name: '鹿逐俱樂部', shortName: '鹿逐俱樂部', logo: '/d-league/assets/teams/luzhu.png', primaryColor: '#385984', secondaryColor: '#ffffff' },
+  't_pingtung': { id: 't_pingtung', name: '屏東野猿足球俱樂部', shortName: '屏東野猿足球俱樂部', logo: '/d-league/assets/teams/pingtung.png', primaryColor: '#563e92', secondaryColor: '#ffffff' },
+  't_crazydog': { id: 't_crazydog', name: '瘋Dog', shortName: '瘋Dog', logo: '/d-league/assets/teams/crazydog.png', primaryColor: '#ed8992', secondaryColor: '#000000' },
+  't_canglong': { id: 't_canglong', name: '蒼龍FC', shortName: '蒼龍FC', logo: '/d-league/assets/teams/canglong.png', primaryColor: '#0c2450', secondaryColor: '#ffffff' },
+  't_ppi': { id: 't_ppi', name: 'PPI TAINAN', shortName: 'PPI TAINAN', logo: '/d-league/assets/teams/ppi.png', primaryColor: '#004026', secondaryColor: '#ffffff' },
+  't_niaoshi': { id: 't_niaoshi', name: '鳥仕足球俱樂部', shortName: '鳥仕足球俱樂部', logo: '/d-league/assets/teams/niaoshi.png', primaryColor: '#2f4d4f' },
 };
 
 const VENUE = '台南仁德文賢國中人工草';
