@@ -1,3 +1,5 @@
+// 檔案路徑：d-league web/pages/MediaPage.tsx
+
 import React from 'react';
 import { ArrowUpRight, Youtube, Instagram } from 'lucide-react';
 
@@ -34,8 +36,11 @@ const ZenAlbum: React.FC<{ album: typeof MOCK_ALBUMS[0] }> = ({ album }) => (
             <img
                 src={album.cover}
                 alt={album.title}
-                // pointer-events-none: 確保手指滑動時不會「抓」住圖片
+                // 🚀 優化：確保圖片平滑載入，並處理錯誤
                 className="w-full h-full object-cover transition-transform duration-700 ease-out md:group-hover:scale-105 pointer-events-none"
+                onError={(e) => {
+                    e.currentTarget.src = 'https://images.unsplash.com/photo-1517927033932-b3d18e61fb3a?q=80&w=800&auto=format&fit=crop';
+                }}
             />
         </div>
 
@@ -71,8 +76,8 @@ const MediaPage: React.FC = () => {
     // 相簿容器 ref（用來控制水平捲動）
     const galleryRef = React.useRef<HTMLDivElement | null>(null);
 
-    // 將 MOCK_ALBUMS 複製一份並反轉
-    const reversedAlbums = MOCK_ALBUMS.slice().reverse();
+    // 將 MOCK_ALBUMS 複製一份並反轉 (讓最新的在最前面)
+    const reversedAlbums = React.useMemo(() => MOCK_ALBUMS.slice().reverse(), []);
 
     // 控制相簿滑動（左右箭咀用）
     const scrollGallery = (direction: 'left' | 'right') => {
@@ -94,7 +99,6 @@ const MediaPage: React.FC = () => {
 
                 {/* === Header === */}
                 <div className="border-b border-neutral-100 mb-8 md:mb-16 pb-8">
-                    {/* 移除社交連結區塊，只保留標題與副標題 */}
                     <div className="flex flex-col md:flex-row md:items-end justify-between">
                         <div>
                             <h1 className="font-display font-black md:font-extrabold text-4xl md:text-6xl uppercase text-brand-black mb-2 md:mb-4 tracking-tight [-webkit-text-stroke:.25px_currentColor] md:[-webkit-text-stroke:0px]">
@@ -182,16 +186,14 @@ const MediaPage: React.FC = () => {
                                 title="D LEAGUE Main Player"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                                 allowFullScreen
+                                loading="lazy" // YouTube 影片建議保留 lazy，因為它很吃資源
                             ></iframe>
                         </div>
                         <div className="flex flex-col">
-                            {/* 移除 '正在播放' */}
                             <h3 className="text-2xl font-display font-bold text-brand-black uppercase leading-tight">
                                 25/26 賽季完整賽事
                             </h3>
                         </div>
-
-                        {/* 移除 '更多影片' 連結區塊 */}
                     </div>
                 </div>
                 
@@ -204,7 +206,6 @@ const MediaPage: React.FC = () => {
                     
                     {/* 2. Content (追蹤我們 and Links) */}
                     <div className="flex flex-col items-center">
-                        {/* 變更：將 mb-6 縮短為 mb-3 */}
                         <p className="text-xs font-bold uppercase tracking-widest text-neutral-400 mb-3">
                             追蹤我們
                         </p>
