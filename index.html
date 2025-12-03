@@ -7,19 +7,18 @@
     
     <script>
       (function() {
-        // 檢查網址是否帶有由 404.html 傳遞過來的 hash (例如 #/stats)
-        if (window.location.hash && window.location.hash.startsWith('#/')) {
+        // 1. 檢查是否有從 404.html 傳來的重導向路徑
+        var redirectPath = sessionStorage.getItem('redirect_path');
+        
+        if (redirectPath !== null) {
+          // 2. 清除儲存，避免下次重刷又觸發
+          sessionStorage.removeItem('redirect_path');
           
-          // 1. 取得基礎路徑 (必須與 vite.config.ts 的 base 一致)
+          // 3. 組合正確的網址 (例如 /d-league/ + stats)
           var base = '/d-league/';
+          var newUrl = base + redirectPath;
           
-          // 2. 提取 hash 中的真實路徑 (移除 #/，例如 stats)
-          var path = window.location.hash.substring(2);
-          
-          // 3. 重組正確的網址 (例如 /d-league/stats)
-          var newUrl = base + path;
-          
-          // 4. 立即更新瀏覽器網址 (不會刷新頁面，但讓 Router 能讀到正確路徑)
+          // 4. 立即更新網址 (這一步非常快，React Router 啟動時就會看到正確的網址)
           window.history.replaceState(null, null, newUrl);
         }
       })();
