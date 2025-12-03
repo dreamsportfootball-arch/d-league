@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Redirecting...</title>
+  <script>
+    // 單頁應用程式 (SPA) 的 404 重新導向邏輯
+    
+    // 獲取當前完整路徑，例如：/d-league/schedule
+    var path = window.location.pathname;
+    
+    // 專案的 base name，我們根據您的 vite.config.ts 設定為 /d-league/
+    var base = '/d-league/';
+    
+    // 移除 base name，只留下子路徑
+    if (path.startsWith(base)) {
+        path = path.substring(base.length);
+    }
+    
+    // 重新導向至 index.html，並將路徑作為 hash 傳遞
+    var redirectUrl = base + 'index.html';
+    
+    // 附加 #/ 和原始路徑
+    redirectUrl += '#/' + path;
+
+    // 執行重新導向
+    window.location.replace(redirectUrl);
+  </script>
+</head>
+<body>
+  <p>Loading the application...</p>
+</body>
+</html>

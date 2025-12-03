@@ -3,7 +3,7 @@ import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { fetchLeagueNews } from '../services/geminiService';
 import { NewsArticle } from '../types';
-import { ArrowRight, Filter } from 'lucide-react';
+import { ArrowRight } from 'lucide-react'; 
 
 // 分類中文對照
 const CATEGORY_MAP: Record<string, string> = {
@@ -31,29 +31,6 @@ const getTagClasses = (category: string) => {
   return `${map.bg} ${map.text}`;
 };
 
-// 小型 Filter 按鈕
-const MinimalFilter: React.FC<{
-  label: string;
-  isActive: boolean;
-  onClick: () => void;
-}> = ({ label, isActive, onClick }) => (
-  <button
-    onClick={onClick}
-    className={`
-      inline-flex items-center px-4 py-2 rounded-full text-xs md:text-sm
-      border transition-colors
-      ${
-        isActive
-          ? 'bg-brand-blue text-white border-brand-blue'
-          : 'bg-white text-neutral-500 border-neutral-200 hover:border-neutral-400'
-      }
-    `}
-  >
-    <Filter className="w-3 h-3 mr-2" />
-    <span className="tracking-[0.18em] uppercase">{label}</span>
-  </button>
-);
-
 // 單張新聞卡片 (新增圖片載入處理)
 const MinimalNewsCard: React.FC<{
   article: NewsArticle;
@@ -75,6 +52,7 @@ const MinimalNewsCard: React.FC<{
         className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
         onLoad={onImageLoaded} // 圖片載入完成時觸發
         onError={onImageLoaded} // 圖片載入失敗也視為處理完畢
+        loading="lazy" // 懶惰載入
       />
       <div className="absolute inset-0 bg-white/0 group-hover:bg-white/10 transition-colors duration-300" />
     </div>
@@ -85,7 +63,7 @@ const MinimalNewsCard: React.FC<{
       <div className="flex items-center justify-between mb-3">
         <span
           className={`
-            inline-flex items-center px-3 py-1 rounded-full
+            inline-flex items-center px-3 py-1 rounded-sm
             text-[11px] font-semibold tracking-[0.18em] uppercase
             ${getTagClasses(article.category)}
           `}
@@ -98,12 +76,12 @@ const MinimalNewsCard: React.FC<{
       </div>
 
       {/* 標題 */}
-      <h3 className="font-display font-bold text-base md:text-lg leading-snug text-neutral-900 mb-2 group-hover:text-brand-blue transition-colors line-clamp-2">
+      <h3 className="font-display font-bold text-lg leading-snug text-neutral-900 mb-2 group-hover:text-brand-blue transition-colors line-clamp-2">
         {article.title}
       </h3>
 
       {/* 摘要 */}
-      <p className="text-neutral-500 text-sm leading-relaxed line-clamp-2 mb-4">
+      <p className="text-neutral-500 text-xs leading-normal line-clamp-2 mb-4"> 
         {article.summary}
       </p>
 
@@ -121,9 +99,22 @@ const MinimalNewsCard: React.FC<{
 const NewsPage: React.FC = () => {
   const [news, setNews] = useState<NewsArticle[]>([]);
   const [loading, setLoading] = useState(true);
+  
+  // 修正 1: 使用 useState 的函數式更新，在初始化時同步讀取 Session Storage
   const [activeFilter, setActiveFilter] = useState<
     'ALL' | 'Match Report' | 'Official'
-  >('ALL');
+  >(() => {
+    try {
+        const saved = window.sessionStorage.getItem('newsActiveFilter');
+        if (saved === 'ALL' || saved === 'Match Report' || saved === 'Official') {
+            return saved as 'ALL' | 'Match Report' | 'Official';
+        }
+    } catch (e) {
+        // ignore
+    }
+    return 'ALL'; // 預設值
+  });
+
 
   // 【新增】：追蹤圖片載入狀態
   const [loadedImageCount, setLoadedImageCount] = useState(0);
@@ -134,13 +125,9 @@ const NewsPage: React.FC = () => {
     setLoadedImageCount((prev) => prev + 1);
   }, []);
 
-  // 進入列表頁時，把上一次的篩選狀態撈回來
+  // 移除原本的 useEffect 載入狀態邏輯，只保留圖片延遲相關邏輯
   useEffect(() => {
     try {
-      const saved = window.sessionStorage.getItem('newsActiveFilter');
-      if (saved === 'ALL' || saved === 'Match Report' || saved === 'Official') {
-        setActiveFilter(saved);
-      }
       // 【新增】：設定一個旗標，告訴 App.tsx 現在要等待圖片載入
       if (window.sessionStorage.getItem('lastNewsAnchorId')) {
         window.sessionStorage.setItem('isNewsImagesLoading', 'true');
@@ -148,9 +135,9 @@ const NewsPage: React.FC = () => {
     } catch {
       // storage 被封鎖就維持預設
     }
-  }, []);
+  }, []); // 只在掛載時執行
 
-  // 切換篩選時，同步寫入 sessionStorage
+  // 修正 2: 切換篩選時，同步寫入 sessionStorage
   const updateFilter = (filter: 'ALL' | 'Match Report' | 'Official') => {
     setActiveFilter(filter);
     try {
@@ -209,6 +196,12 @@ const NewsPage: React.FC = () => {
       window.sessionStorage.removeItem('isNewsImagesLoading');
     }
   }, [loadedImageCount, filteredNews.length, loading, imagesAreLoaded]);
+  
+  const newsFilters: { key: 'ALL' | 'Match Report' | 'Official', label: string }[] = [
+    { key: 'ALL', label: '全部消息' },
+    { key: 'Match Report', label: '賽事戰報' },
+    { key: 'Official', label: '官方公告' },
+  ];
 
   return (
     <div className="pt-6 md:pt-24 min-h-[80vh] bg-white pb-24">
@@ -216,37 +209,33 @@ const NewsPage: React.FC = () => {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 md:mb-16 border-b border-neutral-100 pb-8">
           <div>
-            <h1 className="font-display font-black md:font-extrabold text-3xl md:text-5xl tracking-[0.08em] uppercase mb-3">
-              <span className="inline-block md:inline">
-                D LEAGUE
-              </span>{' '}
-              <span className="inline-block">
-                <span className="text-neutral-900">League</span>{' '}
-                <span className="text-brand-blue">News</span>
-              </span>
+            {/* 🎯 主標題 (保留 StatsPage 風格，並修正尺寸為 text-4xl/6xl) */}
+            <h1 className="font-display font-black md:font-extrabold text-4xl md:text-6xl uppercase text-brand-black mb-3 tracking-tight [-webkit-text-stroke:.25px_currentColor] md:[-webkit-text-stroke:0px]">
+                最新 <span className="text-brand-blue">消息</span>
             </h1>
+            {/* 副標題保持不變 */}
             <p className="text-neutral-400 text-sm md:text-base font-medium tracking-[0.18em] uppercase">
-              最新賽事戰報・官方公告・聯賽現場故事
+              最新賽事戰報、官方公告
             </p>
           </div>
 
-          {/* Filter */}
-          <div className="mt-6 md:mt-0 flex flex-wrap gap-3">
-            <MinimalFilter
-              label="全部消息"
-              isActive={activeFilter === 'ALL'}
-              onClick={() => updateFilter('ALL')}
-            />
-            <MinimalFilter
-              label="賽事戰報"
-              isActive={activeFilter === 'Match Report'}
-              onClick={() => updateFilter('Match Report')}
-            />
-            <MinimalFilter
-              label="官方公告"
-              isActive={activeFilter === 'Official'}
-              onClick={() => updateFilter('Official')}
-            />
+          {/* Filter 區塊 - 線條樣式 */}
+          <div className="mt-6 md:mt-0 flex space-x-6">
+            {newsFilters.map(filter => (
+                <button
+                    key={filter.key}
+                    onClick={() => updateFilter(filter.key)}
+                    className={`
+                        text-sm font-bold uppercase transition-all duration-300 tracking-widest relative
+                        border-b-2 pb-1
+                        ${activeFilter === filter.key 
+                            ? 'border-brand-blue text-brand-black' 
+                            : 'border-transparent text-neutral-400 hover:text-neutral-600'}
+                    `}
+                >
+                    {filter.label}
+                </button>
+            ))}
           </div>
         </div>
 

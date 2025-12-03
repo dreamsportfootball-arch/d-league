@@ -5,7 +5,32 @@ import { AlertCircle, BookOpen, Trophy } from 'lucide-react';
 type LeagueFilter = 'L1' | 'L2'; 
 
 const StandingsPage: React.FC = () => {
-    const [activeLeague, setActiveLeague] = useState<LeagueFilter>('L1');
+    
+    // ✅ 修正 1: 使用 useState 的函數式更新，在初始化時同步讀取 Session Storage
+    const [activeLeague, setActiveLeague] = useState<LeagueFilter>(() => {
+        try {
+            const saved = window.sessionStorage.getItem('standingsActiveLeague');
+            // 只有當儲存的值是有效的聯賽名稱時才使用
+            if (saved === 'L1' || saved === 'L2') {
+                return saved as LeagueFilter;
+            }
+        } catch (e) {
+            // ignore
+        }
+        return 'L1'; // 預設值
+    });
+
+    // ✅ 修正 2: 處理聯賽切換並保存狀態
+    const handleLeagueChange = (league: LeagueFilter) => {
+        setActiveLeague(league);
+        try {
+            // 每次切換時將新狀態保存到 sessionStorage
+            window.sessionStorage.setItem('standingsActiveLeague', league);
+        } catch (e) {
+            // ignore
+        }
+    };
+
 
     // 篩選器渲染邏輯
     const filterContent = (
@@ -28,7 +53,8 @@ const StandingsPage: React.FC = () => {
                 return (
                     <button
                         key={tab}
-                        onClick={() => setActiveLeague(tab)}
+                        // ✅ 使用新的處理函式
+                        onClick={() => handleLeagueChange(tab)}
                         // 🚀 移除 uppercase 類別
                         className={`px-1 pb-1 transition-all whitespace-nowrap
                             border-b-2 

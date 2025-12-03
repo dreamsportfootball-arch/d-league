@@ -1,11 +1,12 @@
-// 檔案路徑：d-league-_-台南夢達七人足球聯賽 (4)/components/Header.tsx
+// 檔案路徑：d-league web/components/Header.tsx
 
 import React, { useState } from 'react';
 import { Menu, X } from 'lucide-react';
-import { Link } from 'react-router-dom'; 
+import { Link, useLocation } from 'react-router-dom'; 
 
 const Header: React.FC = () => {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const location = useLocation();
 
     const navItems: { name: string; href: string; external?: boolean }[] = [
         { name: '首頁', href: '/' },
@@ -15,6 +16,20 @@ const Header: React.FC = () => {
         { name: '最新消息', href: '/news' },
         { name: '賽事媒體', href: '/media' },
     ];
+    
+    // ✅ 修正 1: 處理捲動到頂部的核心邏輯 (只在已經在首頁時作用)
+    const handleHomeScroll = (href: string) => {
+        if (href === '/' && location.pathname === '/') {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    };
+
+    // 處理 Logo 點擊的函數 (包含關閉選單和捲動)
+    const handleLogoClick = () => {
+        setMobileMenuOpen(false);
+        handleHomeScroll('/');
+    };
+
 
     return (
         <header className="fixed top-0 w-full z-[999] h-16 bg-white border-b border-neutral-200 shadow-sm overflow-x-hidden">
@@ -24,8 +39,7 @@ const Header: React.FC = () => {
                     <Link 
                         to="/" 
                         className="flex items-center group"
-                        // 🎯 關鍵修正：點擊 Logo 時，強制關閉手機選單
-                        onClick={() => setMobileMenuOpen(false)}
+                        onClick={handleLogoClick} // 適用於 Logo
                     > 
                         <img 
                             src="https://cdn.store-assets.com/s/783745/f/16299215.png" 
@@ -62,6 +76,8 @@ const Header: React.FC = () => {
                                 key={item.name} 
                                 to={item.href} 
                                 className="hover:text-brand-blue transition-colors flex items-center"
+                                // ✅ 修正 2: 桌面導航 - 點擊時加入捲動邏輯
+                                onClick={() => handleHomeScroll(item.href)} 
                             >
                                 {item.name}
                             </Link>
@@ -98,8 +114,11 @@ const Header: React.FC = () => {
                                 key={item.name} 
                                 to={item.href} 
                                 className="text-xl font-display font-bold uppercase text-brand-black hover:text-brand-blue border-b border-neutral-100 pb-4 flex justify-between items-center"
-                                // 這裡原本就有關閉功能，保持不變
-                                onClick={() => setMobileMenuOpen(false)} 
+                                // ✅ 修正 3: 手機導航 - 點擊時，先關閉選單，然後加入捲動邏輯
+                                onClick={() => {
+                                    setMobileMenuOpen(false);
+                                    handleHomeScroll(item.href);
+                                }} 
                             >
                                 {item.name}
                             </Link>

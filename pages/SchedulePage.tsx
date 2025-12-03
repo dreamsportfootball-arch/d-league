@@ -17,8 +17,34 @@ const formatMatchDateTime = (timestamp: string) => {
 // 🎌 UI 元件：MinimalFilter 已移除，樣式直接在 filterContent 中實現
 
 const SchedulePage: React.FC = () => {
-    const [leagueTab, setLeagueTab] = useState<LeagueFilter>('ALL');
+    
+    // ✅ 修正 1: 使用 useState 的函數式更新，在初始化時同步讀取 Session Storage
+    const [leagueTab, setLeagueTab] = useState<LeagueFilter>(() => {
+        try {
+            const saved = window.sessionStorage.getItem('scheduleActiveLeague');
+            if (saved === 'L1' || saved === 'L2' || saved === 'ALL') {
+                return saved as LeagueFilter;
+            }
+        } catch (e) {
+            // ignore
+        }
+        return 'ALL'; // 預設值
+    });
+
     const [selectedMatchId, setSelectedMatchId] = useState<string | null>(null);
+
+    // ✅ 修正 2: 處理聯賽切換並保存狀態
+    const handleLeagueChange = (league: LeagueFilter) => {
+        setLeagueTab(league);
+        setSelectedMatchId(null);
+        try {
+            // 每次切換時將新狀態保存到 sessionStorage
+            window.sessionStorage.setItem('scheduleActiveLeague', league);
+        } catch (e) {
+            // ignore
+        }
+    };
+
 
     const handleMatchClick = (matchId: string) => {
         setSelectedMatchId(prevId => prevId === matchId ? null : matchId);
@@ -67,7 +93,8 @@ const SchedulePage: React.FC = () => {
                 return (
                     <button
                         key={tab}
-                        onClick={() => { setLeagueTab(tab); setSelectedMatchId(null); }}
+                        // ✅ 使用新的處理函式
+                        onClick={() => { handleLeagueChange(tab); }}
                         // 樣式：極簡線條，無背景，無圓角
                         className={`px-1 pb-1 transition-all whitespace-nowrap
                             border-b-2 

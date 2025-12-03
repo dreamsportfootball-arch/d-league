@@ -296,7 +296,7 @@ export const PLAYER_IMAGES: Record<string, string> = {
   '泰普曼': '/d-league/assets/players/PPI TAINAN FC/泰普曼.png',
   '拉非': '/d-league/assets/players/PPI TAINAN FC/拉非.png',
   '孺立': '/d-league/assets/players/PPI TAINAN FC/孺立.png',
-  '布丹': '/assets/players/PPI TAINAN FC/布丹.png',
+  '布丹': '/d-league/assets/players/PPI TAINAN FC/布丹.png',
   '高世科': '/d-league/assets/players/PPI TAINAN FC/高世科.png',
   'YEHUDA GAGAH WICAKSONO': '/d-league/assets/players/PPI TAINAN FC/YEHUDA GAGAH WICAKSONO.png',
   '優沙': '/d-league/assets/players/PPI TAINAN FC/優沙.png',

@@ -165,145 +165,176 @@ const ProStatRow: React.FC<{
 
 
 const StatsPage: React.FC = () => {
-  const [activeLeague, setActiveLeague] = useState<'L1' | 'L2'>('L1');
-  const [activeTab, setActiveTab] = useState<'SCORERS' | 'CARDS'>('SCORERS');
-
-  // 1. 數據計算
-  const statsData = useMemo(() => {
-    const stats: Record<string, PlayerStats> = {};
-    Object.entries(MATCH_EVENTS).forEach(([matchId, events]) => {
-      const match = MATCHES.find((m) => m.id === matchId);
-      if (!match || match.league !== activeLeague) return;
-      events.forEach((event) => {
-        const playerKey = event.player;
-        const teamId = event.team === 'HOME' ? match.homeTeamId : match.awayTeamId;
-        if (!stats[playerKey]) {
-          stats[playerKey] = { name: event.player, teamId, goals: 0, yellowCards: 0, redCards: 0 };
+    
+    // ✅ 修正 1: 使用 useState 的函數式更新，在初始化時同步讀取 Session Storage
+    const [activeLeague, setActiveLeague] = useState<'L1' | 'L2'>(() => {
+        try {
+            const saved = window.sessionStorage.getItem('statsActiveLeague');
+            // 只有當儲存的值是有效的聯賽名稱時才使用
+            if (saved === 'L1' || saved === 'L2') {
+                return saved;
+            }
+        } catch (e) {
+            // 如果無法訪問 sessionStorage，則保持預設值 'L1'
         }
-        if (event.type === 'GOAL') stats[playerKey].goals += 1;
-        if (event.type === 'YELLOW_CARD') stats[playerKey].yellowCards += 1;
-        if (event.type === 'RED_CARD') stats[playerKey].redCards += 1;
-      });
+        return 'L1'; // 預設值
     });
-    return Object.values(stats);
-  }, [activeLeague]);
 
-  // 2. 排序
-  const sortedList = useMemo(() => {
-      if (activeTab === 'SCORERS') {
-          return statsData
-            .filter((p) => p.goals > 0)
-            .sort((a, b) => b.goals - a.goals);
-      } else {
-          return statsData
-            .filter((p) => p.yellowCards > 0 || p.redCards > 0)
-            .sort((a, b) => {
-                if (b.redCards !== a.redCards) return b.redCards - a.redCards;
-                return b.yellowCards - a.yellowCards;
+    const [activeTab, setActiveTab] = useState<'SCORERS' | 'CARDS'>('SCORERS');
+
+    // ✅ 修正 2: 處理聯賽切換並保存狀態 (與上次相同)
+    const handleLeagueChange = (league: 'L1' | 'L2') => {
+        setActiveLeague(league);
+        try {
+            // 每次切換時將新狀態保存到 sessionStorage
+            window.sessionStorage.setItem('statsActiveLeague', league);
+        } catch (e) {
+            // ignore
+        }
+    };
+
+    // 1. 數據計算
+    const statsData = useMemo(() => {
+        const stats: Record<string, PlayerStats> = {};
+        Object.entries(MATCH_EVENTS).forEach(([matchId, events]) => {
+            const match = MATCHES.find((m) => m.id === matchId);
+            if (!match || match.league !== activeLeague) return;
+            events.forEach((event) => {
+                const playerKey = event.player;
+                const teamId = event.team === 'HOME' ? match.homeTeamId : match.awayTeamId;
+                if (!stats[playerKey]) {
+                    stats[playerKey] = { name: event.player, teamId, goals: 0, yellowCards: 0, redCards: 0 };
+                }
+                if (event.type === 'GOAL') {
+                    // 修正邏輯：排除名稱包含 '(烏龍球)' 的事件，不計入球員個人進球數
+                    if (!event.player.includes('(烏龍球)')) {
+                        stats[playerKey].goals += 1;
+                    }
+                }
+                if (event.type === 'YELLOW_CARD') stats[playerKey].yellowCards += 1;
+                if (event.type === 'RED_CARD') stats[playerKey].redCards += 1;
             });
-      }
-  }, [statsData, activeTab]);
+        });
+        return Object.values(stats);
+    }, [activeLeague]);
 
-  // 3. 聯賽篩選器 (保持原樣)
-  const leagueFilterContent = (
-    <div className="flex space-x-4 text-xs font-bold">
-        {([ 'L1', 'L2' ] as const).map((tab) => {
-            const mobileLabel = tab;
-            const desktopLabel = tab === 'L1' ? 'League 1' : 'League 2';
-            
-            return (
-                <button
-                    key={tab}
-                    onClick={() => setActiveLeague(tab)}
-                    className={`px-1 pb-1 transition-all whitespace-nowrap border-b-2 
-                        ${activeLeague === tab
-                            ? 'border-brand-blue text-brand-black font-bold' 
-                            : 'border-transparent text-neutral-400 font-medium hover:text-neutral-600'}
-                    `}
-                >
-                    <span className="inline md:hidden font-display">{mobileLabel}</span>
-                    <span className="hidden md:inline">{desktopLabel}</span>
-                </button>
-            );
-        })}
-    </div>
-  );
+    // 2. 排序
+    const sortedList = useMemo(() => {
+        if (activeTab === 'SCORERS') {
+            return statsData
+                .filter((p) => p.goals > 0)
+                .sort((a, b) => b.goals - a.goals);
+        } else {
+            return statsData
+                .filter((p) => p.yellowCards > 0 || p.redCards > 0)
+                .sort((a, b) => {
+                    if (b.redCards !== a.redCards) return b.redCards - a.redCards;
+                    return b.yellowCards - a.yellowCards;
+                });
+        }
+    }, [statsData, activeTab]);
 
-  return (
-    <div className="pt-6 md:pt-24 min-h-[85vh] bg-white pb-24">
-      <div className="container mx-auto px-4 md:px-12 max-w-7xl">
-        
-        {/* === Header (保持原樣) === */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-4 md:mb-12">
-            <div>
-                <h1 className="font-display font-black md:font-extrabold text-4xl md:text-6xl uppercase text-brand-black mb-2 md:mb-4 tracking-tight [-webkit-text-stroke:.25px_currentColor] md:[-webkit-text-stroke:0px]">
-                    數據 <span className="text-brand-blue">中心</span>
-                </h1>
-                <p className="text-neutral-400 text-sm md:text-base font-medium tracking-wide">
-                     {activeLeague === 'L1' ? 'League 1' : 'League 2'} 完整球員數據榜
-                </p>
-            </div>
+    // 3. 聯賽篩選器渲染邏輯
+    const leagueFilterContent = (
+        <div className="flex space-x-4 text-xs font-bold">
+            {([ 'L1', 'L2' ] as const).map((tab) => {
+                const mobileLabel = tab;
+                const desktopLabel = tab === 'L1' ? 'League 1' : 'League 2';
+                
+                return (
+                    <button
+                        key={tab}
+                        // ✅ 使用新的處理函式
+                        onClick={() => handleLeagueChange(tab)}
+                        className={`px-1 pb-1 transition-all whitespace-nowrap border-b-2 
+                            ${activeLeague === tab
+                                ? 'border-brand-blue text-brand-black font-bold' 
+                                : 'border-transparent text-neutral-400 font-medium hover:text-neutral-600'}
+                        `}
+                    >
+                        <span className="inline md:hidden font-display">{mobileLabel}</span>
+                        <span className="hidden md:inline">{desktopLabel}</span>
+                    </button>
+                );
+            })}
         </div>
+    );
 
-        {/* === 聯賽選擇 (保持原樣) === */}
-        <div className="flex justify-between items-center mb-10 pb-4 border-b border-neutral-100">
-            <h3 className="font-bold text-base text-neutral-900 font-display uppercase tracking-wider flex items-center">
-                <Trophy className="w-5 h-5 mr-2 text-brand-blue" />
-                選擇聯賽
-            </h3>
-            {leagueFilterContent}
-        </div>
-
-        {/* === 數據類型 Tabs (移除圓點) === */}
-        <div className="flex space-x-10 mb-6 px-2">
-            <button
-                onClick={() => setActiveTab('SCORERS')}
-                className={`text-sm md:text-base font-bold uppercase transition-all duration-300 tracking-widest relative
-                    ${activeTab === 'SCORERS' ? 'text-brand-black' : 'text-neutral-300 hover:text-neutral-500'}
-                `}
-            >
-                射手榜
-            </button>
-            
-            <button
-                onClick={() => setActiveTab('CARDS')}
-                className={`text-sm md:text-base font-bold uppercase transition-all duration-300 tracking-widest relative
-                    ${activeTab === 'CARDS' ? 'text-brand-black' : 'text-neutral-300 hover:text-neutral-500'}
-                `}
-            >
-                紅黃牌
-            </button>
-        </div>
-
-        {/* === 列表內容區 === */}
-        <div className="w-full">
-            {/* 表頭已移除 */}
-
-            {/* 列表本身 */}
-            <div className="flex flex-col">
-                {sortedList.length > 0 ? (
-                    sortedList.map((player, index) => (
-                        <ProStatRow 
-                            key={`${player.name}-${player.teamId}`}
-                            player={player}
-                            rank={index + 1}
-                            activeTab={activeTab}
-                        />
-                    ))
-                ) : (
-                    <div className="py-32 text-center opacity-40">
-                        <Trophy className="w-16 h-16 text-neutral-300 mx-auto mb-4 stroke-[1]" />
-                        <p className="text-neutral-400 font-medium uppercase tracking-[0.2em] text-xs">
-                            NO DATA AVAILABLE
+    return (
+        <div className="pt-6 md:pt-24 min-h-[85vh] bg-white pb-24">
+            <div className="container mx-auto px-4 md:px-12 max-w-7xl">
+                
+                {/* === Header (保持原樣) === */}
+                <div className="flex flex-col md:flex-row md:items-end justify-between mb-4 md:mb-12">
+                    <div>
+                        <h1 className="font-display font-black md:font-extrabold text-4xl md:text-6xl uppercase text-brand-black mb-2 md:mb-4 tracking-tight [-webkit-text-stroke:.25px_currentColor] md:[-webkit-text-stroke:0px]">
+                            數據 <span className="text-brand-blue">中心</span>
+                        </h1>
+                        <p className="text-neutral-400 text-sm md:text-base font-medium tracking-wide">
+                            {activeLeague === 'L1' ? 'League 1' : 'League 2'} 完整球員數據榜
                         </p>
                     </div>
-                )}
+                </div>
+
+                {/* === 聯賽選擇 (使用修正後的 filterContent) === */}
+                <div className="flex justify-between items-center mb-10 pb-4 border-b border-neutral-100">
+                    <h3 className="font-bold text-base text-neutral-900 font-display uppercase tracking-wider flex items-center">
+                        <Trophy className="w-5 h-5 mr-2 text-brand-blue" />
+                        選擇聯賽
+                    </h3>
+                    {leagueFilterContent}
+                </div>
+
+                {/* === 數據類型 Tabs (保持原樣) === */}
+                <div className="flex space-x-10 mb-6 px-2">
+                    <button
+                        onClick={() => setActiveTab('SCORERS')}
+                        className={`text-sm md:text-base font-bold uppercase transition-all duration-300 tracking-widest relative
+                            ${activeTab === 'SCORERS' ? 'text-brand-black' : 'text-neutral-300 hover:text-neutral-500'}
+                        `}
+                    >
+                        射手榜
+                    </button>
+                    
+                    <button
+                        onClick={() => setActiveTab('CARDS')}
+                        className={`text-sm md:text-base font-bold uppercase transition-all duration-300 tracking-widest relative
+                            ${activeTab === 'CARDS' ? 'text-brand-black' : 'text-neutral-300 hover:text-neutral-500'}
+                        `}
+                    >
+                        紅黃牌
+                    </button>
+                </div>
+
+                {/* === 列表內容區 === */}
+                <div className="w-full">
+                    {/* 表頭已移除 */}
+
+                    {/* 列表本身 */}
+                    <div className="flex flex-col">
+                        {sortedList.length > 0 ? (
+                            sortedList.map((player, index) => (
+                                <ProStatRow 
+                                    key={`${player.name}-${player.teamId}`}
+                                    player={player}
+                                    rank={index + 1}
+                                    activeTab={activeTab}
+                                />
+                            ))
+                        ) : (
+                            <div className="py-32 text-center opacity-40">
+                                <Trophy className="w-16 h-16 text-neutral-300 mx-auto mb-4 stroke-[1]" />
+                                <p className="text-neutral-400 font-medium uppercase tracking-[0.2em] text-xs">
+                                    NO DATA AVAILABLE
+                                </p>
+                            </div>
+                        )}
+                    </div>
+                </div>
+
             </div>
         </div>
-
-      </div>
-    </div>
-  );
+    );
 };
 
 export default StatsPage;

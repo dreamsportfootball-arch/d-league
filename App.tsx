@@ -14,6 +14,7 @@ const NewsPage = lazy(() => import('./pages/NewsPage'));
 const StatsPage = lazy(() => import('./pages/StatsPage'));
 const ArticleDetailPage = lazy(() => import('./pages/ArticleDetailPage'));
 const MediaPage = lazy(() => import('./pages/MediaPage'));
+const AboutPage = lazy(() => import('./pages/AboutPage')); // ✅ 修正：將 AboutPage 改為 Lazy Load
 
 // ===========================================
 // ScrollMemory：處理一般頁面滾動 + /news 列表位置記憶
@@ -109,6 +110,7 @@ const App: React.FC = () => {
             <Route path="/stats" element={<StatsPage />} />
             <Route path="/news/:id" element={<ArticleDetailPage />} />
             <Route path="/media" element={<MediaPage />} />
+            <Route path="/about" element={<AboutPage />} /> 
           </Routes>
         </Suspense>
       </main>

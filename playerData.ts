@@ -197,7 +197,15 @@ export const ALL_PLAYERS: PlayerProfile[] = [
     // ==========================================
     { id: 'ppi-11', teamId: 't_ppi', number: 11, name: '杰菲', englishName: 'CEVIN ADE PRATAMA', gender: '男', nationality: '印尼', age: 26 },
     { id: 'ppi-12', teamId: 't_ppi', number: 12, name: '木哈馬', englishName: 'MUHAMAD RIZKI', gender: '男', nationality: '印尼', age: 22 },
-    { id: 'ppi-29', teamId: 't_ppi', number: 29, name: 'Iradaf Mandaya', englishName: 'IRADAF MANDAYA G.A BAHRUN', gender: '男', nationality: '印尼', age: 34 },
+    { 
+        id: 'ppi-29', 
+        teamId: 't_ppi', 
+        number: 29, 
+        name: 'IRADAF MANDAYA G.A BAHRUN', // ✅ 變更：改為完整英文名
+        gender: '男', 
+        nationality: '印尼', 
+        age: 34 
+    },
     { id: 'ppi-08', teamId: 't_ppi', number: 8, name: '萬地', englishName: 'MUHAMMAD IWANDI', gender: '男', nationality: '印尼', age: 31 },
     { id: 'ppi-17', teamId: 't_ppi', number: 17, name: '伊拉曼', englishName: 'ILHAM FIRDAUS SUNARTO', gender: '男', nationality: '印尼', age: 23 },
     { id: 'ppi-92', teamId: 't_ppi', number: 92, name: '伊而凡', englishName: 'IRFAN KHOLIQ AJI SUK', gender: '男', nationality: '印尼', age: 29 },
@@ -207,7 +215,15 @@ export const ALL_PLAYERS: PlayerProfile[] = [
     { id: 'ppi-94', teamId: 't_ppi', number: 94, name: '孺立', englishName: 'RANGGA RULIANTO', gender: '男', nationality: '印尼', age: 21 },
     { id: 'ppi-07', teamId: 't_ppi', number: 7, name: '布丹', englishName: 'RIZKY PERDANA PUTRA', gender: '男', nationality: '印尼', age: 25 },
     { id: 'ppi-27', teamId: 't_ppi', number: 27, name: '高世科', englishName: 'CAO THE KHOA', gender: '男', nationality: '越南', age: 26 },
-    { id: 'ppi-19', teamId: 't_ppi', number: 19, name: 'YEHUDA GAGAH', englishName: 'YEHUDA GAGAH WICAKSONO', gender: '男', nationality: '印尼', age: 18 },
+    { 
+        id: 'ppi-19', 
+        teamId: 't_ppi', 
+        number: 19, 
+        name: 'YEHUDA GAGAH WICAKSONO', // ✅ 變更：改為完整英文名
+        gender: '男', 
+        nationality: '印尼', 
+        age: 18 
+    },
     { id: 'ppi-25', teamId: 't_ppi', number: 25, name: '優沙', englishName: 'YOSUA TATAK WIBAWA', gender: '男', nationality: '印尼', age: 30 },
     { id: 'ppi-98', teamId: 't_ppi', number: 98, name: '拉拉', englishName: 'LINGGA ANDI LALA', gender: '男', nationality: '印尼', age: 27 },
     { id: 'ppi-03', teamId: 't_ppi', number: 3, name: '阿麥德', englishName: 'AHMAD ANTRI WAHYUDI', gender: '男', nationality: '印尼', age: 28 },
