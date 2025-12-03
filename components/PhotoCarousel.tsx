@@ -7,23 +7,23 @@ import { Camera } from 'lucide-react';
 const carouselImages = [
     { 
         id: 1, 
-        src: '/d-league/assets/carousel/slide-1.JPG' 
+        src: '/d-league/assets/carousel/slide-1.jpg' 
     },
     { 
         id: 2, 
-        src: '/d-league/assets/carousel/slide-2.JPG' 
+        src: '/d-league/assets/carousel/slide-2.jpg' 
     },
     { 
         id: 3, 
-        src: '/d-league/assets/carousel/slide-3.JPG' 
+        src: '/d-league/assets/carousel/slide-3.jpg' 
     },
     { 
         id: 4, 
-        src: '/d-league/assets/carousel/slide-4.JPG' 
+        src: '/d-league/assets/carousel/slide-4.jpg' 
     },
     { 
         id: 5, 
-        src: '/d-league/assets/carousel/slide-5.JPG' 
+        src: '/d-league/assets/carousel/slide-5.jpg' 
     },
 ];
 
