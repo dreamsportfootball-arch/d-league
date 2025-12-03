@@ -1,5 +1,7 @@
+// 檔案路徑：d-league web/pages/AboutPage.tsx
+
 import React from "react";
-import { MapPin, ArrowUpRight, Navigation } from 'lucide-react';
+import { MapPin, Navigation } from 'lucide-react';
 
 // =========================================
 // 1. Origin & Vision Section (品牌起源)
@@ -7,7 +9,8 @@ import { MapPin, ArrowUpRight, Navigation } from 'lucide-react';
 const OriginVisionSection: React.FC = () => {
   return (
     <section className="bg-white relative z-10 overflow-hidden">
-      <div className="container mx-auto px-6 md:px-12 py-16 md:py-32">
+      {/* 🚀 關鍵修改：將 py-16 md:py-32 改為 pb-16 md:pb-32 (移除頂部 padding) */}
+      <div className="container mx-auto px-6 md:px-12 pb-16 md:pb-32">
         
         {/* Header Label */}
         <div className="flex items-center justify-between mb-12 md:mb-20">
@@ -85,7 +88,7 @@ const OriginVisionSection: React.FC = () => {
 };
 
 // =========================================
-// 2. Venue Section (比賽場地 - 已修正間距)
+// 2. Venue Section (比賽場地)
 // =========================================
 const VenueSection: React.FC = () => {
     return (
@@ -102,13 +105,10 @@ const VenueSection: React.FC = () => {
             </div>
 
             <div className="container mx-auto px-6 md:px-12 relative z-10">
-                {/* ✅ 修正點 1: 更改手機版間距從 gap-12 到 gap-6 */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-20 items-start">
                     
                     {/* Top/Left: 視覺裝飾區 (手機：顯示在上方) */}
-                    {/* ✅ 修正點 2: 移除 mb-1 */}
                     <div className="lg:hidden w-full relative">
-                        {/* 手機版照片容器：確保全寬顯示 */}
                         <div className="relative aspect-[4/3] rounded-sm overflow-hidden border border-white/10 group bg-neutral-900 p-2">
                              <img 
                                 src="/d-league/assets/aboutpage/Venue.jpg" 
@@ -118,17 +118,12 @@ const VenueSection: React.FC = () => {
                                   e.currentTarget.src = "https://images.unsplash.com/photo-1529900748604-07564a03e7a6?q=80&w=1200&auto=format&fit=crop";
                                 }}
                              />
-                             
-                             {/* 覆蓋層 */}
                              <div className="absolute inset-0 bg-brand-blue/20 mix-blend-overlay"></div>
-                             
-
                         </div>
                     </div>
 
                     {/* Bottom/Right: 資訊區 - Lg版靠右對齊 */}
                     <div>
-                        {/* Label 改為 "台南" */}
                         <div className="flex items-center space-x-2 mb-6">
                             <MapPin className="w-5 h-5 text-brand-accent" />
                             <span className="text-xs font-bold uppercase tracking-[0.3em] text-brand-accent">
@@ -136,7 +131,6 @@ const VenueSection: React.FC = () => {
                             </span>
                         </div>
 
-                        {/* Title 改為 "仁德 文賢國中" */}
                         <h2 className="font-display font-black text-4xl md:text-6xl uppercase tracking-tight leading-none mb-6">
                             仁德<br/>
                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-neutral-500">
@@ -144,7 +138,6 @@ const VenueSection: React.FC = () => {
                             </span>
                         </h2>
 
-                        {/* Description 更新 */}
                         <div className="space-y-4 mb-10 max-w-md">
                             <p className="text-neutral-400 text-sm md:text-base leading-relaxed font-medium">
                                 D LEAGUE 25/26 賽季比賽場地
@@ -153,9 +146,7 @@ const VenueSection: React.FC = () => {
                             </p>
                         </div>
 
-                        {/* Actions: 按鈕區 */}
                         <div className="flex flex-col sm:flex-row gap-4">
-                             {/* Google Maps Button 連結更新 */}
                              <a 
                                 href="https://share.google/rI921QclMDxQ37xFg" 
                                 target="_blank" 
@@ -183,11 +174,7 @@ const VenueSection: React.FC = () => {
                                   e.currentTarget.src = "https://images.unsplash.com/photo-1529900748604-07564a03e7a6?q=80&w=1200&auto=format&fit=crop";
                                 }}
                              />
-                             
-                             {/* 覆蓋層 */}
                              <div className="absolute inset-0 bg-brand-blue/20 mix-blend-overlay"></div>
-                             
-
                         </div>
                     </div>
 
@@ -203,11 +190,10 @@ const VenueSection: React.FC = () => {
 // =========================================
 const AboutPage: React.FC = () => {
   return (
-    <div className="pt-16 min-h-screen bg-white pb-0">
+    // 🚀 關鍵修改：將 pt-16 改為標準的 pt-6 md:pt-24，與其他頁面統一
+    <div className="pt-12 md:pt-24 min-h-screen bg-white pb-0">
         <OriginVisionSection />
         <VenueSection />
-        
-
     </div>
   );
 };

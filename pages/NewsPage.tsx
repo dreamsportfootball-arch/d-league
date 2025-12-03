@@ -52,7 +52,6 @@ const MinimalNewsCard: React.FC<{
         className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
         onLoad={onImageLoaded}
         onError={onImageLoaded}
-        // 🚀 關鍵修改：移除了 loading="lazy"，讓新聞圖片秒開，提升質感
       />
       <div className="absolute inset-0 bg-white/0 group-hover:bg-white/10 transition-colors duration-300" />
     </div>
@@ -63,11 +62,17 @@ const MinimalNewsCard: React.FC<{
       <div className="flex items-center justify-between mb-3">
         <span
           className={`
-            inline-flex items-center px-3 py-1 rounded-sm
-            text-[11px] font-semibold tracking-[0.18em] uppercase
+            inline-flex items-center justify-center px-2 py-1 rounded-sm
+            text-[10px] font-bold tracking-[0.15em] uppercase leading-none
             ${getTagClasses(article.category)}
           `}
         >
+          {/* 🚀 修正細節：
+             1. justify-center: 水平置中
+             2. leading-none: 去除行高，讓 py-1 能精準控制垂直空間
+             3. 由於 tracking 會在右側留白，這裡不需額外做 padding 補償，
+                因為中文字寬度較方正，視覺上通常能接受微小偏差。
+          */}
           {CATEGORY_MAP[article.category] || '最新消息'}
         </span>
         <span className="text-[11px] text-neutral-400 font-mono">
@@ -100,7 +105,7 @@ const NewsPage: React.FC = () => {
   const [news, setNews] = useState<NewsArticle[]>([]);
   const [loading, setLoading] = useState(true);
   
-  // 使用 useState 的函數式更新，在初始化時同步讀取 Session Storage
+  // 使用 useState 的函數式更新
   const [activeFilter, setActiveFilter] = useState<
     'ALL' | 'Match Report' | 'Official'
   >(() => {
@@ -112,31 +117,26 @@ const NewsPage: React.FC = () => {
     } catch (e) {
         // ignore
     }
-    return 'ALL'; // 預設值
+    return 'ALL'; 
   });
 
-
-  // 追蹤圖片載入狀態
   const [loadedImageCount, setLoadedImageCount] = useState(0);
   const [imagesAreLoaded, setImagesAreLoaded] = useState(false);
 
-  // 處理單個圖片載入完成
   const handleImageLoaded = useCallback(() => {
     setLoadedImageCount((prev) => prev + 1);
   }, []);
 
-  // 移除原本的 useEffect 載入狀態邏輯，只保留圖片延遲相關邏輯
   useEffect(() => {
     try {
       if (window.sessionStorage.getItem('lastNewsAnchorId')) {
         window.sessionStorage.setItem('isNewsImagesLoading', 'true');
       }
     } catch {
-      // storage 被封鎖就維持預設
+      // ignore
     }
   }, []);
 
-  // 切換篩選時，同步寫入 sessionStorage
   const updateFilter = (filter: 'ALL' | 'Match Report' | 'Official') => {
     setActiveFilter(filter);
     try {
@@ -146,7 +146,6 @@ const NewsPage: React.FC = () => {
     }
   };
 
-  // 載入新聞資料
   useEffect(() => {
     const loadNews = async () => {
       try {
@@ -156,11 +155,9 @@ const NewsPage: React.FC = () => {
         setLoading(false);
       }
     };
-
     loadNews();
   }, []);
 
-  // 依照日期排序（新到舊）
   const sortedNews = useMemo(() => {
     return [...news].sort(
       (a, b) =>
@@ -168,7 +165,6 @@ const NewsPage: React.FC = () => {
     );
   }, [news]);
 
-  // 依照篩選條件過濾
   const filteredNews = useMemo(() => {
     if (activeFilter === 'ALL') return sortedNews;
     return sortedNews.filter((item) => {
@@ -182,13 +178,9 @@ const NewsPage: React.FC = () => {
     });
   }, [news, activeFilter]);
 
-  // 所有圖片載入完成的邏輯
   useEffect(() => {
     if (loading || filteredNews.length === 0) return;
-
-    // 只有在實際顯示新聞時才計算圖片數量
     const totalImages = filteredNews.length;
-
     if (loadedImageCount >= totalImages && !imagesAreLoaded) {
       setImagesAreLoaded(true);
       window.sessionStorage.removeItem('isNewsImagesLoading');
@@ -215,7 +207,6 @@ const NewsPage: React.FC = () => {
             </p>
           </div>
 
-          {/* Filter 區塊 - 線條樣式 */}
           <div className="mt-6 md:mt-0 flex space-x-6">
             {newsFilters.map(filter => (
                 <button
@@ -238,7 +229,6 @@ const NewsPage: React.FC = () => {
         {/* Content */}
         <div className="w-full">
           {loading ? (
-            // Skeleton
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
               {[1, 2, 3, 4, 5, 6].map((i) => (
                 <div key={i} className="animate-pulse">

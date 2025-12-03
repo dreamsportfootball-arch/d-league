@@ -7,22 +7,22 @@ const MOCK_ALBUMS = [
         id: 'album-r1',
         title: '比賽日 1 (Match Day 1)',
         date: '2025/10/19',
-        cover: '/d-league/assets/media/1019.JPG',
-        link: 'https://drive.google.com/drive/u/2/folders/1GHaGj3bO5KnLi1XmLjuB9c8fHtecOvuy',
+        cover: '/d-league/assets/media/1019.jpg',
+        link: 'https://drive.google.com/drive/folders/1R__mtXu96oK1l4kAMQYLJiZxTG-dhRgP?usp=drive_link',
     },
     {
         id: 'album-r2',
         title: '比賽日 2 (Match Day 2)',
         date: '2025/11/02',
-        cover: '/d-league/assets/media/1102.JPG',
-        link: 'https://drive.google.com/drive/u/2/folders/1zMRliH-mufV3MC9gU2qT5RKurNn3gjQn?usp=sharing',
+        cover: '/d-league/assets/media/1102.jpg',
+        link: 'https://drive.google.com/drive/folders/1S80w0QsX1B_C-ms93hOsYeWrgtMQzsZI?usp=drive_link',
     },
     {
         id: 'album-r3',
         title: '比賽日 3 (Match Day 3)',
         date: '2025/11/16',
-        cover: '/d-league/assets/media/1116.JPG',
-        link: 'https://drive.google.com/drive/folders/1LlPJ3m_4VotEkJr30j01WhHL_TKTsxqS',
+        cover: '/d-league/assets/media/1116.jpg',
+        link: 'https://drive.google.com/drive/folders/1LlPJ3m_4VotEkJr30j01WhHL_TKTsxqS?usp=drive_link',
     },
 ];
 
