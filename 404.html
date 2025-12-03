@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Redirecting...</title>
+  <script>
+    // 專案的 base name，必須與 vite.config.ts 中的 base: '/d-league/' 一致
+    var base = '/d-league/'; 
+    
+    // 獲取使用者當前路徑，例如 /d-league/schedule
+    var path = window.location.pathname;
+
+    // 確保 path 從專案根目錄開始（移除 base name）
+    if (path.startsWith(base)) {
+        path = path.substring(base.length);
+    }
+    
+    // 構造最終的重新導向 URL：/d-league/ + #/ + schedule
+    // 這是讓 BrowserRouter 在 GitHub Pages 上運作的關鍵
+    var redirectUrl = base + '#/' + path;
+
+    // 執行重新導向
+    window.location.replace(redirectUrl);
+  </script>
+</head>
+<body>
+  <p>Loading the application...</p>
+</body>
+</html>
