@@ -13,9 +13,9 @@ if (!rootElement) {
 const root = ReactDOM.createRoot(rootElement);
 root.render(
   <React.StrictMode>
-    {/* ✅ 修正：加入 basename 設定 */}
-    {/* 這樣做之後，<Link to="/"> 就會自動導向到 /d-league/，解決連結錯誤問題 */}
-    <BrowserRouter basename="/d-league">
+    {/* ✅ 修正：將 basename="/d-league" 改為 "/d-league/" (補上斜線) */}
+    {/* 這樣設定後，重新整理頁面時，網址就會穩定維持在 http://localhost:5173/d-league/ */}
+    <BrowserRouter basename="/d-league/">
       <App />
     </BrowserRouter>
   </React.StrictMode>
