@@ -89,7 +89,7 @@ D LEAGUE L2 組的首場對決由瘋Dog對陣蒼龍 FC 蒼龍在賽事中以六�
 // 6. Ready To Play
 {
   id: 'schedule-r1-20251016',
-  title: '新賽季首輪賽程公佈布',
+  title: 'D LEAGUE 2025/26 賽季第一比賽日賽程公告',
   summary: '本週日將正式迎來 2025/26 賽季的首個比賽日，L1 與 L2 隊伍將於仁德文賢國中人工草皮展開新賽季第一輪賽事。聯賽以穩定賽制與在地推動為核心，期望帶來一個兼具競爭性與文化延續的賽季。',
   content: `
 本週日聯賽將正式展開，各隊將以首輪賽事開啟 2025/26 賽季的第一步
@@ -229,7 +229,7 @@ Dreamsport 的概念源於「夢想的港口」，期望在有限的條件下打
 // 新增：11/02 第二比賽日賽程表
 {
   id: 'schedule-r2-20251102',
-  title: '第二比賽日賽程公佈',
+  title: 'D LEAGUE 2025/26 賽季第二比賽日賽程公告',
   summary: '2025/26 賽季第二比賽日將於 11 月 2 日舉行，四場賽事將在仁德文賢國中人工草皮進行，各隊將持續調整狀態迎接新一輪挑戰。',
   content: `
 第二比賽日賽事即將展開 本週日將進行四場例行賽
@@ -253,7 +253,7 @@ Dreamsport 的概念源於「夢想的港口」，期望在有限的條件下打
   // 14. Schedule R3
   {
   id: 'schedule-r3-20251116',
-  title: '第三比賽日賽程預告',
+  title: 'D LEAGUE 2025/26 賽季第三比賽日賽程公告',
   summary: '2025/26 賽季第三比賽日將於 11 月 16 日舉行，四場賽事將在仁德文賢國中人工草皮進行，各隊將在比賽週期中持續調整狀態並尋求積分突破。',
   content: `
 本週第三比賽日即將登場 本輪共有四場例行賽事
@@ -325,6 +325,26 @@ Dreamsport 的概念源於「夢想的港口」，期望在有限的條件下打
     category: 'Match Report',
     imageUrl: '/d-league/assets/news/match-r2-m6.png', 
     timestamp: new Date('2025-11-03T13:00:00Z').toISOString() 
+  },
+// Schedule R4 (第四輪賽程)
+  {
+    id: 'schedule-r4-20251206',
+    title: 'D LEAGUE 2025/26 賽季第四比賽日賽程公告',
+    summary: '台南夢達七人足球聯賽（D LEAGUE）第四輪賽事將於 12 月 7 日展開。本次公告發布五場精彩對決的比賽時間。',
+    content: 'D LEAGUE 2025/26 賽季即將邁入第四輪比賽日 本輪賽事共安排五場對決 各隊伍將全力爭取積分排名\n\n聯賽第四輪賽事將於 12 月 7 日星期日，在仁德文賢國中人工草皮球場舉行。比賽自上午 10 點起展開。\n\n10:00 屏東野猿足球俱樂部 vs PPI TAINAN\n11:00 瘋Dog vs 鹿逐俱樂部\n13:00 陳公舘 vs 酒號矯正署\n14:00 嘉義諸羅山FC vs 銅雀足球俱樂部\n15:00 鳥仕足球俱樂部 vs 蒼龍FC\n\n球迷朋友請持續鎖定戰況，蒞臨現場為支持的隊伍加油。',
+    category: 'Official',
+    imageUrl: '/d-league/assets/news/schedule-r4.png', 
+    timestamp: new Date('2025-12-06T10:00:00Z').toISOString() 
+  },
+// Transfer Window Correction (轉會窗更正公告)
+  {
+    id: 'official-transfer-correction-20251207',
+    title: '2025/26 賽季季中轉會窗日期更正公告',
+    summary: '台南夢達七人足球聯賽（D LEAGUE）針對 2025/26 賽季季中轉會窗日期進行更正，請各參賽隊伍留意最新時程。',
+    content: '台南夢達七人足球聯賽針對 2025/26 賽季季中轉會窗之日期發布更正公告 提醒各隊伍務必留意\n\n本賽季季中轉會窗日期正式更正為 2026 年 1 月 12 日至 2026 年 2 月 5 日。\n\n請所有參賽隊伍依據此更新時程進行球員調整與註冊作業，並於規定期限內完成相關程序，以確保下半賽季之參賽資格符合規範，感謝大家的配合。',
+    category: 'Official',
+    imageUrl: '/d-league/assets/news/official_announcement.png', 
+    timestamp: new Date('2025-12-07T10:00:00Z').toISOString() 
   },
 ];
 
