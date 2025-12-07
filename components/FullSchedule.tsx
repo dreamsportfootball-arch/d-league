@@ -172,7 +172,6 @@ const FullSchedule: React.FC<{
                                         <img
                                             src={awayTeam.logo}
                                             alt={awayTeam.name}
-                                            loading="lazy" // 👈 這裡也加上 lazy
                                             className="w-8 h-8 md:w-10 md:h-10 object-contain shrink-0"
                                         />
                                         

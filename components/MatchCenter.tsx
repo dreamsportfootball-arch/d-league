@@ -63,7 +63,6 @@ const MatchCard: React.FC<{
                  <img 
                     src={homeTeam.logo} 
                     alt={homeTeam.name} 
-                    loading="lazy" // 👈 這裡加了 lazy
                     className="w-8 h-8 object-contain drop-shadow-sm" 
                  />
               </div>
