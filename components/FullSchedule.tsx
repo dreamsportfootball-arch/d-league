@@ -47,6 +47,21 @@ const renderScore = (match: typeof MATCHES[0]) => {
     return <span className="text-sm font-bold text-brand-black">-</span>;
 };
 
+// 🎯 智能字體大小判斷函數 (只影響手機版)
+// 根據隊名長度回傳不同的 class
+const getMobileNameClass = (name: string) => {
+    // 屏東野猿足球俱樂部 (10字)、PPI TAINAN (10字) -> 縮小至 10px + 緊縮字距
+    if (name.length >= 10) {
+        return 'text-[10px] tracking-tighter'; 
+    }
+    // 銅雀足球俱樂部 (8字)、鳥仕足球俱樂部 (8字) -> 微縮至 11px
+    if (name.length >= 8) {
+        return 'text-[11px] tracking-tight';
+    }
+    // 其他短隊名 -> 維持標準 12px (text-xs)
+    return 'text-xs';
+};
+
 const FullSchedule: React.FC<{
     onMatchClick: (matchId: string) => void;
     selectedMatchId: string | null;
@@ -132,18 +147,23 @@ const FullSchedule: React.FC<{
 
                                 {/* 2. 對戰組合 */}
                                 <div className="flex-1 grid grid-cols-[1fr_auto_1fr] gap-2 md:gap-6 w-full items-center px-2">
+                                    
                                     {/* 主隊 (右對齊) */}
                                     <div className="flex items-center justify-end space-x-2 md:space-x-4 shrink-0 min-w-0">
-                                        <span className="font-bold text-right text-brand-black md:text-base">
-                                            {/* 🎯 修正：針對長隊名 (如屏東野猿) 自動縮小字體 */}
-                                            <span className={`inline md:hidden whitespace-nowrap ${homeTeam.name.length > 9 ? 'text-[10px] tracking-tighter' : 'text-xs'}`}>
+                                        {/* 隊名容器 */}
+                                        <span className="font-bold text-right text-brand-black md:text-base block truncate">
+                                            
+                                            {/* 手機版：根據字數自動縮小，保持單行 (whitespace-nowrap) */}
+                                            <span className={`md:hidden whitespace-nowrap ${getMobileNameClass(homeTeam.name)}`}>
                                                 {homeTeam.name}
                                             </span>
-                                            {/* 桌機版 */}
+
+                                            {/* 電腦版：完全不動，維持原樣 */}
                                             <span className="hidden md:inline">
                                                 {homeTeam.name}
                                             </span>
                                         </span>
+                                        
                                         <img
                                             src={homeTeam.logo}
                                             alt={homeTeam.name}
@@ -163,12 +183,16 @@ const FullSchedule: React.FC<{
                                             alt={awayTeam.name}
                                             className="w-8 h-8 md:w-10 md:h-10 object-contain shrink-0"
                                         />
-                                        <span className="font-bold text-left text-brand-black md:text-base">
-                                            {/* 🎯 修正：針對長隊名 (如屏東野猿) 自動縮小字體 */}
-                                            <span className={`inline md:hidden whitespace-nowrap ${awayTeam.name.length > 9 ? 'text-[10px] tracking-tighter' : 'text-xs'}`}>
+                                        
+                                        {/* 隊名容器 */}
+                                        <span className="font-bold text-left text-brand-black md:text-base block truncate">
+                                            
+                                            {/* 手機版：根據字數自動縮小，保持單行 (whitespace-nowrap) */}
+                                            <span className={`md:hidden whitespace-nowrap ${getMobileNameClass(awayTeam.name)}`}>
                                                 {awayTeam.name}
                                             </span>
-                                            {/* 桌機版 */}
+
+                                            {/* 電腦版：完全不動，維持原樣 */}
                                             <span className="hidden md:inline">
                                                 {awayTeam.name}
                                             </span>
@@ -176,7 +200,7 @@ const FullSchedule: React.FC<{
                                     </div>
                                 </div>
 
-                                {/* 3. 狀態/詳情提示 */}
+                                {/* 3. 狀態/詳情提示 (僅電腦版) */}
                                 <div className="hidden md:flex flex-col items-end w-32 shrink-0 pr-4 text-right">
                                     {isFinished ? (
                                         <span className="text-[10px] font-bold text-brand-blue uppercase tracking-widest opacity-100 transform translate-x-0 transition-all duration-300">
