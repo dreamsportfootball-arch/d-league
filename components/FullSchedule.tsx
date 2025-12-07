@@ -1,3 +1,5 @@
+// 檔案路徑：d-league web/components/FullSchedule.tsx
+
 import React, { useMemo } from 'react';
 import { MATCHES, TEAMS } from '../constants';
 import { MatchStatus } from '../types';
@@ -5,12 +7,10 @@ import { MatchStatus } from '../types';
 // 格式化日期 & 時間
 const formatDateTime = (isoString: string) => {
     const date = new Date(isoString);
-    // 修正版：移除 weekday: 'short'
     const fullDateHeader = date.toLocaleDateString('zh-TW', {
-        year: 'numeric', // 顯示年份
+        year: 'numeric',
         month: '2-digit',
         day: '2-digit',
-        // 移除 weekday，因為都是週日
     });
 
     const timeStr = date.toLocaleTimeString('zh-TW', {
@@ -22,7 +22,7 @@ const formatDateTime = (isoString: string) => {
     return { fullDateHeader, timeStr };
 };
 
-// 渲染比分 (優化版：未賽時 VS 更輕盈)
+// 渲染比分
 const renderScore = (match: typeof MATCHES[0]) => {
     if (
         match.status === MatchStatus.FINISHED &&
@@ -46,8 +46,6 @@ const renderScore = (match: typeof MATCHES[0]) => {
 
     return <span className="text-sm font-bold text-brand-black">-</span>;
 };
-
-// 依隊名長度動態調整「手機版」字級 - ❌ 已移除此函數
 
 const FullSchedule: React.FC<{
     onMatchClick: (matchId: string) => void;
@@ -88,14 +86,10 @@ const FullSchedule: React.FC<{
                 const awayTeam = TEAMS[match.awayTeamId];
                 const isFinished = match.status === MatchStatus.FINISHED;
 
-                // ❌ 移除手機用短名、動態字級計算
-
                 return (
                     <React.Fragment key={match.id}>
-                        {/* 🇯🇵 Sticky Date Header (浮動日期標籤) */}
+                        {/* Sticky Date Header */}
                         {isNewDate && (
-                            // 調整 top-16，讓它緊貼在 Header 下方
-                            // 手機版 mt-4 (緊湊)，電腦版 md:mt-8 (大氣)
                             <div className="sticky top-16 z-30 bg-white/95 backdrop-blur-md py-3 border-b border-neutral-100 mt-4 md:mt-8 mb-2 transition-all">
                                 <div className="flex items-center">
                                     <div className="w-1 h-4 bg-brand-accent mr-3"></div>
@@ -106,7 +100,7 @@ const FullSchedule: React.FC<{
                             </div>
                         )}
 
-                        {/* 🇯🇵 互動行 (Row) */}
+                        {/* Row */}
                         <div
                             className={`
                                 group relative flex flex-col md:flex-row items-center
@@ -115,54 +109,37 @@ const FullSchedule: React.FC<{
                                 cursor-pointer md:hover:bg-neutral-50
                                 overflow-hidden
                             `}
-                            // 點擊功能不變
                             onClick={() => isFinished && onMatchClick(match.id)}
                         >
-                            {/* ✨ 左側光標 (Accent Line) - Hover 時出現 */}
+                            {/* Hover Accent Line */}
                             <div className="absolute left-0 top-0 bottom-0 w-1 bg-brand-blue transform -translate-x-full md:group-hover:translate-x-0 transition-transform duration-300 ease-out"></div>
 
-                            {/* 內容容器 - Hover 時輕微右移 */}
+                            {/* Content Container */}
                             <div className="w-full flex flex-col md:flex-row items-center transform md:group-hover:translate-x-1 transition-transform duration-300">
                                 
-                                {/* 1. 資訊欄 (時間 / 組別) */}
+                                {/* 1. 資訊欄 */}
                                 <div className="flex md:flex-col items-center md:items-start justify-between w-full md:w-32 mb-3 md:mb-0 shrink-0 px-2 md:px-4">
                                     <div className="flex items-center md:flex-col md:items-start space-x-3 md:space-x-0">
-                                        {/* 🎯 時間字體 */}
                                         <span className="text-sm font-bold font-display text-neutral-400 group-hover:text-brand-black transition-colors">
                                             {timeStr}
                                         </span>
-                                        <span
-                                            className={`
-                                                text-[10px] font-bold uppercase tracking-wider
-                                                text-neutral-400 // ✅ 變更：統一使用中性灰/淺色
-                                            `}
-                                        >
-                                            {/* 輪次中文顯示 */}
+                                        <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-400">
                                             {match.league} 第{match.round}輪
                                         </span>
                                     </div>
-                                    
-                                    {/* ❌ 移除：手機版狀態文字，讓此區塊留空，達成極簡設計 */}
-                                    <div className="md:hidden">
-                                        {/* 此處留空 */}
-                                    </div>
+                                    <div className="md:hidden"></div>
                                 </div>
 
-                                {/* 2. 對戰組合 (Grid Layout) */}
+                                {/* 2. 對戰組合 */}
                                 <div className="flex-1 grid grid-cols-[1fr_auto_1fr] gap-2 md:gap-6 w-full items-center px-2">
                                     {/* 主隊 (右對齊) */}
                                     <div className="flex items-center justify-end space-x-2 md:space-x-4 shrink-0 min-w-0">
-                                        <span
-                                            className={`
-                                                font-bold text-right text-brand-black
-                                                md:text-base // ❌ 移除 truncate
-                                            `}
-                                        >
-                                            {/* ✅ 手機：完整隊名＋最小字級＋不換行 */}
-                                            <span className={`inline md:hidden text-xs whitespace-nowrap`}>
+                                        <span className="font-bold text-right text-brand-black md:text-base">
+                                            {/* 🎯 修正：針對長隊名 (如屏東野猿) 自動縮小字體 */}
+                                            <span className={`inline md:hidden whitespace-nowrap ${homeTeam.name.length > 9 ? 'text-[10px] tracking-tighter' : 'text-xs'}`}>
                                                 {homeTeam.name}
                                             </span>
-                                            {/* 桌機：完整隊名 */}
+                                            {/* 桌機版 */}
                                             <span className="hidden md:inline">
                                                 {homeTeam.name}
                                             </span>
@@ -174,7 +151,7 @@ const FullSchedule: React.FC<{
                                         />
                                     </div>
 
-                                    {/* 比分 / VS */}
+                                    {/* 比分 */}
                                     <div className="flex justify-center min-w-[50px] md:min-w-[80px]">
                                         {renderScore(match)}
                                     </div>
@@ -186,17 +163,12 @@ const FullSchedule: React.FC<{
                                             alt={awayTeam.name}
                                             className="w-8 h-8 md:w-10 md:h-10 object-contain shrink-0"
                                         />
-                                        <span
-                                            className={`
-                                                font-bold text-left text-brand-black
-                                                md:text-base // ❌ 移除 truncate
-                                            `}
-                                        >
-                                            {/* ✅ 手機：完整隊名＋最小字級＋不換行 */}
-                                            <span className={`inline md:hidden text-xs whitespace-nowrap`}>
+                                        <span className="font-bold text-left text-brand-black md:text-base">
+                                            {/* 🎯 修正：針對長隊名 (如屏東野猿) 自動縮小字體 */}
+                                            <span className={`inline md:hidden whitespace-nowrap ${awayTeam.name.length > 9 ? 'text-[10px] tracking-tighter' : 'text-xs'}`}>
                                                 {awayTeam.name}
                                             </span>
-                                            {/* 桌機：完整隊名 */}
+                                            {/* 桌機版 */}
                                             <span className="hidden md:inline">
                                                 {awayTeam.name}
                                             </span>
@@ -204,17 +176,10 @@ const FullSchedule: React.FC<{
                                     </div>
                                 </div>
 
-                                {/* 3. 桌機版狀態/詳情提示 */}
+                                {/* 3. 狀態/詳情提示 */}
                                 <div className="hidden md:flex flex-col items-end w-32 shrink-0 pr-4 text-right">
                                     {isFinished ? (
-                                        // 🎯 變更：將 text-[11px] 改為 text-[10px]
-                                        <span
-                                            className="
-                                                text-[10px] font-bold text-brand-blue uppercase tracking-widest
-                                                opacity-100 transform translate-x-0
-                                                transition-all duration-300
-                                            "
-                                        >
+                                        <span className="text-[10px] font-bold text-brand-blue uppercase tracking-widest opacity-100 transform translate-x-0 transition-all duration-300">
                                             View Match <span className="ml-0.5">→</span>
                                         </span>
                                     ) : (
