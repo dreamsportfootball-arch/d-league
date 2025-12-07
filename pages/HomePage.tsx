@@ -14,8 +14,6 @@ import { Link } from 'react-router-dom';
 
 const HomePage: React.FC = () => {
     // 首頁獨立的聯賽狀態 (用於積分榜小工具)
-    // 這裡我們不使用 sessionStorage，因為首頁小工具通常只需要顯示預設狀態，
-    // 或者如果您希望它也記憶，我們可以像 StatsPage 那樣修改，但目前保持簡單即可。
     const [activeLeague, setActiveLeague] = useState<'L1' | 'L2'>('L1');
 
     return (
@@ -72,7 +70,18 @@ const HomePage: React.FC = () => {
                         <Standings league={activeLeague} variant="widget" />
 
                         <div className="mt-4 text-center">
-                            <Link to="/standings" className="text-xs font-bold text-brand-blue hover:text-brand-black uppercase tracking-widest flex items-center justify-center group transition-colors">
+                            {/* 🎯 修改這裡：點擊連結時，把當前的選擇存入 Session Storage */}
+                            <Link 
+                                to="/standings" 
+                                onClick={() => {
+                                    try {
+                                        window.sessionStorage.setItem('standingsActiveLeague', activeLeague);
+                                    } catch (e) {
+                                        // 忽略錯誤
+                                    }
+                                }}
+                                className="text-xs font-bold text-brand-blue hover:text-brand-black uppercase tracking-widest flex items-center justify-center group transition-colors"
+                            >
                                 查看完整積分榜 <ArrowRight className="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform" />
                             </Link>
                         </div>
@@ -88,7 +97,7 @@ const HomePage: React.FC = () => {
             {/* 4. 賽事媒體中心 (VideoHub) */}
             <VideoHub /> 
             
-            {/* 5. 賽事精選圖集 (PhotoCarousel) - 這邊不應該有 NewsSection */}
+            {/* 5. 賽事精選圖集 (PhotoCarousel) */}
             <PhotoCarousel />
             
             {/* 6. 參賽球隊 */}
