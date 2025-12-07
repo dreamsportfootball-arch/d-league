@@ -1,3 +1,5 @@
+// 檔案路徑：d-league web/components/MatchCenter.tsx
+
 import React, { useMemo, useState, useRef, useEffect } from 'react';
 import { MATCHES, TEAMS } from '../constants';
 import { MatchStatus, Match } from '../types';
@@ -27,12 +29,11 @@ const MatchCard: React.FC<{
   const isLive = match.status === MatchStatus.LIVE;
   const isFinished = match.status === MatchStatus.FINISHED;
   
-  // 🎯 判斷是否可點擊：只有完賽或進行中才可點
+  // 判斷是否可點擊：只有完賽或進行中才可點
   const isClickable = isLive || isFinished;
 
   return (
     <div 
-        // 🎯 修改：只有可點擊時才觸發 onClick
         onClick={() => { if (isClickable) onClick(match.id); }}
         className={`
             flex flex-col flex-shrink-0 w-[85vw] md:w-80 bg-white border border-neutral-200 
@@ -59,7 +60,12 @@ const MatchCard: React.FC<{
           <div className="flex justify-between items-center">
             <div className="flex items-center space-x-3 overflow-hidden flex-1">
               <div className="w-10 h-10 shrink-0 flex items-center justify-center">
-                 <img src={homeTeam.logo} alt={homeTeam.name} className="w-8 h-8 object-contain drop-shadow-sm" />
+                 <img 
+                    src={homeTeam.logo} 
+                    alt={homeTeam.name} 
+                    loading="lazy" // 👈 這裡加了 lazy
+                    className="w-8 h-8 object-contain drop-shadow-sm" 
+                 />
               </div>
               <span className="font-bold text-brand-black text-sm md:text-lg leading-tight tracking-tight whitespace-nowrap">
                   {homeTeam.shortName}
@@ -74,7 +80,12 @@ const MatchCard: React.FC<{
           <div className="flex justify-between items-center">
             <div className="flex items-center space-x-3 overflow-hidden flex-1">
                <div className="w-10 h-10 shrink-0 flex items-center justify-center">
-                 <img src={awayTeam.logo} alt={awayTeam.name} className="w-8 h-8 object-contain drop-shadow-sm" />
+                 <img 
+                    src={awayTeam.logo} 
+                    alt={awayTeam.name} 
+                    loading="lazy" // 👈 這裡加了 lazy
+                    className="w-8 h-8 object-contain drop-shadow-sm" 
+                 />
               </div>
               <span className="font-bold text-brand-black text-sm md:text-lg leading-tight tracking-tight whitespace-nowrap">
                   {awayTeam.shortName}
@@ -252,7 +263,11 @@ const MatchCenter: React.FC = () => {
 
                         <div className="flex justify-between items-center px-2 sm:px-8">
                             <div className="flex flex-col items-center w-1/3">
-                                <img src={TEAMS[selectedMatch.homeTeamId].logo} className="w-16 h-16 sm:w-20 sm:h-20 object-contain mb-3" />
+                                <img 
+                                    src={TEAMS[selectedMatch.homeTeamId].logo} 
+                                    loading="lazy" // 👈 Modal 裡的也加了 lazy
+                                    className="w-16 h-16 sm:w-20 sm:h-20 object-contain mb-3" 
+                                />
                                 <h3 className="font-bold text-brand-black text-center leading-tight">{TEAMS[selectedMatch.homeTeamId].shortName}</h3>
                             </div>
 
@@ -264,7 +279,11 @@ const MatchCenter: React.FC = () => {
                             </div>
 
                             <div className="flex flex-col items-center w-1/3">
-                                <img src={TEAMS[selectedMatch.awayTeamId].logo} className="w-16 h-16 sm:w-20 sm:h-20 object-contain mb-3" />
+                                <img 
+                                    src={TEAMS[selectedMatch.awayTeamId].logo} 
+                                    loading="lazy" // 👈 Modal 裡的也加了 lazy
+                                    className="w-16 h-16 sm:w-20 sm:h-20 object-contain mb-3" 
+                                />
                                 <h3 className="font-bold text-brand-black text-center leading-tight">{TEAMS[selectedMatch.awayTeamId].shortName}</h3>
                             </div>
                         </div>

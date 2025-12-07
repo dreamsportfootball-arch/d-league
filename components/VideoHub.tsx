@@ -28,12 +28,12 @@ const SideVideoCard: React.FC<{
                 <img 
                     src={image} 
                     alt={title}
+                    loading="lazy"
                     onError={(e) => {
                         e.currentTarget.src = 'https://images.unsplash.com/photo-1579952363873-27f3bade8f55?q=80&w=800&auto=format&fit=crop';
                     }}
                     className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700 ease-out"
-                    // 🚀 關鍵修改：移除了 loading="lazy"，讓縮圖瞬間載入
-                />
+                                    />
                 
                 {/* 類型標示 ICON */}
                 <div className="absolute top-1 right-1 z-10">

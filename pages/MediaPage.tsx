@@ -36,7 +36,7 @@ const ZenAlbum: React.FC<{ album: typeof MOCK_ALBUMS[0] }> = ({ album }) => (
             <img
                 src={album.cover}
                 alt={album.title}
-                // 🚀 優化：確保圖片平滑載入，並處理錯誤
+                loading="lazy"
                 className="w-full h-full object-cover transition-transform duration-700 ease-out md:group-hover:scale-105 pointer-events-none"
                 onError={(e) => {
                     e.currentTarget.src = 'https://images.unsplash.com/photo-1517927033932-b3d18e61fb3a?q=80&w=800&auto=format&fit=crop';
