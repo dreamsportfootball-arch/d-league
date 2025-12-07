@@ -117,7 +117,7 @@ const PhotoCarousel: React.FC = () => {
                                     src={image.src} 
                                     alt={`賽事精選圖片 ${image.id}`} 
                                     className="w-full h-full object-cover"
-                                    // 🚀 關鍵修改：移除了 loading="lazy"
+                                    loading="lazy"
                                     // 這會讓瀏覽器在背景就預先下載這些圖片，
                                     // 當輪播切換時，圖片已經準備好了，不會有任何延遲或卡頓。
                                     onError={(e) => {

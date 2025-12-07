@@ -281,7 +281,6 @@ const MatchCenter: React.FC = () => {
                             <div className="flex flex-col items-center w-1/3">
                                 <img 
                                     src={TEAMS[selectedMatch.awayTeamId].logo} 
-                                    loading="lazy" // 👈 Modal 裡的也加了 lazy
                                     className="w-16 h-16 sm:w-20 sm:h-20 object-contain mb-3" 
                                 />
                                 <h3 className="font-bold text-brand-black text-center leading-tight">{TEAMS[selectedMatch.awayTeamId].shortName}</h3>
