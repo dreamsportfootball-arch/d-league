@@ -272,7 +272,7 @@ const MatchCenter: React.FC = () => {
 
                             <div className="flex flex-col items-center w-1/3">
                                 <div className="text-4xl sm:text-6xl font-display font-black text-brand-black tracking-tight">
-                                    {selectedMatch.homeScore ?? '-'} : {selectedMatch.awayScore ?? '-'}
+                                    {selectedMatch.homeScore ?? '-'} - {selectedMatch.awayScore ?? '-'}
                                 </div>
                                 <div className="text-xs font-bold text-neutral-400 mt-2 uppercase tracking-wider">Full Time</div>
                             </div>
