@@ -26,6 +26,14 @@ const MOCK_ALBUMS = [
         cover: '/d-league/assets/media/1116.jpg',
         link: 'https://drive.google.com/drive/folders/1LlPJ3m_4VotEkJr30j01WhHL_TKTsxqS?usp=drive_link',
     },
+    {
+        id: 'album-r4',
+        title: '比賽日 4 (Match Day 4)',
+        date: '2025/12/07',
+        cover: '/d-league/assets/media/1207.jpg',
+        link: 'https://drive.google.com/drive/folders/185Xan_z1EdZanEelYuIiN1X06T7ZTSj9?usp=drive_link',
+    },
+
 ];
 
 // 🎨 日系元件：極簡相簿單元 (Zen Album)

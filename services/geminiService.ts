@@ -346,6 +346,64 @@ Dreamsport 的概念源於「夢想的港口」，期望在有限的條件下打
     imageUrl: '/d-league/assets/news/official_announcement.png', 
     timestamp: new Date('2025-12-07T10:00:00Z').toISOString() 
   },
+// ------------------------------------------------------------------
+  // 比賽日 4 (12/07) 相關戰報
+  // ------------------------------------------------------------------
+
+  // Match Report 14: 屏東野猿 vs PPI (發布日: 12/09)
+  {
+    id: 'match-report-m14-20251209',
+    title: 'L2 戰報：布丹梅開二度 PPI 3-0 擊敗屏東野猿',
+    summary: 'D LEAGUE L2 組第四輪，PPI TAINAN 憑藉布丹梅開二度及高世科的進球，以 3 比 0 擊敗屏東野猿，緊咬積分榜首。',
+    content: 'D LEAGUE L2 組第四輪賽事由屏東野猿足球俱樂部對陣 PPI TAINAN 上半場雙方互有攻守但互交白卷 下半場戰局出現變化\n\n下半場開賽僅 3 分鐘，高世科接應隊友傳球，展現個人技術晃過對手後射遠柱破網，為 PPI 先開紀錄。\n\n第 35 分鐘，屏東野猿後防解圍失誤，皮球落在拉拉腳下，他第一時間傳球助攻給前方的布丹射入，將比分拉開。比賽尾聲第 39 分鐘，PPI 由左路發動攻勢，優沙突破防線後精準傳中，布丹門前把握機會完成梅開二度。\n\nPPI TAINAN 最終以 3 比 0 獲勝，目前僅落後榜首瘋Dog 1 分，雙方將在接下來的賽程展開激烈的榜首爭奪戰。',
+    category: 'Match Report',
+    imageUrl: '/d-league/assets/news/match-r4-m14.png', 
+    timestamp: new Date('2025-12-09T10:00:00Z').toISOString() 
+  },
+
+  // Match Report 15: 瘋Dog vs 鹿逐 (發布日: 12/09)
+  {
+    id: 'match-report-m15-20251209',
+    title: 'L2 戰報：瘋Dog 6-1 大勝鹿逐 張博宇梅開二度',
+    summary: 'D LEAGUE L2 組第四輪，瘋Dog展現強大火力，以 6 比 1 大勝鹿逐俱樂部，張博宇梅開二度，球隊續霸榜首。',
+    content: 'D LEAGUE L2 組第四輪瘋Dog對陣鹿逐俱樂部 瘋Dog靠著流暢配合與強大火力大勝對手 繼續穩居積分榜首位\n\n開賽第 3 分鐘，瘋Dog在中場攔截後快速反擊，透過流暢傳導由張博宇揭開大勝序幕。隨後陳建宏、王亦瑋與戴威閎接連進球，上半場便建立 4 比 0 優勢。\n\n下半場第 22 分鐘，趙學邦禁區前挑球過人後射門得分。第 32 分鐘，鹿逐門將失誤，張博宇把握機會完成梅開二度。\n\n儘管大比分落後，鹿逐俱樂部仍展現鬥志，第 33 分鐘陳麒竣胸口停球後凌空抽射直掛死角，踢進全場最佳金球 (Goal of the Match)。最終瘋Dog以 6 比 1 勝出，目前以 10 分積分保持不敗。',
+    category: 'Match Report',
+    imageUrl: '/d-league/assets/news/match-r4-m15.png', 
+    timestamp: new Date('2025-12-09T14:00:00Z').toISOString() 
+  },
+
+  // Match Report 16: 陳公舘 vs 酒號矯正署 (發布日: 12/10)
+  {
+    id: 'match-report-m16-20251210',
+    title: 'L1 戰報：三分鐘連進三球 酒號 3-1 擊敗陳公舘獨佔榜首',
+    summary: 'D LEAGUE L1 組榜首之爭，酒號矯正署在三分鐘內連進三球，最終以 3 比 1 擊敗陳公舘，以全勝戰績獨佔鰲頭。',
+    content: '本輪 L1 組焦點對決由聯賽前兩名陳公舘與酒號矯正署正面交鋒 雙方上半場前段互有攻守 直至第 15 分鐘僵局才被打破\n\n酒號矯正署展開關鍵攻勢，鄭詠翰補射得手先開紀錄。僅兩分鐘後，施聖章把握補射機會再下一城。第 18 分鐘，鄭詠翰禁區外遠射破網完成梅開二度，酒號在三分鐘內迅速建立 3 比 0 優勢。\n\n下半場陳公舘持續反擊，第 37 分鐘李家勳以一記精妙吊射追回一分。\n\n最終酒號矯正署以 3 比 1 贏下這場強強對話，目前以全勝戰績暫居 L1 積分榜首位。',
+    category: 'Match Report',
+    imageUrl: '/d-league/assets/news/match-r4-m16.png', 
+    timestamp: new Date('2025-12-10T10:00:00Z').toISOString() 
+  },
+
+  // Match Report 17: 嘉義諸羅山 vs 銅雀 (發布日: 12/10)
+  {
+    id: 'match-report-m17-20251210',
+    title: 'L1 戰報：嘉義諸羅山FC 2-0 擊敗銅雀 奪賽季首勝',
+    summary: 'D LEAGUE L1 組第三輪，嘉義諸羅山FC 憑藉開局的兩顆進球，以 2 比 0 擊敗銅雀足球俱樂部，順利拿下賽季首勝。',
+    content: 'D LEAGUE L1 組賽事由嘉義諸羅山FC對陣銅雀足球俱樂部 嘉義諸羅山迅速進入狀態 並憑藉穩健節奏奪下勝利\n\n開賽第 4 分鐘，陳官澤接應長傳，展現細膩停球技巧後起腳破門，為球隊首開紀錄。第 7 分鐘，黃偉倫在前場成功攔截後自行突破得分，將比分擴大。\n\n取得領先後，嘉義諸羅山有效控制戰局，銅雀足球俱樂部雖試圖反擊但無法突破防線。\n\n最終嘉義諸羅山FC以 2 比 0 擊敗對手，拿下本賽季第一場勝利。',
+    category: 'Match Report',
+    imageUrl: '/d-league/assets/news/match-r4-m17.png', 
+    timestamp: new Date('2025-12-10T11:00:00Z').toISOString() 
+  },
+
+  // Match Report 18: 鳥仕 vs 蒼龍 (發布日: 12/10)
+  {
+    id: 'match-report-m18-20251210',
+    title: 'L2 戰報：激戰成和 鳥仕與蒼龍 0-0 握手言和',
+    summary: 'D LEAGUE L2 組第四輪，鳥仕足球俱樂部與蒼龍FC 展開激烈拼搶，但雙方皆欠缺臨門一腳，最終以 0 比 0 互交白卷。',
+    content: 'D LEAGUE L2 組第四輪由鳥仕足球俱樂部對陣蒼龍FC 本場比賽雙方展現極高鬥志 戰況膠著且身體對抗頻繁\n\n兩隊從開賽便在中場展開激烈拼搶，雖頻頻嘗試組織攻勢，但在彼此嚴密的防守下，進攻端多次受限。由於雙方皆欠缺臨門一腳的關鍵處理，始終未能創造出具威脅性的破門機會，形成有攻勢卻無進球的局面。\n\n最終雙方在激戰 40 分鐘後皆無法攻破大門，以 0 比 0 互交白卷，各取一分。',
+    category: 'Match Report',
+    imageUrl: '/d-league/assets/news/match-r4-m18.png', 
+    timestamp: new Date('2025-12-10T12:00:00Z').toISOString() 
+  },
 ];
 
 export const fetchLeagueNews = async (): Promise<NewsArticle[]> => {
