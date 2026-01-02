@@ -30,8 +30,9 @@ const CupPage: React.FC = () => {
             <span className="text-yellow-400">新春賀歲盃</span>
           </h1>
           
+          {/* 👇 修改這裡：加入 <br className="md:hidden" /> 讓手機版換行，電腦版不換行 */}
           <p className="text-red-100 font-medium text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
-            燃燒熱情，喜迎新春！一年一度的足球盛宴
+            燃燒熱情，喜迎新春！<br className="md:hidden" />一年一度的足球盛宴。
           </p>
         </div>
       </div>
@@ -90,11 +91,6 @@ const CupPage: React.FC = () => {
                     <div className="relative z-10 px-1 md:px-2 text-center w-full">
                         <div className="hidden md:block w-6 h-1 bg-yellow-400 mx-auto mb-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
                         
-                        {/* 修改重點：
-                           1. whitespace-nowrap: 強制不換行
-                           2. tracking-tighter: 手機版字距變緊
-                           3. text-[9px]: 手機版字體縮小一點點
-                        */}
                         <h3 className="text-white font-bold text-[9px] md:text-lg tracking-tighter md:tracking-wider drop-shadow-md whitespace-nowrap leading-tight">
                             {team.name}
                         </h3>
