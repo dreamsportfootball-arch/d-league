@@ -1,4 +1,4 @@
-// 檔案路徑：d-league-_-台南夢達七人足球聯賽 (4)/types.ts
+// 檔案路徑：d-league web/types.ts
 
 export interface Team {
   id: string;
@@ -24,8 +24,9 @@ export interface Match {
   status: MatchStatus;
   timestamp: string;
   venue: string;
-  league: 'L1' | 'L2';
-  round: number;
+  // 👇 修改這裡：增加了 'CUP'
+  league: 'L1' | 'L2' | 'CUP'; 
+  round: number | string; // 👇 修改這裡：允許 round 是文字 (例如 "決賽")
 }
 
 export interface Standing {
@@ -44,8 +45,8 @@ export interface Standing {
 export interface NewsArticle {
   id: string;
   title: string;
-  summary: string;   // 列表用的短摘要
-  content: string;   // 👇 內頁用的完整文章 (含排版)
+  summary: string;
+  content: string;
   category: 'Official' | 'Match Report';
   imageUrl: string;
   timestamp: string;
