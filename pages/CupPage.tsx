@@ -31,7 +31,7 @@ const CupPage: React.FC = () => {
           </h1>
           
           <p className="text-red-100 font-medium text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
-            燃燒熱情，喜迎新春！一年一度的七人制足球盛宴。
+            燃燒熱情，喜迎新春！一年一度的足球盛宴。
           </p>
         </div>
       </div>
