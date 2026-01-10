@@ -30,7 +30,7 @@ const CupPage: React.FC = () => {
             <span className="text-yellow-400">新春賀歲盃</span>
           </h1>
           
-          {/* 👇 修改這裡：加入 <br className="md:hidden" /> 讓手機版換行，電腦版不換行 */}
+          {/* 加入 <br className="md:hidden" /> 讓手機版換行，電腦版不換行 */}
           <p className="text-red-100 font-medium text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
             燃燒熱情，喜迎新春！<br className="md:hidden" />一年一度的足球盛宴。
           </p>
@@ -53,12 +53,12 @@ const CupPage: React.FC = () => {
             <div className="flex flex-col items-center py-4 md:py-0">
                 <Trophy className="w-8 h-8 text-red-700 mb-3" />
                 <span className="text-neutral-400 text-xs font-bold uppercase tracking-widest mb-1">Format</span>
-                <span className="text-brand-black font-bold text-lg">小組賽 + 盃/盤排名賽</span>
+                <span className="text-brand-black font-bold text-lg">小組賽 + 盃/盤賽</span>
             </div>
         </div>
       </div>
 
-      {/* 3. 參賽隊伍列表 (手機版 4個一排) */}
+      {/* 3. 參賽隊伍列表 */}
       <div className="container mx-auto px-2 md:px-4 max-w-6xl mb-24">
         <div className="text-center mb-10">
            <h2 className="text-2xl font-display font-bold text-brand-black mb-2 flex items-center justify-center">
@@ -144,9 +144,21 @@ const CupPage: React.FC = () => {
                                         {match.round}
                                     </span>
                                  </div>
-                                 <span className="text-xs font-medium text-neutral-500">
-                                    {timeString}
-                                 </span>
+                                 
+                                 {/* 👇 修改這裡：加入場地顯示，並放在時間左邊 */}
+                                 <div className="flex items-center space-x-3">
+                                    <span className={`text-[10px] md:text-xs font-bold px-2 py-0.5 rounded border ${
+                                        match.venue === 'A' 
+                                          ? 'bg-blue-50 text-blue-600 border-blue-100' 
+                                          : 'bg-green-50 text-green-600 border-green-100'
+                                    }`}>
+                                        場地 {match.venue}
+                                    </span>
+                                    <span className="text-xs font-medium text-neutral-500 flex items-center">
+                                        <Clock className="w-3 h-3 mr-1" />
+                                        {timeString}
+                                    </span>
+                                 </div>
                             </div>
 
                             <div className="p-4 md:p-6 flex items-center justify-between relative">
