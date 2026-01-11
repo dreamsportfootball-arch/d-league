@@ -1,3 +1,5 @@
+// 檔案路徑：d-league web/matchData.ts
+
 import { Match, MatchStatus, Video, MatchEvent } from './types';
 
 const VENUE = '台南仁德文賢國中人工草';
@@ -39,12 +41,12 @@ export const MATCHES: Match[] = [
   { id: 'm17', round: 3, homeTeamId: 't_chiayi', awayTeamId: 't_tongque', homeScore: 2, awayScore: 0, status: MatchStatus.FINISHED, timestamp: createDate('2025/12/07', '14:00'), venue: VENUE, league: 'L1' },
   { id: 'm18', round: 4, homeTeamId: 't_niaoshi', awayTeamId: 't_canglong', homeScore: 0, awayScore: 0, status: MatchStatus.FINISHED, timestamp: createDate('2025/12/07', '15:00'), venue: VENUE, league: 'L2' },
 
-  // Round 5 - 2026/01/11
-  { id: 'm19', round: 4, homeTeamId: 't_jiuhao', awayTeamId: 't_chiayi', homeScore: null, awayScore: null, status: MatchStatus.SCHEDULED, timestamp: createDate('2026/01/11', '10:00'), venue: VENUE, league: 'L1' },
-  { id: 'm20', round: 4, homeTeamId: 't_chen', awayTeamId: 't_tongque', homeScore: null, awayScore: null, status: MatchStatus.SCHEDULED, timestamp: createDate('2026/01/11', '11:00'), venue: VENUE, league: 'L1' },
-  { id: 'm21', round: 5, homeTeamId: 't_crazydog', awayTeamId: 't_ppi', homeScore: null, awayScore: null, status: MatchStatus.SCHEDULED, timestamp: createDate('2026/01/11', '13:00'), venue: VENUE, league: 'L2' },
-  { id: 'm22', round: 5, homeTeamId: 't_pingtung', awayTeamId: 't_niaoshi', homeScore: null, awayScore: null, status: MatchStatus.SCHEDULED, timestamp: createDate('2026/01/11', '14:00'), venue: VENUE, league: 'L2' },
-  { id: 'm23', round: 5, homeTeamId: 't_luzhu', awayTeamId: 't_canglong', homeScore: null, awayScore: null, status: MatchStatus.SCHEDULED, timestamp: createDate('2026/01/11', '15:00'), venue: VENUE, league: 'L2' },
+  // Round 5 - 2026/01/11 (COMPLETED)
+  { id: 'm19', round: 4, homeTeamId: 't_jiuhao', awayTeamId: 't_chiayi', homeScore: 2, awayScore: 2, status: MatchStatus.FINISHED, timestamp: createDate('2026/01/11', '10:00'), venue: VENUE, league: 'L1' },
+  { id: 'm20', round: 4, homeTeamId: 't_chen', awayTeamId: 't_tongque', homeScore: 5, awayScore: 1, status: MatchStatus.FINISHED, timestamp: createDate('2026/01/11', '11:00'), venue: VENUE, league: 'L1' },
+  { id: 'm21', round: 5, homeTeamId: 't_crazydog', awayTeamId: 't_ppi', homeScore: 0, awayScore: 0, status: MatchStatus.FINISHED, timestamp: createDate('2026/01/11', '13:00'), venue: VENUE, league: 'L2' },
+  { id: 'm22', round: 5, homeTeamId: 't_pingtung', awayTeamId: 't_niaoshi', homeScore: 5, awayScore: 0, status: MatchStatus.FINISHED, timestamp: createDate('2026/01/11', '14:00'), venue: VENUE, league: 'L2' },
+  { id: 'm23', round: 5, homeTeamId: 't_luzhu', awayTeamId: 't_canglong', homeScore: 0, awayScore: 7, status: MatchStatus.FINISHED, timestamp: createDate('2026/01/11', '15:00'), venue: VENUE, league: 'L2' },
 
   // Round 6 - 2026/02/08 (Post Transfer Window)
   { id: 'm24', round: 6, homeTeamId: 't_niaoshi', awayTeamId: 't_ppi', homeScore: null, awayScore: null, status: MatchStatus.SCHEDULED, timestamp: createDate('2026/02/08', '10:00'), venue: VENUE, league: 'L2' },
@@ -242,5 +244,44 @@ export const MATCH_EVENTS: Record<string, MatchEvent[]> = {
     // M18: 鳥仕足球俱樂部 (0) vs 蒼龍FC (0)
     'm18': [
         { id: 'm18-1', minute: 37, player: '葉晉嘉', type: 'YELLOW_CARD', team: 'AWAY' },
+    ],
+    // M19: 酒號矯正署 (2) vs 嘉義諸羅山FC (2)
+    'm19': [
+        { id: 'm19-1', minute: 8, player: '林柏辰', type: 'GOAL', team: 'AWAY' },
+        { id: 'm19-2', minute: 12, player: '鄭州偉', type: 'GOAL', team: 'AWAY' },
+        { id: 'm19-3', minute: 15, player: '唐毓翔', type: 'YELLOW_CARD', team: 'AWAY' },
+        { id: 'm19-4', minute: 25, player: '謝孟軒', type: 'GOAL', team: 'HOME' },
+        { id: 'm19-5', minute: 28, player: '王建翔', type: 'YELLOW_CARD', team: 'AWAY' },
+        { id: 'm19-6', minute: 33, player: '林冠亨', type: 'GOAL', team: 'HOME' },
+    ],
+    // M20: 陳公舘 (5) vs 銅雀足球俱樂部 (1)
+    'm20': [
+        { id: 'm20-1', minute: 4, player: '林家銘', type: 'GOAL', team: 'HOME' },
+        { id: 'm20-2', minute: 16, player: '巫嘉德 (烏龍球)', type: 'GOAL', team: 'HOME' },
+        { id: 'm20-3', minute: 27, player: '林宴丞', type: 'GOAL', team: 'AWAY' },
+        { id: 'm20-4', minute: 29, player: '洪品宇', type: 'GOAL', team: 'HOME' },
+        { id: 'm20-5', minute: 35, player: '洪品宇', type: 'GOAL', team: 'HOME' },
+        { id: 'm20-6', minute: 36, player: '倪天銘', type: 'GOAL', team: 'HOME' },
+    ],
+    // M21: 瘋Dog (0) vs PPI TAINAN (0)
+    'm21': [],
+    // M22: 屏東野猿 (5) vs 鳥仕足球俱樂部 (0)
+    'm22': [
+        { id: 'm22-1', minute: 10, player: '李偲瑋', type: 'GOAL', team: 'HOME' },
+        { id: 'm22-2', minute: 27, player: '林韋堯', type: 'GOAL', team: 'HOME' },
+        { id: 'm22-3', minute: 31, player: '連哲緯', type: 'GOAL', team: 'HOME' },
+        { id: 'm22-4', minute: 36, player: '李偲瑋', type: 'GOAL', team: 'HOME' },
+        { id: 'm22-5', minute: 36, player: '邱文良', type: 'GOAL', team: 'HOME' },
+        { id: 'm22-6', minute: 40, player: '謝俊杰', type: 'RED_CARD', team: 'AWAY' },
+    ],
+    // M23: 鹿逐俱樂部 (0) vs 蒼龍FC (7)
+    'm23': [
+        { id: 'm23-1', minute: 15, player: '潘晨維', type: 'GOAL', team: 'AWAY' },
+        { id: 'm23-2', minute: 19, player: '林湧鈞', type: 'GOAL', team: 'AWAY' },
+        { id: 'm23-3', minute: 25, player: '潘晨維', type: 'GOAL', team: 'AWAY' },
+        { id: 'm23-4', minute: 27, player: '林聖恩', type: 'GOAL', team: 'AWAY' },
+        { id: 'm23-5', minute: 28, player: '潘晨維', type: 'GOAL', team: 'AWAY' },
+        { id: 'm23-6', minute: 29, player: '潘晨維', type: 'GOAL', team: 'AWAY' },
+        { id: 'm23-7', minute: 32, player: '林湧鈞', type: 'GOAL', team: 'AWAY' },
     ],
 };
