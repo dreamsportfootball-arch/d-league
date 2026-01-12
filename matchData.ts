@@ -257,7 +257,7 @@ export const MATCH_EVENTS: Record<string, MatchEvent[]> = {
     // M20: 陳公舘 (5) vs 銅雀足球俱樂部 (1)
     'm20': [
         { id: 'm20-1', minute: 4, player: '林家銘', type: 'GOAL', team: 'HOME' },
-        { id: 'm20-2', minute: 16, player: '巫嘉德 (烏龍球)', type: 'GOAL', team: 'HOME' },
+        { id: 'm20-2', minute: 8, player: '巫嘉德 (烏龍球)', type: 'GOAL', team: 'HOME' },
         { id: 'm20-3', minute: 27, player: '林宴丞', type: 'GOAL', team: 'AWAY' },
         { id: 'm20-4', minute: 29, player: '洪品宇', type: 'GOAL', team: 'HOME' },
         { id: 'm20-5', minute: 35, player: '洪品宇', type: 'GOAL', team: 'HOME' },
