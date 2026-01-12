@@ -270,10 +270,10 @@ export const MATCH_EVENTS: Record<string, MatchEvent[]> = {
     'm22': [
         { id: 'm22-1', minute: 10, player: '李偲瑋', type: 'GOAL', team: 'HOME' },
         { id: 'm22-2', minute: 27, player: '林韋堯', type: 'GOAL', team: 'HOME' },
-        { id: 'm22-3', minute: 31, player: '連哲緯', type: 'GOAL', team: 'HOME' },
-        { id: 'm22-4', minute: 36, player: '李偲瑋', type: 'GOAL', team: 'HOME' },
-        { id: 'm22-5', minute: 36, player: '邱文良', type: 'GOAL', team: 'HOME' },
-        { id: 'm22-6', minute: 40, player: '謝俊杰', type: 'RED_CARD', team: 'AWAY' },
+        { id: 'm22-3', minute: 26, player: '謝俊杰', type: 'RED_CARD', team: 'AWAY' },
+        { id: 'm22-4', minute: 31, player: '連哲緯', type: 'GOAL', team: 'HOME' },
+        { id: 'm22-5', minute: 36, player: '李偲瑋', type: 'GOAL', team: 'HOME' },
+        { id: 'm22-6', minute: 36, player: '邱文良', type: 'GOAL', team: 'HOME' },
     ],
     // M23: 鹿逐俱樂部 (0) vs 蒼龍FC (7)
     'm23': [
