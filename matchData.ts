@@ -260,8 +260,9 @@ export const MATCH_EVENTS: Record<string, MatchEvent[]> = {
         { id: 'm20-2', minute: 8, player: '巫嘉德 (烏龍球)', type: 'GOAL', team: 'HOME' },
         { id: 'm20-3', minute: 27, player: '林宴丞', type: 'GOAL', team: 'AWAY' },
         { id: 'm20-4', minute: 29, player: '洪品宇', type: 'GOAL', team: 'HOME' },
-        { id: 'm20-5', minute: 35, player: '洪品宇', type: 'GOAL', team: 'HOME' },
-        { id: 'm20-6', minute: 36, player: '倪天銘', type: 'GOAL', team: 'HOME' },
+        { id: 'm20-5', minute: 36, player: '倪天銘', type: 'GOAL', team: 'HOME' },
+        { id: 'm20-6', minute: 37, player: '洪品宇', type: 'GOAL', team: 'HOME' },
+
     ],
     // M21: 瘋Dog (0) vs PPI TAINAN (0)
     'm21': [],
