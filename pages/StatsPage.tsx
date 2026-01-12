@@ -1,3 +1,5 @@
+// 檔案路徑：d-league web/pages/StatsPage.tsx
+
 import React, { useState, useMemo } from 'react';
 import { MATCH_EVENTS, MATCHES, TEAMS, PLAYER_IMAGES } from '../constants';
 import { Trophy, User } from 'lucide-react';
@@ -59,40 +61,42 @@ const ProStatRow: React.FC<{
             {/* 2. 球員資訊區 */}
             <div className="flex-1 flex items-center min-w-0">
                 
-                {/* 頭像容器 (Relative) */}
-                <div className="relative shrink-0">
-                    {/* 頭像 */}
-                    <div className={`
-                        relative overflow-hidden rounded-full bg-neutral-100 border border-neutral-100
-                        ${isHero ? 'w-20 h-20 md:w-24 md:h-24 shadow-xl' : 'w-10 h-10 md:w-11 md:h-11'}
-                    `}>
-                        {playerImage ? (
-                            <img src={playerImage} className="w-full h-full object-cover object-top" alt={player.name} />
-                        ) : (
-                            <User className="w-full h-full p-2 text-neutral-300" />
+                {/* 頭像容器 (Relative) - 👇 修改這裡：只有在射手榜 (SCORERS) 才顯示大頭貼 */}
+                {activeTab === 'SCORERS' && (
+                    <div className="relative shrink-0">
+                        {/* 頭像 */}
+                        <div className={`
+                            relative overflow-hidden rounded-full bg-neutral-100 border border-neutral-100
+                            ${isHero ? 'w-20 h-20 md:w-24 md:h-24 shadow-xl' : 'w-10 h-10 md:w-11 md:h-11'}
+                        `}>
+                            {playerImage ? (
+                                <img src={playerImage} className="w-full h-full object-cover object-top" alt={player.name} />
+                            ) : (
+                                <User className="w-full h-full p-2 text-neutral-300" />
+                            )}
+                        </div>
+
+                        {/* 懸浮隊徽 (Logo) */}
+                        {team?.logo && (
+                            <img 
+                                src={team.logo} 
+                                alt={team.shortName} 
+                                className={`
+                                    absolute rounded-full object-contain z-10 
+                                    ${isHero 
+                                        ? '-bottom-1 -right-1 w-8 h-8 p-0.5'  // Hero: 隊徽較大
+                                        : '-bottom-1 -right-1 w-4 h-4 p-[1px]' // 普通: 隊徽標準
+                                    }
+                                `}
+                            />
                         )}
                     </div>
-
-                    {/* 懸浮隊徽 (Logo) - 去背、無邊框、無陰影 */}
-                    {team?.logo && (
-                        <img 
-                            src={team.logo} 
-                            alt={team.shortName} 
-                            className={`
-                                absolute rounded-full object-contain z-10 
-                                ${isHero 
-                                    ? '-bottom-1 -right-1 w-8 h-8 p-0.5'  // Hero: 隊徽較大
-                                    : '-bottom-1 -right-1 w-4 h-4 p-[1px]' // 普通: 隊徽標準
-                                }
-                            `}
-                        />
-                    )}
-                </div>
+                )}
                 
-                {/* 文字詳情 */}
-                <div className={`flex flex-col justify-center min-w-0 ${isHero ? 'ml-6 md:ml-8' : 'ml-4'}`}>
+                {/* 文字詳情 - 👇 修改這裡：如果是紅黃牌榜(沒有照片)，移除左邊距(ml-4)讓文字靠左 */}
+                <div className={`flex flex-col justify-center min-w-0 ${isHero ? 'ml-6 md:ml-8' : (activeTab === 'SCORERS' ? 'ml-4' : '')}`}>
                     
-                    {/* 球員姓名 - Hero: 藍色 + 換行 */}
+                    {/* 球員姓名 */}
                     <span className={`
                         font-bold tracking-tight leading-tight block
                         ${isHero 
@@ -166,27 +170,25 @@ const ProStatRow: React.FC<{
 
 const StatsPage: React.FC = () => {
     
-    // ✅ 修正 1: 使用 useState 的函數式更新，在初始化時同步讀取 Session Storage
+    // ✅ 使用 useState 的函數式更新，在初始化時同步讀取 Session Storage
     const [activeLeague, setActiveLeague] = useState<'L1' | 'L2'>(() => {
         try {
             const saved = window.sessionStorage.getItem('statsActiveLeague');
-            // 只有當儲存的值是有效的聯賽名稱時才使用
             if (saved === 'L1' || saved === 'L2') {
                 return saved;
             }
         } catch (e) {
-            // 如果無法訪問 sessionStorage，則保持預設值 'L1'
+            // ignore
         }
-        return 'L1'; // 預設值
+        return 'L1'; 
     });
 
     const [activeTab, setActiveTab] = useState<'SCORERS' | 'CARDS'>('SCORERS');
 
-    // ✅ 修正 2: 處理聯賽切換並保存狀態 (與上次相同)
+    // ✅ 處理聯賽切換並保存狀態
     const handleLeagueChange = (league: 'L1' | 'L2') => {
         setActiveLeague(league);
         try {
-            // 每次切換時將新狀態保存到 sessionStorage
             window.sessionStorage.setItem('statsActiveLeague', league);
         } catch (e) {
             // ignore
@@ -244,7 +246,6 @@ const StatsPage: React.FC = () => {
                 return (
                     <button
                         key={tab}
-                        // ✅ 使用新的處理函式
                         onClick={() => handleLeagueChange(tab)}
                         className={`px-1 pb-1 transition-all whitespace-nowrap border-b-2 
                             ${activeLeague === tab
@@ -264,7 +265,7 @@ const StatsPage: React.FC = () => {
         <div className="pt-6 md:pt-24 min-h-[85vh] bg-white pb-24">
             <div className="container mx-auto px-4 md:px-12 max-w-7xl">
                 
-                {/* === Header (保持原樣) === */}
+                {/* === Header === */}
                 <div className="flex flex-col md:flex-row md:items-end justify-between mb-4 md:mb-12">
                     <div>
                         <h1 className="font-display font-black md:font-extrabold text-4xl md:text-6xl uppercase text-brand-black mb-2 md:mb-4 tracking-tight [-webkit-text-stroke:.25px_currentColor] md:[-webkit-text-stroke:0px]">
@@ -276,7 +277,7 @@ const StatsPage: React.FC = () => {
                     </div>
                 </div>
 
-                {/* === 聯賽選擇 (使用修正後的 filterContent) === */}
+                {/* === 聯賽選擇 === */}
                 <div className="flex justify-between items-center mb-10 pb-4 border-b border-neutral-100">
                     <h3 className="font-bold text-base text-neutral-900 font-display uppercase tracking-wider flex items-center">
                         <Trophy className="w-5 h-5 mr-2 text-brand-blue" />
@@ -285,7 +286,7 @@ const StatsPage: React.FC = () => {
                     {leagueFilterContent}
                 </div>
 
-                {/* === 數據類型 Tabs (保持原樣) === */}
+                {/* === 數據類型 Tabs === */}
                 <div className="flex space-x-10 mb-6 px-2">
                     <button
                         onClick={() => setActiveTab('SCORERS')}
@@ -308,9 +309,6 @@ const StatsPage: React.FC = () => {
 
                 {/* === 列表內容區 === */}
                 <div className="w-full">
-                    {/* 表頭已移除 */}
-
-                    {/* 列表本身 */}
                     <div className="flex flex-col">
                         {sortedList.length > 0 ? (
                             sortedList.map((player, index) => (
