@@ -1,28 +1,51 @@
-import React from 'react';
-// 🎯 引入中央資料庫的 MATCH_EVENTS
-import { MATCH_EVENTS, MatchEvent, EventType } from '../constants'; 
+// 檔案路徑：d-league web/components/MatchEvents.tsx
 
+import React from 'react';
+// 🎯 引入資料庫
+import { MATCH_EVENTS, MatchEvent, EventType } from '../matchData'; 
+
+// 圖示來源 (只保留 GOAL 用圖片，紅黃牌改用 CSS 畫)
 const ICON_URLS = {
     GOAL: 'https://www.gstatic.com/onebox/sports/game_feed/goal_icon.svg', 
-    YELLOW_CARD: 'https://ssl.gstatic.com/onebox/sports/soccer_timeline/yellow-card-right.svg',
-    RED_CARD: 'https://ssl.gstatic.com/onebox/sports/soccer_timeline/red-card-right.svg',
 };
 
+// 🎨 取得對應圖示的函式
 const getEventIcon = (type: EventType) => {
     switch (type) {
         case 'GOAL':
             return <img src={ICON_URLS.GOAL} alt="Goal" className="w-4 h-4" />;
+            
         case 'YELLOW_CARD':
-            return <img src={ICON_URLS.YELLOW_CARD} alt="Yellow Card" className="w-4 h-4" />;
+            // 🟨 純 CSS 黃牌 (固定尺寸 w-2.5 h-3.5)
+            return (
+                <div className="w-2.5 h-3.5 bg-yellow-400 rounded-[1px] shadow-sm border border-black/10" title="Yellow Card"></div>
+            );
+            
         case 'RED_CARD':
-            return <img src={ICON_URLS.RED_CARD} alt="Red Card" className="w-4 h-4" />;
+            // 🟥 純 CSS 紅牌 (固定尺寸 w-2.5 h-3.5)
+            return (
+                <div className="w-2.5 h-3.5 bg-red-600 rounded-[1px] shadow-sm border border-black/10" title="Red Card"></div>
+            );
+        
+        // 🟨🟥 兩黃變一紅 (緊湊疊加版 - 視覺大小接近單張牌)
+        case 'SECOND_YELLOW':
+            return (
+                // 容器寬度縮小到 w-3，高度維持 h-3.5，讓整體不佔太多空間
+                <div className="relative w-3 h-3.5 flex items-center justify-center">
+                    {/* 黃牌在後 (左上) */}
+                    <div className="absolute left-0 top-0 w-2.5 h-3.5 bg-yellow-400 rounded-[1px] shadow-sm border border-black/10 transform -rotate-6"></div>
+                    
+                    {/* 紅牌在前 (右下，稍微錯開 2px) */}
+                    <div className="absolute left-[2px] top-[1px] w-2.5 h-3.5 bg-red-600 rounded-[1px] shadow-sm border border-black/10 transform rotate-3 z-10"></div>
+                </div>
+            );
+            
         default:
             return null;
     }
 };
 
 const MatchEvents: React.FC<{ matchId: string }> = ({ matchId }) => {
-    // 🎯 改為從中央資料庫讀取
     const events = MATCH_EVENTS[matchId] || [];
 
     if (events.length === 0) {

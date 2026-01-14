@@ -87,7 +87,6 @@ export const MATCHES: Match[] = [
 // ==========================================
 //   首頁影片資料 (MOCK_VIDEOS)
 // ==========================================
-// ✅ 更新：已將圖片副檔名修正為 .png
 export const MOCK_VIDEOS: Video[] = [
   { 
     id: 'v1', 
@@ -112,7 +111,8 @@ export const MOCK_VIDEOS: Video[] = [
   },
 ];
 
-export type EventType = 'GOAL' | 'YELLOW_CARD' | 'RED_CARD';
+// ✅ 新增：SECOND_YELLOW
+export type EventType = 'GOAL' | 'YELLOW_CARD' | 'RED_CARD' | 'SECOND_YELLOW';
 
 export interface MatchEvent {
     id: string;
@@ -133,14 +133,16 @@ export const MATCH_EVENTS: Record<string, MatchEvent[]> = {
         { id: 'm1-3', minute: 32, player: '吳明遠', type: 'GOAL', team: 'AWAY' },
     ],
     // M2: 瘋Dog (5) vs 蒼龍FC (0)
+    // ✅ 更新：潘晨維 兩黃變一紅 (SECOND_YELLOW)
     'm2': [
         { id: 'm2-1', minute: 3, player: '吳亦民', type: 'GOAL', team: 'HOME' },
-        { id: 'm2-2', minute: 5, player: '潘晨維', type: 'YELLOW_CARD', team: 'AWAY' },
-        { id: 'm2-3', minute: 5, player: '潘晨維', type: 'RED_CARD', team: 'AWAY' },
-        { id: 'm2-4', minute: 23, player: '張博宇', type: 'GOAL', team: 'HOME' },
-        { id: 'm2-5', minute: 24, player: '張博宇', type: 'GOAL', team: 'HOME' },
-        { id: 'm2-6', minute: 26, player: '張博宇', type: 'GOAL', team: 'HOME' },
-        { id: 'm2-7', minute: 28, player: '王亦瑋', type: 'GOAL', team: 'HOME' },
+        { id: 'm2-2', minute: 5, player: '潘晨維', type: 'YELLOW_CARD', team: 'AWAY' }, // 第一張黃牌
+        // (原本的中間那張黃牌已刪除，避免重複)
+        { id: 'm2-4', minute: 5, player: '潘晨維', type: 'SECOND_YELLOW', team: 'AWAY' }, // 兩黃換一紅 (圖示會疊在一起)
+        { id: 'm2-5', minute: 23, player: '張博宇', type: 'GOAL', team: 'HOME' },
+        { id: 'm2-6', minute: 24, player: '張博宇', type: 'GOAL', team: 'HOME' },
+        { id: 'm2-7', minute: 26, player: '張博宇', type: 'GOAL', team: 'HOME' },
+        { id: 'm2-8', minute: 28, player: '王亦瑋', type: 'GOAL', team: 'HOME' },
     ],
     // M3: 嘉義諸羅山FC (1) vs 酒號矯正署 (5)
     'm3': [

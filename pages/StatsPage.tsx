@@ -61,7 +61,7 @@ const ProStatRow: React.FC<{
             {/* 2. 球員資訊區 */}
             <div className="flex-1 flex items-center min-w-0">
                 
-                {/* 頭像容器 (Relative) - 👇 修改這裡：只有在射手榜 (SCORERS) 才顯示大頭貼 */}
+                {/* 頭像容器 (Relative) - 只有在射手榜 (SCORERS) 才顯示大頭貼 */}
                 {activeTab === 'SCORERS' && (
                     <div className="relative shrink-0">
                         {/* 頭像 */}
@@ -93,7 +93,7 @@ const ProStatRow: React.FC<{
                     </div>
                 )}
                 
-                {/* 文字詳情 - 👇 修改這裡：如果是紅黃牌榜(沒有照片)，移除左邊距(ml-4)讓文字靠左 */}
+                {/* 文字詳情 */}
                 <div className={`flex flex-col justify-center min-w-0 ${isHero ? 'ml-6 md:ml-8' : (activeTab === 'SCORERS' ? 'ml-4' : '')}`}>
                     
                     {/* 球員姓名 */}
@@ -139,9 +139,7 @@ const ProStatRow: React.FC<{
                          {/* 紅牌 */}
                          {(player.redCards > 0 || (isHero && player.yellowCards === 0)) && (
                             <div className="flex flex-col items-center">
-                                {/* 傾斜容器 (-skew-x-12) */}
                                 <div className="font-display font-black flex items-center justify-center shadow-sm w-6 h-8 text-sm bg-red-600 text-white rounded-sm transform -skew-x-12">
-                                    {/* 數字回正 (skew-x-12) */}
                                     <span className="transform skew-x-12">{player.redCards}</span>
                                 </div>
                             </div>
@@ -149,9 +147,7 @@ const ProStatRow: React.FC<{
                         {/* 黃牌 */}
                         {(player.yellowCards > 0 || (isHero && player.redCards === 0)) && (
                             <div className="flex flex-col items-center">
-                                {/* 傾斜容器 (-skew-x-12) */}
                                 <div className="font-display font-black flex items-center justify-center shadow-sm w-6 h-8 text-sm bg-yellow-400 text-black rounded-sm transform -skew-x-12">
-                                    {/* 數字回正 (skew-x-12) */}
                                     <span className="transform skew-x-12">{player.yellowCards}</span>
                                 </div>
                             </div>
@@ -207,14 +203,23 @@ const StatsPage: React.FC = () => {
                 if (!stats[playerKey]) {
                     stats[playerKey] = { name: event.player, teamId, goals: 0, yellowCards: 0, redCards: 0 };
                 }
+                
+                // --- 數據統計邏輯 ---
                 if (event.type === 'GOAL') {
-                    // 修正邏輯：排除名稱包含 '(烏龍球)' 的事件，不計入球員個人進球數
+                    // 排除烏龍球
                     if (!event.player.includes('(烏龍球)')) {
                         stats[playerKey].goals += 1;
                     }
                 }
                 if (event.type === 'YELLOW_CARD') stats[playerKey].yellowCards += 1;
                 if (event.type === 'RED_CARD') stats[playerKey].redCards += 1;
+                
+                // ✅ 新增：兩黃變一紅 (SECOND_YELLOW)
+                // 邏輯：這張牌算第 2 張黃牌，同時也算 1 張紅牌
+                if (event.type === 'SECOND_YELLOW') {
+                    stats[playerKey].yellowCards += 1; // 黃牌 +1
+                    stats[playerKey].redCards += 1;    // 紅牌 +1
+                }
             });
         });
         return Object.values(stats);
@@ -230,6 +235,7 @@ const StatsPage: React.FC = () => {
             return statsData
                 .filter((p) => p.yellowCards > 0 || p.redCards > 0)
                 .sort((a, b) => {
+                    // 紅黃牌榜排序：先比紅牌，再比黃牌
                     if (b.redCards !== a.redCards) return b.redCards - a.redCards;
                     return b.yellowCards - a.yellowCards;
                 });
