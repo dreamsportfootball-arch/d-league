@@ -1,4 +1,4 @@
-// 檔案路徑：d-league-_-台南夢達七人足球聯賽 (4)/services/geminiService.ts
+// 檔案路徑：d-league web/services/geminiService.ts
 
 import { NewsArticle } from "../types";
 
@@ -459,6 +459,29 @@ Dreamsport 的概念源於「夢想的港口」，期望在有限的條件下打
     imageUrl: '/d-league/assets/news/match-r5-m23.png',
     timestamp: new Date('2026-01-11T15:00:00Z').toISOString()
   },
+
+// 補發：2026 新春賀歲盃 報名啟動 (2025/12/25) - 官方潤飾版
+  {
+    id: 'cny-cup-2026',
+    title: '【賽事資訊】2026 台南夢達新春賀歲盃｜報名正式啟動',
+    summary: '值此聖誕佳節，D LEAGUE 團隊向大家致上誠摯祝福！同時宣布「2026 台南夢達新春賀歲盃」正式啟動，邀請熱愛足球的朋友們在農曆年前共襄盛舉。',
+    content: `D LEAGUE 團隊在此祝大家聖誕節快樂！Merry Christmas！🎄
+
+為迎接即將到來的農曆春節，我們特別規劃在年前舉辦一場安全、愉快的五人制交流賽事，誠摯邀請熱愛足球的球友們齊聚一堂，以球會友，開心過好年。
+
+【賽事資訊】
+📅 比賽日期：2026年2月1日（週日）
+📍 比賽地點：台南市立仁德文賢國中（人工草皮足球場）
+👥 參賽名額：限額 8 隊
+
+報名作業即刻啟動，相關表單連結已公告於官方社群平台（Instagram 限時動態精選）。
+
+名額有限，額滿即止，歡迎各路好手組隊報名參加⚽️`,
+    category: 'Official',
+    imageUrl: '/d-league/assets/news/2026-cny-cup.png', 
+    timestamp: new Date('2025-12-25T10:00:00Z').toISOString() 
+  },
+
 // Official: Transfer Window Open Instructions
   {
     id: 'official-transfer-window-open-20260114',
@@ -496,7 +519,67 @@ Dreamsport 的概念源於「夢想的港口」，期望在有限的條件下打
     category: 'Official',
     imageUrl: '/d-league/assets/news/transfer-window-open.png',
     timestamp: new Date('2026-01-14T10:00:00Z').toISOString()
-  },];
+  },
+// 補發：2026 新春賀歲盃 正取名單 (2026/01/01) - 官方潤飾版
+  {
+    id: 'cny-cup-list-2026',
+    title: '【官方公告】2026 台南夢達新春賀歲盃｜正取名單正式公佈',
+    summary: '感謝各界踴躍支持！2026 台南夢達新春賀歲盃正取名單正式出爐，本次共錄取 8 支隊伍，請正取隊伍留意 Email 通知並依時程完成確認。',
+    content: `感謝各隊踴躍報名「2026 台南夢達新春賀歲盃」。
+
+本次賽事共收到 20 支球隊報名，反應相當熱烈。惟受限於場地時段與賽程規劃，最終僅能開放 8 個參賽名額，對於未能入選的球隊，我們深感抱歉，也感謝您的支持與體諒。
+
+以下為本賽事【正取參賽球隊名單】：
+
+1. 歹命打工人
+2. 東高 FC
+3. 台南長青俱樂部
+4. TNSCF Eagles
+5. Landen United
+6. KAFC
+7. 新年快快樂樂
+8. 東港足球隊
+
+【後續作業說明】
+相關的賽事資訊與確認信件，今日已透過 Email 寄送至各正取隊伍聯絡信箱。
+
+敬請各隊領隊抽空確認信件內容，並務必於期限內完成參賽確認及資料回傳。⚠️ 若逾期未回覆，將視同放棄參賽資格，名額將依序由候補隊伍進行遞補。
+
+再次感謝大家對這場比賽的熱情支持。
+2月1日，我們球場見！`,
+    category: 'Official',
+    imageUrl: '/d-league/assets/news/cny-cup-list.png', 
+    timestamp: new Date('2026-01-01T10:00:00Z').toISOString() 
+  },
+
+// 賽程預告：第五比賽日 (2026/01/08)
+  {
+    id: 'matchday-preview-r5-20260108',
+    title: '【賽程預告】MatchDay 5｜01.11 賽事一覽⚽️',
+    summary: 'D LEAGUE 2025/26 賽季第五比賽日即將於 1 月 11 日登場！本週共有五場精彩對決，包括 L1 與 L2 組的關鍵戰役，歡迎大家到場觀賽。',
+    content: `MatchDay ⚽️
+【01.11 賽程預告】
+
+D LEAGUE 2025/26 賽季第五比賽日即將展開，本週日將進行五場例行賽事：
+
+10:00 酒號矯正署 vs 嘉義諸羅山FC
+11:00 陳公舘 vs 銅雀足球俱樂部
+13:00 瘋Dog vs PPI TAINAN
+14:00 屏東野猿足球俱樂部 vs 鳥仕足球俱樂部
+15:00 鹿逐俱樂部 vs 蒼龍FC
+
+-----------------------------
+D LEAGUE｜台南夢達七人足球聯賽 2025/26
+📅 比賽日 5｜2026.01.11（日）
+📍 地點：仁德文賢國中人工草皮
+
+歡迎各位球迷朋友蒞臨現場，為支持的球隊加油！`,
+    category: 'Official',
+    imageUrl: '/d-league/assets/news/matchday-r5.png',
+    timestamp: new Date('2026-01-08T10:00:00Z').toISOString()
+  },
+
+];
 
 export const fetchLeagueNews = async (): Promise<NewsArticle[]> => {
   const sortedNews = MOCK_NEWS.slice().sort((a, b) => 
