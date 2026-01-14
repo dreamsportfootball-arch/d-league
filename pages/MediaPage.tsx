@@ -37,7 +37,7 @@ const MOCK_ALBUMS = [
         id: 'album-r5',
         title: '比賽日 5 (Match Day 5)',
         date: '2026/01/11',
-        cover: '/d-league/assets/media/0111.jpg',
+        cover: '/d-league/assets/media/111.jpg',
         link: 'https://drive.google.com/drive/folders/1H-hLEKt2-I4D6I2GzeUvn3QWKGxVZ1fN?usp=drive_link',
     },
 
