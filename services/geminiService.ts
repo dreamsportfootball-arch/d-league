@@ -459,7 +459,44 @@ Dreamsport 的概念源於「夢想的港口」，期望在有限的條件下打
     imageUrl: '/d-league/assets/news/match-r5-m23.png',
     timestamp: new Date('2026-01-11T15:00:00Z').toISOString()
   },
-];
+// Official: Transfer Window Open Instructions
+  {
+    id: 'official-transfer-window-open-20260114',
+    title: '【官方公告】2025/26 賽季季中轉會窗正式啟動及作業流程說明',
+    summary: 'D LEAGUE 季中轉會窗已正式開啟。請各隊領隊至 LINE 群組下載「新增球員表格」與「轉會同意書」，並詳閱內文作業流程。',
+    content: `D LEAGUE 2025/26 賽季季中轉會窗已正式啟動，各隊即日起可進行球員名單調整。
+
+為確保轉會作業順利，請各隊領隊依據以下三種情況，配合相應的作業流程（所有相關檔案皆已公告於 LINE 群組）：
+
+1. 新增球員（自由球員註冊）
+適用對象：本賽季尚未登錄於 D LEAGUE 任何隊伍之球員。
+● 作業方式：請填寫主辦單位提供的【新增球員資料 Excel 表格】（請至 LINE 群組下載）。
+● 注意事項：無需簽署額外文件，資料填妥後回傳。
+
+
+2. 刪除球員（註銷登錄）
+適用對象：確定下半賽季不再隨隊出賽之球員。
+● 作業方式：請領隊直接透過 LINE 私訊告知主辦方欲刪除之球員姓名。
+● 注意事項：無需填寫任何表格或同意書，訊息確認即生效。
+
+
+3. 聯賽內轉會（隊伍間移動）
+適用對象：原本已登錄於 D LEAGUE 某隊，欲轉至另一隊之球員。
+● 作業方式：
+   (1) 需填寫【球員轉會三方同意書】（請至 LINE 群組下載），並由球員本人、原隊伍領隊、新隊伍領隊三方簽名確認。
+   (2) 請新球隊領隊另外透過 LINE 私訊，告知該轉會球員的新背號。
+
+
+📥 文件繳交方式
+完成之文件（Excel 檔或同意書掃描檔/照片）請透過 LINE 或 Email 傳送給主辦單位。我們在收到文件並確認無誤後，會回覆訊息確認，即算完成手續。
+
+若在作業過程中有任何疑問，歡迎隨時聯繫我們協助解決。
+
+感謝各隊配合！🙇‍♂️`,
+    category: 'Official',
+    imageUrl: '/d-league/assets/news/transfer-window-open.png',
+    timestamp: new Date('2026-01-14T10:00:00Z').toISOString()
+  },];
 
 export const fetchLeagueNews = async (): Promise<NewsArticle[]> => {
   const sortedNews = MOCK_NEWS.slice().sort((a, b) => 
