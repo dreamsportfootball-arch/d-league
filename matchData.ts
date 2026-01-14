@@ -84,27 +84,31 @@ export const MATCHES: Match[] = [
   { id: 'm48', round: 9, homeTeamId: 't_chen', awayTeamId: 't_jiuhao', homeScore: null, awayScore: null, status: MatchStatus.SCHEDULED, timestamp: createDate('2026/04/26', '15:00'), venue: VENUE, league: 'L1' }
 ];
 
+// ==========================================
+//   首頁影片資料 (MOCK_VIDEOS)
+// ==========================================
+// ✅ 更新：已將圖片副檔名修正為 .png
 export const MOCK_VIDEOS: Video[] = [
   { 
     id: 'v1', 
-    title: '11.16⚽️進球合輯', 
-    duration: '1:23', 
-    thumbnail: 'https://cdn.store-assets.com/s/783745/f/16298287.png', 
-    date: '2025.10.21'
+    title: '一氣呵成 💥', 
+    duration: 'Reels', // 佔位符
+    thumbnail: '/d-league/assets/reels/reels_01.png', 
+    date: '2026.01.14'
   },
   { 
     id: 'v2', 
-    title: '精彩進球：林韋堯 6’⚽️11.16', 
-    duration: '0:30', 
-    thumbnail: "https://cdn.store-assets.com/s/783745/f/16298218.png", 
-    date: '2025.11.18'
+    title: '側身凌空射門⚽️', 
+    duration: 'Reels', 
+    thumbnail: '/d-league/assets/reels/reels_02.png', 
+    date: '2026.01.13'
   },
   { 
     id: 'v3', 
-    title: '精彩進球：YEHUDA GAGAH WICAKSONO 39‘⚽️',
-    duration: '0:45', 
-    thumbnail: 'https://cdn.store-assets.com/s/783745/f/16294195.png', 
-    date: '2025.11.18'
+    title: '胸口一停，凌空射門',
+    duration: 'Reels', 
+    thumbnail: '/d-league/assets/reels/reels_03.png', 
+    date: '2025.12.11'
   },
 ];
 
