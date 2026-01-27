@@ -243,7 +243,7 @@ export const ALL_PLAYERS: PlayerProfile[] = [
     { id: 'cl-22', teamId: 't_canglong', number: 22, name: '潘星宇', englishName: 'Pan Xing Yu', gender: '男', nationality: '台灣', age: 17 },
     { id: 'cl-12', teamId: 't_canglong', number: 12, name: '楊承諺', englishName: 'Yang Cheng Yan', gender: '男', nationality: '台灣', age: 19 },
     { id: 'cl-10', teamId: 't_canglong', number: 10, name: '洪子程', englishName: 'Hung Zhi Cheng', gender: '男', nationality: '台灣', age: 16 },
-    { id: 'cl-08', teamId: 't_crazydog', number: 8, name: '潘晨維', englishName: 'Pan Cheng Wei', gender: '男', nationality: '台灣', age: 19 },
+    { id: 'cl-08', teamId: 't_canglong', number: 8, name: '潘晨維', englishName: 'Pan Cheng Wei', gender: '男', nationality: '台灣', age: 19 },
     { id: 'cl-17', teamId: 't_canglong', number: 17, name: '郭彥廷', englishName: 'Kuo Yen Ting', gender: '男', nationality: '台灣', age: 17 },
     { id: 'cl-30', teamId: 't_canglong', number: 30, name: '鄧子博', englishName: 'Teng Tz Bo', gender: '男', nationality: '台灣', age: 16 },
     { id: 'cl-09', teamId: 't_canglong', number: 9, name: '丁誌暉', englishName: 'Din Zhi Hui', gender: '男', nationality: '台灣/美國', age: 18 },
