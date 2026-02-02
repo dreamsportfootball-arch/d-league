@@ -4,3 +4,4 @@
 // 從兩個新檔案匯入資料
 export * from './staticData';
 export * from './matchData';
+export * from './playerData'; // 👈 新增這一行

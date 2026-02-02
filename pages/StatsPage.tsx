@@ -1,6 +1,7 @@
 // 檔案路徑：d-league web/pages/StatsPage.tsx
 
 import React, { useState, useMemo } from 'react';
+// ✅ 修改 1：移除了 ALL_PLAYERS 的引入，因為我們不再需要強制抓最新隊伍
 import { MATCH_EVENTS, MATCHES, TEAMS, PLAYER_IMAGES } from '../constants';
 import { Trophy, User } from 'lucide-react';
 
@@ -14,7 +15,6 @@ interface PlayerStats {
 
 // 🎨 世界級元件：排名數字 (Pro Rank)
 const ProRank: React.FC<{ rank: number; isHeroMode: boolean }> = ({ rank, isHeroMode }) => {
-    // 只有在「射手榜」且是「第 1 名」時，才顯示大數字 + 藍色底線
     if (rank === 1 && isHeroMode) {
         return (
             <div className="flex flex-col items-center justify-center w-12 md:w-16">
@@ -25,8 +25,6 @@ const ProRank: React.FC<{ rank: number; isHeroMode: boolean }> = ({ rank, isHero
             </div>
         );
     }
-
-    // 其他情況：黑色數字
     return (
         <div className="w-12 md:w-16 flex justify-center">
             <span className="font-display font-bold text-brand-black text-xl tracking-tighter">
@@ -44,8 +42,6 @@ const ProStatRow: React.FC<{
 }> = ({ player, rank, activeTab }) => {
     const team = TEAMS[player.teamId];
     const playerImage = PLAYER_IMAGES[player.name];
-    
-    // 🎯 核心邏輯：只有「射手榜」的第一名才放大 (isHero)
     const isHero = rank === 1 && activeTab === 'SCORERS';
 
     return (
@@ -60,11 +56,8 @@ const ProStatRow: React.FC<{
 
             {/* 2. 球員資訊區 */}
             <div className="flex-1 flex items-center min-w-0">
-                
-                {/* 頭像容器 (Relative) - 只有在射手榜 (SCORERS) 才顯示大頭貼 */}
                 {activeTab === 'SCORERS' && (
                     <div className="relative shrink-0">
-                        {/* 頭像 */}
                         <div className={`
                             relative overflow-hidden rounded-full bg-neutral-100 border border-neutral-100
                             ${isHero ? 'w-20 h-20 md:w-24 md:h-24 shadow-xl' : 'w-10 h-10 md:w-11 md:h-11'}
@@ -75,8 +68,6 @@ const ProStatRow: React.FC<{
                                 <User className="w-full h-full p-2 text-neutral-300" />
                             )}
                         </div>
-
-                        {/* 懸浮隊徽 (Logo) */}
                         {team?.logo && (
                             <img 
                                 src={team.logo} 
@@ -84,8 +75,8 @@ const ProStatRow: React.FC<{
                                 className={`
                                     absolute rounded-full object-contain z-10 
                                     ${isHero 
-                                        ? '-bottom-1 -right-1 w-8 h-8 p-0.5'  // Hero: 隊徽較大
-                                        : '-bottom-1 -right-1 w-4 h-4 p-[1px]' // 普通: 隊徽標準
+                                        ? '-bottom-1 -right-1 w-8 h-8 p-0.5'
+                                        : '-bottom-1 -right-1 w-4 h-4 p-[1px]'
                                     }
                                 `}
                             />
@@ -93,10 +84,7 @@ const ProStatRow: React.FC<{
                     </div>
                 )}
                 
-                {/* 文字詳情 */}
                 <div className={`flex flex-col justify-center min-w-0 ${isHero ? 'ml-6 md:ml-8' : (activeTab === 'SCORERS' ? 'ml-4' : '')}`}>
-                    
-                    {/* 球員姓名 */}
                     <span className={`
                         font-bold tracking-tight leading-tight block
                         ${isHero 
@@ -106,8 +94,6 @@ const ProStatRow: React.FC<{
                     `}>
                         {player.name}
                     </span>
-
-                    {/* 球隊名 */}
                     <div className="flex items-center mt-0.5">
                         <span className={`text-neutral-400 uppercase font-bold truncate ${isHero ? 'text-xs tracking-widest' : 'text-[10px] tracking-wide'}`}>
                             {team?.shortName || 'Unknown'}
@@ -119,7 +105,6 @@ const ProStatRow: React.FC<{
             {/* 3. 數據展示區 */}
             <div className="text-right pl-4 pr-2 md:pr-4 shrink-0 min-w-[80px]">
                 {activeTab === 'SCORERS' ? (
-                    // 射手榜：Hero 放大並變藍
                     <div className="flex flex-col items-end">
                         <span className={`
                             font-display font-black tabular-nums leading-none tracking-tighter
@@ -134,9 +119,7 @@ const ProStatRow: React.FC<{
                         )}
                     </div>
                 ) : (
-                    // 🎯 紅黃牌：數字在卡片內 + 微傾斜設計
                     <div className="flex items-center justify-end space-x-3">
-                         {/* 紅牌 */}
                          {(player.redCards > 0 || (isHero && player.yellowCards === 0)) && (
                             <div className="flex flex-col items-center">
                                 <div className="font-display font-black flex items-center justify-center shadow-sm w-6 h-8 text-sm bg-red-600 text-white rounded-sm transform -skew-x-12">
@@ -144,7 +127,6 @@ const ProStatRow: React.FC<{
                                 </div>
                             </div>
                         )}
-                        {/* 黃牌 */}
                         {(player.yellowCards > 0 || (isHero && player.redCards === 0)) && (
                             <div className="flex flex-col items-center">
                                 <div className="font-display font-black flex items-center justify-center shadow-sm w-6 h-8 text-sm bg-yellow-400 text-black rounded-sm transform -skew-x-12">
@@ -152,7 +134,6 @@ const ProStatRow: React.FC<{
                                 </div>
                             </div>
                         )}
-                        {/* 無牌 */}
                         {(!isHero && player.redCards === 0 && player.yellowCards === 0) && (
                             <span className="text-neutral-200 text-xs">-</span>
                         )}
@@ -163,115 +144,84 @@ const ProStatRow: React.FC<{
     );
 };
 
-
 const StatsPage: React.FC = () => {
-    
-    // ✅ 使用 useState 的函數式更新，在初始化時同步讀取 Session Storage
     const [activeLeague, setActiveLeague] = useState<'L1' | 'L2'>(() => {
         try {
             const saved = window.sessionStorage.getItem('statsActiveLeague');
-            if (saved === 'L1' || saved === 'L2') {
-                return saved;
-            }
-        } catch (e) {
-            // ignore
-        }
+            if (saved === 'L1' || saved === 'L2') return saved;
+        } catch (e) {}
         return 'L1'; 
     });
-
     const [activeTab, setActiveTab] = useState<'SCORERS' | 'CARDS'>('SCORERS');
 
-    // ✅ 處理聯賽切換並保存狀態
     const handleLeagueChange = (league: 'L1' | 'L2') => {
         setActiveLeague(league);
-        try {
-            window.sessionStorage.setItem('statsActiveLeague', league);
-        } catch (e) {
-            // ignore
-        }
+        try { window.sessionStorage.setItem('statsActiveLeague', league); } catch (e) {}
     };
 
-    // 1. 數據計算
     const statsData = useMemo(() => {
         const stats: Record<string, PlayerStats> = {};
         Object.entries(MATCH_EVENTS).forEach(([matchId, events]) => {
             const match = MATCHES.find((m) => m.id === matchId);
             if (!match || match.league !== activeLeague) return;
+            
             events.forEach((event) => {
                 const playerKey = event.player;
-                const teamId = event.team === 'HOME' ? match.homeTeamId : match.awayTeamId;
+                
+                // ✅ 修改 2：回歸「比賽當下」的隊伍邏輯
+                // 我們直接使用 match.homeTeamId 或 awayTeamId
+                // 這樣如果他在 L2 是 A 隊，這裡就會顯示 A 隊，而不會被現在的 L1 B 隊覆蓋
+                const currentTeamId = event.team === 'HOME' ? match.homeTeamId : match.awayTeamId;
+                
                 if (!stats[playerKey]) {
-                    stats[playerKey] = { name: event.player, teamId, goals: 0, yellowCards: 0, redCards: 0 };
+                    stats[playerKey] = { name: event.player, teamId: currentTeamId, goals: 0, yellowCards: 0, redCards: 0 };
                 }
                 
-                // --- 數據統計邏輯 ---
-                if (event.type === 'GOAL') {
-                    // 排除烏龍球
-                    if (!event.player.includes('(烏龍球)')) {
-                        stats[playerKey].goals += 1;
-                    }
+                if (event.type === 'GOAL' && !event.player.includes('(烏龍球)')) {
+                    stats[playerKey].goals += 1;
                 }
                 if (event.type === 'YELLOW_CARD') stats[playerKey].yellowCards += 1;
                 if (event.type === 'RED_CARD') stats[playerKey].redCards += 1;
-                
-                // ✅ 新增：兩黃變一紅 (SECOND_YELLOW)
-                // 邏輯：這張牌算第 2 張黃牌，同時也算 1 張紅牌
                 if (event.type === 'SECOND_YELLOW') {
-                    stats[playerKey].yellowCards += 1; // 黃牌 +1
-                    stats[playerKey].redCards += 1;    // 紅牌 +1
+                    stats[playerKey].yellowCards += 1;
+                    stats[playerKey].redCards += 1;
                 }
             });
         });
         return Object.values(stats);
     }, [activeLeague]);
 
-    // 2. 排序
     const sortedList = useMemo(() => {
         if (activeTab === 'SCORERS') {
-            return statsData
-                .filter((p) => p.goals > 0)
-                .sort((a, b) => b.goals - a.goals);
+            return statsData.filter((p) => p.goals > 0).sort((a, b) => b.goals - a.goals);
         } else {
-            return statsData
-                .filter((p) => p.yellowCards > 0 || p.redCards > 0)
-                .sort((a, b) => {
-                    // 紅黃牌榜排序：先比紅牌，再比黃牌
-                    if (b.redCards !== a.redCards) return b.redCards - a.redCards;
-                    return b.yellowCards - a.yellowCards;
-                });
+            return statsData.filter((p) => p.yellowCards > 0 || p.redCards > 0).sort((a, b) => {
+                if (b.redCards !== a.redCards) return b.redCards - a.redCards;
+                return b.yellowCards - a.yellowCards;
+            });
         }
     }, [statsData, activeTab]);
 
-    // 3. 聯賽篩選器渲染邏輯
     const leagueFilterContent = (
         <div className="flex space-x-4 text-xs font-bold">
-            {([ 'L1', 'L2' ] as const).map((tab) => {
-                const mobileLabel = tab;
-                const desktopLabel = tab === 'L1' ? 'League 1' : 'League 2';
-                
-                return (
-                    <button
-                        key={tab}
-                        onClick={() => handleLeagueChange(tab)}
-                        className={`px-1 pb-1 transition-all whitespace-nowrap border-b-2 
-                            ${activeLeague === tab
-                                ? 'border-brand-blue text-brand-black font-bold' 
-                                : 'border-transparent text-neutral-400 font-medium hover:text-neutral-600'}
-                        `}
-                    >
-                        <span className="inline md:hidden font-display">{mobileLabel}</span>
-                        <span className="hidden md:inline">{desktopLabel}</span>
-                    </button>
-                );
-            })}
+            {([ 'L1', 'L2' ] as const).map((tab) => (
+                <button
+                    key={tab}
+                    onClick={() => handleLeagueChange(tab)}
+                    className={`px-1 pb-1 transition-all whitespace-nowrap border-b-2 
+                        ${activeLeague === tab ? 'border-brand-blue text-brand-black font-bold' : 'border-transparent text-neutral-400 font-medium hover:text-neutral-600'}
+                    `}
+                >
+                    <span className="inline md:hidden font-display">{tab}</span>
+                    <span className="hidden md:inline">{tab === 'L1' ? 'League 1' : 'League 2'}</span>
+                </button>
+            ))}
         </div>
     );
 
     return (
         <div className="pt-6 md:pt-24 min-h-[85vh] bg-white pb-24">
             <div className="container mx-auto px-4 md:px-12 max-w-7xl">
-                
-                {/* === Header === */}
                 <div className="flex flex-col md:flex-row md:items-end justify-between mb-4 md:mb-12">
                     <div>
                         <h1 className="font-display font-black md:font-extrabold text-4xl md:text-6xl uppercase text-brand-black mb-2 md:mb-4 tracking-tight [-webkit-text-stroke:.25px_currentColor] md:[-webkit-text-stroke:0px]">
@@ -282,8 +232,6 @@ const StatsPage: React.FC = () => {
                         </p>
                     </div>
                 </div>
-
-                {/* === 聯賽選擇 === */}
                 <div className="flex justify-between items-center mb-10 pb-4 border-b border-neutral-100">
                     <h3 className="font-bold text-base text-neutral-900 font-display uppercase tracking-wider flex items-center">
                         <Trophy className="w-5 h-5 mr-2 text-brand-blue" />
@@ -291,51 +239,24 @@ const StatsPage: React.FC = () => {
                     </h3>
                     {leagueFilterContent}
                 </div>
-
-                {/* === 數據類型 Tabs === */}
                 <div className="flex space-x-10 mb-6 px-2">
-                    <button
-                        onClick={() => setActiveTab('SCORERS')}
-                        className={`text-sm md:text-base font-bold uppercase transition-all duration-300 tracking-widest relative
-                            ${activeTab === 'SCORERS' ? 'text-brand-black' : 'text-neutral-300 hover:text-neutral-500'}
-                        `}
-                    >
-                        射手榜
-                    </button>
-                    
-                    <button
-                        onClick={() => setActiveTab('CARDS')}
-                        className={`text-sm md:text-base font-bold uppercase transition-all duration-300 tracking-widest relative
-                            ${activeTab === 'CARDS' ? 'text-brand-black' : 'text-neutral-300 hover:text-neutral-500'}
-                        `}
-                    >
-                        紅黃牌
-                    </button>
+                    <button onClick={() => setActiveTab('SCORERS')} className={`text-sm md:text-base font-bold uppercase transition-all duration-300 tracking-widest relative ${activeTab === 'SCORERS' ? 'text-brand-black' : 'text-neutral-300 hover:text-neutral-500'}`}>射手榜</button>
+                    <button onClick={() => setActiveTab('CARDS')} className={`text-sm md:text-base font-bold uppercase transition-all duration-300 tracking-widest relative ${activeTab === 'CARDS' ? 'text-brand-black' : 'text-neutral-300 hover:text-neutral-500'}`}>紅黃牌</button>
                 </div>
-
-                {/* === 列表內容區 === */}
                 <div className="w-full">
                     <div className="flex flex-col">
                         {sortedList.length > 0 ? (
                             sortedList.map((player, index) => (
-                                <ProStatRow 
-                                    key={`${player.name}-${player.teamId}`}
-                                    player={player}
-                                    rank={index + 1}
-                                    activeTab={activeTab}
-                                />
+                                <ProStatRow key={`${player.name}-${player.teamId}`} player={player} rank={index + 1} activeTab={activeTab} />
                             ))
                         ) : (
                             <div className="py-32 text-center opacity-40">
                                 <Trophy className="w-16 h-16 text-neutral-300 mx-auto mb-4 stroke-[1]" />
-                                <p className="text-neutral-400 font-medium uppercase tracking-[0.2em] text-xs">
-                                    NO DATA AVAILABLE
-                                </p>
+                                <p className="text-neutral-400 font-medium uppercase tracking-[0.2em] text-xs">NO DATA AVAILABLE</p>
                             </div>
                         )}
                     </div>
                 </div>
-
             </div>
         </div>
     );
