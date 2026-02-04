@@ -167,10 +167,21 @@ const CupPage: React.FC = () => {
                                         {homeTeam.name}
                                     </span>
                                 </div>
-                                <div className="shrink-0 w-20 text-center">
+                                
+                                {/* 👇 修改這裡：比分顯示區域 */}
+                                <div className="shrink-0 w-24 text-center">
                                     {match.status === 'FINISHED' ? (
-                                        <div className="text-2xl md:text-3xl font-black font-display text-brand-black tracking-tighter">
-                                            {match.homeScore} - {match.awayScore}
+                                        <div className="flex flex-col items-center">
+                                            <div className="text-2xl md:text-3xl font-black font-display text-brand-black tracking-tighter">
+                                                {match.homeScore} - {match.awayScore}
+                                            </div>
+                                            
+                                            {/* ✅ 新增：如果有 PK 比分則顯示 */}
+                                            {(match.homePenalty !== undefined && match.awayPenalty !== undefined) && (
+                                                <div className="text-[10px] md:text-xs font-bold text-red-600 mt-1 tracking-wide bg-red-50 px-2 rounded-full">
+                                                    (PK {match.homePenalty}-{match.awayPenalty})
+                                                </div>
+                                            )}
                                         </div>
                                     ) : (
                                         <div className="text-xl md:text-2xl font-black font-display text-neutral-300 tracking-widest bg-neutral-100 rounded px-2 py-1">
@@ -178,6 +189,7 @@ const CupPage: React.FC = () => {
                                         </div>
                                     )}
                                 </div>
+
                                 <div className="flex-1 text-left pl-4 md:pl-8">
                                     <span className="font-bold text-brand-black text-sm md:text-xl block leading-tight">
                                         {awayTeam.name}
