@@ -12,6 +12,9 @@ export interface CupMatch {
     awayTeamId: string;
     homeScore?: number;
     awayScore?: number;
+    // ✅ 新增：PK 比分欄位 (可選)
+    homePenalty?: number;
+    awayPenalty?: number;
     status: 'SCHEDULED' | 'LIVE' | 'FINISHED';
     venue: 'A' | 'B';
 }
@@ -33,222 +36,28 @@ export const CUP_TEAMS: Record<string, CupTeam> = {
 
 // 2. 完整賽程表 (2026.02.01) - 包含最終賽果
 export const CUP_MATCHES: CupMatch[] = [
-    // --- 小組賽 R1 ---
-    {
-        id: 1,
-        round: '小組賽 R1',
-        timestamp: '2026-02-01T09:00:00',
-        venue: 'A',
-        homeTeamId: 'KAFC',
-        awayTeamId: 'DONG_GAO',
-        status: 'FINISHED',
-        homeScore: 1,
-        awayScore: 1
-    },
-    {
-        id: 2,
-        round: '小組賽 R1',
-        timestamp: '2026-02-01T09:00:00',
-        venue: 'B',
-        homeTeamId: 'TN_SENIOR',
-        awayTeamId: 'DONG_GANG',
-        status: 'FINISHED',
-        homeScore: 1,
-        awayScore: 6
-    },
+    // ... (前面的比賽保持不變) ...
+    { id: 1, round: '小組賽 R1', timestamp: '2026-02-01T09:00:00', venue: 'A', homeTeamId: 'KAFC', awayTeamId: 'DONG_GAO', status: 'FINISHED', homeScore: 1, awayScore: 1 },
+    { id: 2, round: '小組賽 R1', timestamp: '2026-02-01T09:00:00', venue: 'B', homeTeamId: 'TN_SENIOR', awayTeamId: 'DONG_GANG', status: 'FINISHED', homeScore: 1, awayScore: 6 },
+    { id: 3, round: '小組賽 R2', timestamp: '2026-02-01T09:30:00', venue: 'A', homeTeamId: 'LANDEN', awayTeamId: 'HAPPY_NEW_YEAR', status: 'FINISHED', homeScore: 0, awayScore: 10 },
+    { id: 4, round: '小組賽 R2', timestamp: '2026-02-01T09:30:00', venue: 'B', homeTeamId: 'TNSCF', awayTeamId: 'WORKER', status: 'FINISHED', homeScore: 2, awayScore: 0 },
+    { id: 5, round: '小組賽 R3', timestamp: '2026-02-01T10:00:00', venue: 'A', homeTeamId: 'KAFC', awayTeamId: 'TN_SENIOR', status: 'FINISHED', homeScore: 1, awayScore: 6 },
+    { id: 6, round: '小組賽 R3', timestamp: '2026-02-01T10:00:00', venue: 'B', homeTeamId: 'DONG_GAO', awayTeamId: 'DONG_GANG', status: 'FINISHED', homeScore: 2, awayScore: 5 },
+    { id: 7, round: '小組賽 R4', timestamp: '2026-02-01T10:30:00', venue: 'A', homeTeamId: 'LANDEN', awayTeamId: 'TNSCF', status: 'FINISHED', homeScore: 0, awayScore: 7 },
+    { id: 8, round: '小組賽 R4', timestamp: '2026-02-01T10:30:00', venue: 'B', homeTeamId: 'HAPPY_NEW_YEAR', awayTeamId: 'WORKER', status: 'FINISHED', homeScore: 2, awayScore: 0 },
+    { id: 9, round: '小組賽 R5', timestamp: '2026-02-01T11:00:00', venue: 'A', homeTeamId: 'KAFC', awayTeamId: 'DONG_GANG', status: 'FINISHED', homeScore: 3, awayScore: 5 },
+    { id: 10, round: '小組賽 R5', timestamp: '2026-02-01T11:00:00', venue: 'B', homeTeamId: 'DONG_GAO', awayTeamId: 'TN_SENIOR', status: 'FINISHED', homeScore: 2, awayScore: 1 },
+    { id: 11, round: '小組賽 R6', timestamp: '2026-02-01T11:30:00', venue: 'A', homeTeamId: 'LANDEN', awayTeamId: 'WORKER', status: 'FINISHED', homeScore: 0, awayScore: 6 },
+    { id: 12, round: '小組賽 R6', timestamp: '2026-02-01T11:30:00', venue: 'B', homeTeamId: 'HAPPY_NEW_YEAR', awayTeamId: 'TNSCF', status: 'FINISHED', homeScore: 2, awayScore: 1 },
 
-    // --- 小組賽 R2 ---
-    {
-        id: 3,
-        round: '小組賽 R2',
-        timestamp: '2026-02-01T09:30:00',
-        venue: 'A',
-        homeTeamId: 'LANDEN',
-        awayTeamId: 'HAPPY_NEW_YEAR',
-        status: 'FINISHED',
-        homeScore: 0,
-        awayScore: 10
-    },
-    {
-        id: 4,
-        round: '小組賽 R2',
-        timestamp: '2026-02-01T09:30:00',
-        venue: 'B',
-        homeTeamId: 'TNSCF',
-        awayTeamId: 'WORKER',
-        status: 'FINISHED',
-        homeScore: 2,
-        awayScore: 0
-    },
-
-    // --- 小組賽 R3 ---
-    {
-        id: 5,
-        round: '小組賽 R3',
-        timestamp: '2026-02-01T10:00:00',
-        venue: 'A',
-        homeTeamId: 'KAFC',
-        awayTeamId: 'TN_SENIOR',
-        status: 'FINISHED',
-        homeScore: 1,
-        awayScore: 6
-    },
-    {
-        id: 6,
-        round: '小組賽 R3',
-        timestamp: '2026-02-01T10:00:00',
-        venue: 'B',
-        homeTeamId: 'DONG_GAO',
-        awayTeamId: 'DONG_GANG',
-        status: 'FINISHED',
-        homeScore: 2,
-        awayScore: 5
-    },
-
-    // --- 小組賽 R4 ---
-    {
-        id: 7,
-        round: '小組賽 R4',
-        timestamp: '2026-02-01T10:30:00',
-        venue: 'A',
-        homeTeamId: 'LANDEN',
-        awayTeamId: 'TNSCF',
-        status: 'FINISHED',
-        homeScore: 0,
-        awayScore: 7
-    },
-    {
-        id: 8,
-        round: '小組賽 R4',
-        timestamp: '2026-02-01T10:30:00',
-        venue: 'B',
-        homeTeamId: 'HAPPY_NEW_YEAR',
-        awayTeamId: 'WORKER',
-        status: 'FINISHED',
-        homeScore: 2,
-        awayScore: 0
-    },
-
-    // --- 小組賽 R5 ---
-    {
-        id: 9,
-        round: '小組賽 R5',
-        timestamp: '2026-02-01T11:00:00',
-        venue: 'A',
-        homeTeamId: 'KAFC',
-        awayTeamId: 'DONG_GANG',
-        status: 'FINISHED',
-        homeScore: 3,
-        awayScore: 5
-    },
-    {
-        id: 10,
-        round: '小組賽 R5',
-        timestamp: '2026-02-01T11:00:00',
-        venue: 'B',
-        homeTeamId: 'DONG_GAO',
-        awayTeamId: 'TN_SENIOR',
-        status: 'FINISHED',
-        homeScore: 2,
-        awayScore: 1
-    },
-
-    // --- 小組賽 R6 ---
-    {
-        id: 11,
-        round: '小組賽 R6',
-        timestamp: '2026-02-01T11:30:00',
-        venue: 'A',
-        homeTeamId: 'LANDEN',
-        awayTeamId: 'WORKER',
-        status: 'FINISHED',
-        homeScore: 0,
-        awayScore: 6
-    },
-    {
-        id: 12,
-        round: '小組賽 R6',
-        timestamp: '2026-02-01T11:30:00',
-        venue: 'B',
-        homeTeamId: 'HAPPY_NEW_YEAR',
-        awayTeamId: 'TNSCF',
-        status: 'FINISHED',
-        homeScore: 2,
-        awayScore: 1
-    },
-
-    // ==========================================
-    //   淘汰賽階段 (根據小組賽結果自動計算晉級)
-    //   Group A: 1.東港 2.東高 3.長青 4.KAFC
-    //   Group B: 1.新年 2.TNSCF 3.打工人 4.Landen
-    // ==========================================
-
-    // --- 盤賽準決賽 ---
-    // A3(長青) vs B4(Landen)
-    {
-        id: 13,
-        round: '盤賽準決賽',
-        timestamp: '2026-02-01T13:30:00',
-        venue: 'A',
-        homeTeamId: 'TN_SENIOR',
-        awayTeamId: 'LANDEN',
-        status: 'FINISHED',
-        homeScore: 7,
-        awayScore: 0
-    },
-    // B3(打工人) vs A4(KAFC)
-    {
-        id: 14,
-        round: '盤賽準決賽',
-        timestamp: '2026-02-01T13:30:00',
-        venue: 'B',
-        homeTeamId: 'WORKER',
-        awayTeamId: 'KAFC',
-        status: 'FINISHED',
-        homeScore: 3,
-        awayScore: 1
-    },
-
-    // --- 盃賽準決賽 ---
-    // A1(東港) vs B2(TNSCF)
-    {
-        id: 15,
-        round: '盃賽準決賽',
-        timestamp: '2026-02-01T14:00:00',
-        venue: 'A',
-        homeTeamId: 'DONG_GANG',
-        awayTeamId: 'TNSCF',
-        status: 'FINISHED',
-        homeScore: 3,
-        awayScore: 1
-    },
-    // B1(新年) vs A2(東高)
-    {
-        id: 16,
-        round: '盃賽準決賽',
-        timestamp: '2026-02-01T14:00:00',
-        venue: 'B',
-        homeTeamId: 'HAPPY_NEW_YEAR',
-        awayTeamId: 'DONG_GAO',
-        status: 'FINISHED',
-        homeScore: 6,
-        awayScore: 1
-    },
-
-    // --- 盤賽決賽/季軍 ---
-    // 盤賽決賽: W13(長青) vs W14(打工人)
-    {
-        id: 17,
-        round: '盤賽決賽',
-        timestamp: '2026-02-01T14:30:00',
-        venue: 'A',
-        homeTeamId: 'TN_SENIOR',
-        awayTeamId: 'WORKER',
-        status: 'FINISHED',
-        homeScore: 1,
-        awayScore: 0
-    },
-    // 盤賽季軍: L13(Landen) vs L14(KAFC)
+    // --- 淘汰賽階段 ---
+    { id: 13, round: '盤賽準決賽', timestamp: '2026-02-01T13:30:00', venue: 'A', homeTeamId: 'TN_SENIOR', awayTeamId: 'LANDEN', status: 'FINISHED', homeScore: 7, awayScore: 0 },
+    { id: 14, round: '盤賽準決賽', timestamp: '2026-02-01T13:30:00', venue: 'B', homeTeamId: 'WORKER', awayTeamId: 'KAFC', status: 'FINISHED', homeScore: 3, awayScore: 1 },
+    { id: 15, round: '盃賽準決賽', timestamp: '2026-02-01T14:00:00', venue: 'A', homeTeamId: 'DONG_GANG', awayTeamId: 'TNSCF', status: 'FINISHED', homeScore: 3, awayScore: 1 },
+    { id: 16, round: '盃賽準決賽', timestamp: '2026-02-01T14:00:00', venue: 'B', homeTeamId: 'HAPPY_NEW_YEAR', awayTeamId: 'DONG_GAO', status: 'FINISHED', homeScore: 6, awayScore: 1 },
+    { id: 17, round: '盤賽決賽', timestamp: '2026-02-01T14:30:00', venue: 'A', homeTeamId: 'TN_SENIOR', awayTeamId: 'WORKER', status: 'FINISHED', homeScore: 1, awayScore: 0 },
+    
+    // ✅ 修改：盤賽季軍加入 PK 比分 (1-3)
     {
         id: 18,
         round: '盤賽季軍',
@@ -258,32 +67,11 @@ export const CUP_MATCHES: CupMatch[] = [
         awayTeamId: 'KAFC',
         status: 'FINISHED',
         homeScore: 1,
-        awayScore: 1
+        awayScore: 1,
+        homePenalty: 1, // Landen PK 得分
+        awayPenalty: 3  // KAFC PK 得分
     },
 
-    // --- 盃賽決賽/季軍 ---
-    // 盃賽季軍: L15(TNSCF) vs L16(東高)
-    {
-        id: 19,
-        round: '盃賽季軍',
-        timestamp: '2026-02-01T15:00:00',
-        venue: 'A',
-        homeTeamId: 'TNSCF',
-        awayTeamId: 'DONG_GAO',
-        status: 'FINISHED',
-        homeScore: 2,
-        awayScore: 0
-    },
-    // 盃賽決賽: W15(東港) vs W16(新年)
-    {
-        id: 20,
-        round: '盃賽決賽',
-        timestamp: '2026-02-01T15:30:00',
-        venue: 'A',
-        homeTeamId: 'DONG_GANG',
-        awayTeamId: 'HAPPY_NEW_YEAR',
-        status: 'FINISHED',
-        homeScore: 2,
-        awayScore: 1
-    }
+    { id: 19, round: '盃賽季軍', timestamp: '2026-02-01T15:00:00', venue: 'A', homeTeamId: 'TNSCF', awayTeamId: 'DONG_GAO', status: 'FINISHED', homeScore: 2, awayScore: 0 },
+    { id: 20, round: '盃賽決賽', timestamp: '2026-02-01T15:30:00', venue: 'A', homeTeamId: 'DONG_GANG', awayTeamId: 'HAPPY_NEW_YEAR', status: 'FINISHED', homeScore: 2, awayScore: 1 }
 ];
