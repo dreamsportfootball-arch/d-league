@@ -1,8 +1,7 @@
 // 檔案路徑：d-league web/pages/StatsPage.tsx
 
 import React, { useState, useMemo } from 'react';
-// ✅ 修改 1：移除了 ALL_PLAYERS 的引入，因為我們不再需要強制抓最新隊伍
-import { MATCH_EVENTS, MATCHES, TEAMS, PLAYER_IMAGES } from '../constants';
+import { MATCH_EVENTS, MATCHES, TEAMS, PLAYER_IMAGES, ALL_PLAYERS } from '../constants';
 import { Trophy, User } from 'lucide-react';
 
 interface PlayerStats {
@@ -13,7 +12,20 @@ interface PlayerStats {
   redCards: number;
 }
 
-// 🎨 世界級元件：排名數字 (Pro Rank)
+// 定義每個球隊所屬的聯盟
+const TEAM_LEAGUES: Record<string, 'L1' | 'L2'> = {
+    't_chiayi': 'L1',
+    't_jiuhao': 'L1',
+    't_tongque': 'L1',
+    't_chen': 'L1',
+    't_luzhu': 'L2',
+    't_pingtung': 'L2',
+    't_crazydog': 'L2',
+    't_canglong': 'L2',
+    't_ppi': 'L2',
+    't_niaoshi': 'L2'
+};
+
 const ProRank: React.FC<{ rank: number; isHeroMode: boolean }> = ({ rank, isHeroMode }) => {
     if (rank === 1 && isHeroMode) {
         return (
@@ -34,7 +46,6 @@ const ProRank: React.FC<{ rank: number; isHeroMode: boolean }> = ({ rank, isHero
     );
 };
 
-// 🎨 世界級元件：列表單行 (Pro Row)
 const ProStatRow: React.FC<{ 
     player: PlayerStats; 
     rank: number; 
@@ -44,17 +55,31 @@ const ProStatRow: React.FC<{
     const playerImage = PLAYER_IMAGES[player.name];
     const isHero = rank === 1 && activeTab === 'SCORERS';
 
+    // ✅ 新增：根據名字長度動態調整字體大小
+    const getNameSizeClass = (name: string, hero: boolean) => {
+        const len = name.length;
+        if (hero) {
+            // 第一名 (Hero Mode)
+            if (len > 20) return 'text-lg md:text-xl leading-tight'; // 超長名字 (如 YEHUDA...)
+            if (len > 10) return 'text-xl md:text-2xl'; // 稍長名字
+            return 'text-2xl md:text-3xl'; // 正常名字
+        } else {
+            // 普通列表模式
+            if (len > 20) return 'text-[10px] md:text-xs leading-tight font-bold'; // 超長名字縮很小
+            if (len > 10) return 'text-xs md:text-sm font-bold'; // 稍長名字
+            return 'text-sm md:text-base font-bold'; // 正常名字 (原本的大小)
+        }
+    };
+
     return (
         <div className={`
             group relative flex items-center transition-all duration-300 border-b border-neutral-100
             ${isHero ? 'py-6 bg-white z-10' : 'py-3.5 hover:bg-neutral-50'} 
         `}>
-            {/* 1. 排名區 */}
             <div className="shrink-0 mr-2 md:mr-4">
                 <ProRank rank={rank} isHeroMode={activeTab === 'SCORERS'} />
             </div>
 
-            {/* 2. 球員資訊區 */}
             <div className="flex-1 flex items-center min-w-0">
                 {activeTab === 'SCORERS' && (
                     <div className="relative shrink-0">
@@ -86,11 +111,9 @@ const ProStatRow: React.FC<{
                 
                 <div className={`flex flex-col justify-center min-w-0 ${isHero ? 'ml-6 md:ml-8' : (activeTab === 'SCORERS' ? 'ml-4' : '')}`}>
                     <span className={`
-                        font-bold tracking-tight leading-tight block
-                        ${isHero 
-                            ? 'text-2xl md:text-3xl font-display uppercase italic whitespace-normal break-words py-1 text-brand-blue' 
-                            : 'text-sm md:text-base font-sans whitespace-normal break-words text-brand-black'
-                        }
+                        tracking-tight leading-tight block whitespace-normal break-words text-brand-black
+                        ${getNameSizeClass(player.name, isHero)} 
+                        ${isHero ? 'font-display italic text-brand-blue py-1' : 'font-sans'}
                     `}>
                         {player.name}
                     </span>
@@ -102,7 +125,6 @@ const ProStatRow: React.FC<{
                 </div>
             </div>
 
-            {/* 3. 數據展示區 */}
             <div className="text-right pl-4 pr-2 md:pr-4 shrink-0 min-w-[80px]">
                 {activeTab === 'SCORERS' ? (
                     <div className="flex flex-col items-end">
@@ -159,8 +181,17 @@ const StatsPage: React.FC = () => {
         try { window.sessionStorage.setItem('statsActiveLeague', league); } catch (e) {}
     };
 
+    const playerCurrentTeamMap = useMemo(() => {
+        const map: Record<string, string> = {};
+        ALL_PLAYERS.forEach(p => {
+            map[p.name] = p.teamId;
+        });
+        return map;
+    }, []);
+
     const statsData = useMemo(() => {
         const stats: Record<string, PlayerStats> = {};
+        
         Object.entries(MATCH_EVENTS).forEach(([matchId, events]) => {
             const match = MATCHES.find((m) => m.id === matchId);
             if (!match || match.league !== activeLeague) return;
@@ -168,13 +199,20 @@ const StatsPage: React.FC = () => {
             events.forEach((event) => {
                 const playerKey = event.player;
                 
-                // ✅ 修改 2：回歸「比賽當下」的隊伍邏輯
-                // 我們直接使用 match.homeTeamId 或 awayTeamId
-                // 這樣如果他在 L2 是 A 隊，這裡就會顯示 A 隊，而不會被現在的 L1 B 隊覆蓋
-                const currentTeamId = event.team === 'HOME' ? match.homeTeamId : match.awayTeamId;
+                let displayTeamId = event.team === 'HOME' ? match.homeTeamId : match.awayTeamId;
+
+                const currentTeamId = playerCurrentTeamMap[playerKey];
                 
+                if (currentTeamId) {
+                    if (TEAM_LEAGUES[currentTeamId] === activeLeague) {
+                        displayTeamId = currentTeamId;
+                    }
+                }
+
                 if (!stats[playerKey]) {
-                    stats[playerKey] = { name: event.player, teamId: currentTeamId, goals: 0, yellowCards: 0, redCards: 0 };
+                    stats[playerKey] = { name: event.player, teamId: displayTeamId, goals: 0, yellowCards: 0, redCards: 0 };
+                } else {
+                    stats[playerKey].teamId = displayTeamId;
                 }
                 
                 if (event.type === 'GOAL' && !event.player.includes('(烏龍球)')) {
@@ -189,7 +227,7 @@ const StatsPage: React.FC = () => {
             });
         });
         return Object.values(stats);
-    }, [activeLeague]);
+    }, [activeLeague, playerCurrentTeamMap]);
 
     const sortedList = useMemo(() => {
         if (activeTab === 'SCORERS') {

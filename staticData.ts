@@ -1,3 +1,5 @@
+// d-league web/staticData.ts
+
 import { Team } from './types';
 
 // ==========================================
@@ -16,7 +18,8 @@ export const TEAMS: Record<string, Team> = {
   't_crazydog': { id: 't_crazydog', name: '瘋Dog', shortName: '瘋Dog', logo: '/d-league/assets/teams/crazydog.png', primaryColor: '#ed8992', secondaryColor: '#000000' },
   't_canglong': { id: 't_canglong', name: '蒼龍FC', shortName: '蒼龍FC', logo: '/d-league/assets/teams/canglong.png', primaryColor: '#0c2450', secondaryColor: '#ffffff' },
   't_ppi': { id: 't_ppi', name: 'PPI TAINAN', shortName: 'PPI TAINAN', logo: '/d-league/assets/teams/ppi.png', primaryColor: '#004026', secondaryColor: '#ffffff' },
-  't_niaoshi': { id: 't_niaoshi', name: '鳥仕足球俱樂部', shortName: '鳥仕足球俱樂部', logo: '/d-league/assets/teams/niaoshi.png', primaryColor: '#2f4d4f' },
+  // ✅ 修改：鳥仕主色改為 #be1920
+  't_niaoshi': { id: 't_niaoshi', name: '鳥仕足球俱樂部', shortName: '鳥仕足球俱樂部', logo: '/d-league/assets/teams/niaoshi.png', primaryColor: '#be1920' },
 };
 
 // ==========================================
@@ -41,6 +44,10 @@ export const PLAYER_IMAGES: Record<string, string> = {
   '王建翔': '/d-league/assets/players/嘉義諸羅山FC/王建翔.png',
   '黃楷堯': '/d-league/assets/players/嘉義諸羅山FC/黃楷堯.png',
   '李俊逵': '/d-league/assets/players/嘉義諸羅山FC/李俊逵.png',
+  // ✅ 新增
+  '溫立丞': '/d-league/assets/players/嘉義諸羅山FC/溫立丞.png',
+  '李坤城': '/d-league/assets/players/嘉義諸羅山FC/李坤城.png',
+  '李鎮宇': '/d-league/assets/players/嘉義諸羅山FC/李鎮宇.png',
   
   // L1 - 陳公舘
   '李秉錦': '/d-league/assets/players/陳公舘/李秉錦.png',
@@ -52,7 +59,7 @@ export const PLAYER_IMAGES: Record<string, string> = {
   '潘志豪': '/d-league/assets/players/陳公舘/潘志豪.png',
   '倪天銘': '/d-league/assets/players/陳公舘/倪天銘.png',
   '楊俊雄': '/d-league/assets/players/陳公舘/楊俊雄.png',
-  '劉振仕': '/d-league/assets/players/陳公舘/劉振仕.png',
+  // ❌ 已移除：劉振仕 (轉出)
   '曾龍盛': '/d-league/assets/players/陳公舘/曾龍盛.png',
   '洪品宇': '/d-league/assets/players/陳公舘/洪品宇.png',
   '陳品憲': '/d-league/assets/players/陳公舘/陳品憲.png',
@@ -63,6 +70,8 @@ export const PLAYER_IMAGES: Record<string, string> = {
   '王靖堯': '/d-league/assets/players/陳公舘/王靖堯.png',
   '李家勳': '/d-league/assets/players/陳公舘/李家勳.png',
   '陳俊介': '/d-league/assets/players/陳公舘/陳俊介.png',
+  // ✅ 新增
+  '蘇嘉雄': '/d-league/assets/players/陳公舘/蘇嘉雄.png',
   
   // L1 - 銅雀足球俱樂部
   '李相慶': '/d-league/assets/players/銅雀足球俱樂部/李相慶.png',
@@ -84,7 +93,9 @@ export const PLAYER_IMAGES: Record<string, string> = {
   '張斳恩': '/d-league/assets/players/銅雀足球俱樂部/張斳恩.png',
   '黃少威': '/d-league/assets/players/銅雀足球俱樂部/黃少威.png',
   '林晉威': '/d-league/assets/players/銅雀足球俱樂部/林晉威.png',
-  '克魯茲': '/d-league/assets/players/銅雀足球俱樂部/克魯茲.jpg',
+  '克魯茲': '/d-league/assets/players/銅雀足球俱樂部/克魯茲.png',
+  // ✅ 新增
+  '王奕中': '/d-league/assets/players/銅雀足球俱樂部/王奕中.png',
   
   // L1 - 酒號矯正署
   '林淮哲': '/d-league/assets/players/酒號矯正署/林淮哲.png',
@@ -123,6 +134,10 @@ export const PLAYER_IMAGES: Record<string, string> = {
   '李祐任': '/d-league/assets/players/鹿逐俱樂部/李祐任.png',
   '蔡昀晏': '/d-league/assets/players/鹿逐俱樂部/蔡昀晏.png',
   '方韻雅': '/d-league/assets/players/鹿逐俱樂部/方韻雅.png',
+  // ✅ 新增
+  '林冠宇': '/d-league/assets/players/鹿逐俱樂部/林冠宇.png',
+  '陳韋呈': '/d-league/assets/players/鹿逐俱樂部/陳韋呈.png',
+  '林宜蓁': '/d-league/assets/players/鹿逐俱樂部/林宜蓁.png',
 
   // L2 - 屏東野猿足球俱樂部
   '邱文良': '/d-league/assets/players/屏東野猿足球俱樂部/邱文良.png',
@@ -145,6 +160,10 @@ export const PLAYER_IMAGES: Record<string, string> = {
   '林韋堯': '/d-league/assets/players/屏東野猿足球俱樂部/林韋堯.png',
   '李偲瑋': '/d-league/assets/players/屏東野猿足球俱樂部/李偲瑋.png',
   '蘇靖堂': '/d-league/assets/players/屏東野猿足球俱樂部/蘇靖堂.png',
+  // ✅ 新增
+  '黃浩程': '/d-league/assets/players/屏東野猿足球俱樂部/黃浩程.png',
+  '吳明興': '/d-league/assets/players/屏東野猿足球俱樂部/吳明興.png',
+  '蔡振偉': '/d-league/assets/players/屏東野猿足球俱樂部/蔡振偉.png',
 
   // L2 - 瘋Dog
   '黃震浩': '/d-league/assets/players/瘋Dog/黃震浩.png',
@@ -164,6 +183,9 @@ export const PLAYER_IMAGES: Record<string, string> = {
   '戴威閎': '/d-league/assets/players/瘋Dog/戴威閎.png',
   '陳柏諧': '/d-league/assets/players/瘋Dog/陳柏諧.png',
   '蔡穎杰': '/d-league/assets/players/瘋Dog/蔡穎杰.png',
+  // ✅ 新增
+  '劉力瑋': '/d-league/assets/players/瘋Dog/劉力瑋.png',
+  '吳詠祥': '/d-league/assets/players/瘋Dog/吳詠祥.png',
 
   // L2 - 鳥仕足球俱樂部
   '許御力': '/d-league/assets/players/鳥仕足球俱樂部/許御力.png',
@@ -186,6 +208,13 @@ export const PLAYER_IMAGES: Record<string, string> = {
   '林耀強': '/d-league/assets/players/鳥仕足球俱樂部/林耀強.png',
   '謝俊杰': '/d-league/assets/players/鳥仕足球俱樂部/謝俊杰.png',
   '劉偉洋': '/d-league/assets/players/鳥仕足球俱樂部/劉偉洋.png',
+  // ✅ 新增
+  '陳宇翔': '/d-league/assets/players/鳥仕足球俱樂部/陳宇翔.png',
+  '陳學璋': '/d-league/assets/players/鳥仕足球俱樂部/陳學璋.png',
+  '陳遠泰': '/d-league/assets/players/鳥仕足球俱樂部/陳遠泰.png',
+  '高義莉': '/d-league/assets/players/鳥仕足球俱樂部/高義莉.png',
+  '黃首駿': '/d-league/assets/players/鳥仕足球俱樂部/黃首駿.png',
+  '劉康任': '/d-league/assets/players/鳥仕足球俱樂部/劉康任.png',
 
   // L2 - PPI TAINAN FC
   '杰菲': '/d-league/assets/players/PPI TAINAN FC/杰菲.png',
@@ -206,6 +235,8 @@ export const PLAYER_IMAGES: Record<string, string> = {
   '阿麥德': '/d-league/assets/players/PPI TAINAN FC/阿麥德.png',
   '牙提': '/d-league/assets/players/PPI TAINAN FC/牙提.png',
   '蘇凡迪': '/d-league/assets/players/PPI TAINAN FC/蘇凡迪.png',
+  // ✅ 新增
+  '劉駿輝': '/d-league/assets/players/PPI TAINAN FC/劉駿輝.png',
   
   // L2 - 蒼龍FC
   '盧冠宇': '/d-league/assets/players/蒼龍FC/盧冠宇.png',
@@ -225,4 +256,11 @@ export const PLAYER_IMAGES: Record<string, string> = {
   '林湧鈞': '/d-league/assets/players/蒼龍FC/林湧鈞.png',
   '黃歷迦': '/d-league/assets/players/蒼龍FC/黃歷迦.png',
   '吳嘉華': '/d-league/assets/players/蒼龍FC/吳嘉華.png',
+  // ✅ 新增
+  '林家鈞': '/d-league/assets/players/蒼龍FC/林家鈞.png',
+  '曾少凱': '/d-league/assets/players/蒼龍FC/曾少凱.png',
+  '蘇宗霆': '/d-league/assets/players/蒼龍FC/蘇宗霆.png',
+  '吳志華': '/d-league/assets/players/蒼龍FC/吳志華.png',
+  '李昆鴻': '/d-league/assets/players/蒼龍FC/李昆鴻.png',
+  '郭愈': '/d-league/assets/players/蒼龍FC/郭愈.png',
 };
