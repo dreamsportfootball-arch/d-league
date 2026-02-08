@@ -55,19 +55,19 @@ const ProStatRow: React.FC<{
     const playerImage = PLAYER_IMAGES[player.name];
     const isHero = rank === 1 && activeTab === 'SCORERS';
 
-    // ✅ 新增：根據名字長度動態調整字體大小
+    // 根據名字長度動態調整字體大小
     const getNameSizeClass = (name: string, hero: boolean) => {
         const len = name.length;
         if (hero) {
             // 第一名 (Hero Mode)
-            if (len > 20) return 'text-lg md:text-xl leading-tight'; // 超長名字 (如 YEHUDA...)
+            if (len > 20) return 'text-lg md:text-xl leading-tight'; // 超長名字
             if (len > 10) return 'text-xl md:text-2xl'; // 稍長名字
             return 'text-2xl md:text-3xl'; // 正常名字
         } else {
             // 普通列表模式
-            if (len > 20) return 'text-[10px] md:text-xs leading-tight font-bold'; // 超長名字縮很小
-            if (len > 10) return 'text-xs md:text-sm font-bold'; // 稍長名字
-            return 'text-sm md:text-base font-bold'; // 正常名字 (原本的大小)
+            if (len > 20) return 'text-[10px] md:text-xs leading-tight font-bold';
+            if (len > 10) return 'text-xs md:text-sm font-bold';
+            return 'text-sm md:text-base font-bold';
         }
     };
 
@@ -113,8 +113,9 @@ const ProStatRow: React.FC<{
                     <span className={`
                         tracking-tight leading-tight block whitespace-normal break-words text-brand-black
                         ${getNameSizeClass(player.name, isHero)} 
-                        ${isHero ? 'font-display italic text-brand-blue py-1' : 'font-sans'}
+                        ${isHero ? 'font-display font-black italic text-brand-blue py-1' : 'font-sans'} 
                     `}>
+                        {/* 👆 修改重點：在 isHero 裡加入了 font-black */}
                         {player.name}
                     </span>
                     <div className="flex items-center mt-0.5">

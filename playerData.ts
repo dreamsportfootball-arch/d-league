@@ -12,147 +12,7 @@ export interface PlayerProfile {
 }
 
 export const ALL_PLAYERS: PlayerProfile[] = [
-    // ==========================================
-    // 嘉義諸羅山FC (t_chiayi)
-    // ==========================================
-    { id: 'cy-01', teamId: 't_chiayi', number: 1, name: '陳日揚', englishName: 'CHEN-JIH-YANG', gender: '男', nationality: '台灣', age: 25 },
-    { id: 'cy-02', teamId: 't_chiayi', number: 2, name: '陳官澤', englishName: 'CHEN-KAUN-TSE', gender: '男', nationality: '台灣', age: 32 },
-    { id: 'cy-03', teamId: 't_chiayi', number: 3, name: '陳柏翰', englishName: 'CHEN-PO-HAN', gender: '男', nationality: '台灣', age: 22 },
-    { id: 'cy-04', teamId: 't_chiayi', number: 4, name: '蔡孟勲', englishName: 'TSAI-MENG-HSUN', gender: '男', nationality: '台灣', age: 32 },
-    { id: 'cy-05', teamId: 't_chiayi', number: 5, name: 'Jason Chan', englishName: 'Jason Chan', gender: '男', nationality: '加拿大', age: 43 },
-    { id: 'cy-06', teamId: 't_chiayi', number: 6, name: '黃子睿', englishName: 'HUANG-TZU-JUI', gender: '男', nationality: '台灣', age: 33 },
-    { id: 'cy-07', teamId: 't_chiayi', number: 7, name: '黃偉倫', englishName: 'HUANG-WEI-LUN', gender: '男', nationality: '台灣', age: 27 },
-    { id: 'cy-08', teamId: 't_chiayi', number: 8, name: '王至皓', englishName: 'Wang-chih-hao', gender: '男', nationality: '台灣', age: 26 },
-    { id: 'cy-09', teamId: 't_chiayi', number: 9, name: '唐毓翔', englishName: 'TANG-YU-SIANG', gender: '男', nationality: '台灣', age: 34 },
-    { id: 'cy-10', teamId: 't_chiayi', number: 10, name: '林柏辰', englishName: 'Lin-Po-Chung', gender: '男', nationality: '台灣', age: 40 },
-    { id: 'cy-11', teamId: 't_chiayi', number: 11, name: '李裕玄', englishName: 'Lee-Yu-Hsuan', gender: '男', nationality: '台灣', age: 37 },
-    { id: 'cy-12', teamId: 't_chiayi', number: 12, name: '鄭州偉', englishName: 'Zheng-zhou-Wei', gender: '男', nationality: '台灣', age: 29 },
-    { id: 'cy-15', teamId: 't_chiayi', number: 15, name: '蔡吉雄', englishName: 'Tsai-Chi-Hsiung', gender: '男', nationality: '台灣', age: 33 },
-    { id: 'cy-13', teamId: 't_chiayi', number: 13, name: '郭政達', englishName: 'Kuo-Cheng-Da', gender: '男', nationality: '台灣', age: 42 },
-    { id: 'cy-17', teamId: 't_chiayi', number: 17, name: '王建翔', englishName: 'WANG-JIAN-XIANG', gender: '男', nationality: '台灣', age: 17 },
-    { id: 'cy-26', teamId: 't_chiayi', number: 26, name: '黃楷堯', englishName: 'KAI-YAO-HUANG', gender: '男', nationality: '台灣', age: 38 },
-    { id: 'cy-71', teamId: 't_chiayi', number: 71, name: '李俊逵', englishName: 'LI-JYUNK-KUEI', gender: '男', nationality: '台灣', age: 40 },
-    { id: 'cy-32', teamId: 't_chiayi', number: 32, name: '溫立丞', englishName: 'WEN LITSUKI', gender: '男', nationality: '日本', age: 25 },
-    { id: 'cy-20', teamId: 't_chiayi', number: 20, name: '李坤城', englishName: 'LI KUN CHENG', gender: '男', nationality: '台灣', age: 27 },
-    { id: 'cy-30', teamId: 't_chiayi', number: 30, name: '李鎮宇', englishName: 'LI CHENG UI', gender: '男', nationality: '台灣', age: 29 },
-
-    // ==========================================
-    // 陳公舘 (t_chen)
-    // ==========================================
-    { id: 'ch-01', teamId: 't_chen', number: 1, name: '李秉錦', englishName: 'LI,Bing-Jin', gender: '男', nationality: '台灣', age: 25 },
-    { id: 'ch-03', teamId: 't_chen', number: 3, name: '林家銘', englishName: 'LIN,Jia-Ming', gender: '男', nationality: '台灣', age: 36 },
-    { id: 'ch-04', teamId: 't_chen', number: 4, name: '倪柏瑄', englishName: 'NI,Bo-Xuan', gender: '男', nationality: '台灣', age: 22 },
-    { id: 'ch-06', teamId: 't_chen', number: 6, name: '孫裕程', englishName: 'Sun,Yu-Cheng', gender: '男', nationality: '台灣', age: 35 },
-    { id: 'ch-07', teamId: 't_chen', number: 7, name: '洪品丞', englishName: 'HONG,Pin-Cheng', gender: '男', nationality: '台灣', age: 32 },
-    { id: 'ch-08', teamId: 't_chen', number: 8, name: '陳立鑫', englishName: 'CHEN Li-Xin', gender: '男', nationality: '台灣', age: 43 },
-    { id: 'ch-09', teamId: 't_chen', number: 9, name: '潘志豪', englishName: 'PAN,Zhi-Hao', gender: '男', nationality: '台灣', age: 25 },
-    { id: 'ch-14', teamId: 't_chen', number: 14, name: '倪天銘', englishName: 'NI,Tian-Ming', gender: '男', nationality: '台灣', age: 35 },
-    { id: 'ch-15', teamId: 't_chen', number: 15, name: '楊俊雄', englishName: 'YANG,Jun-Xiong', gender: '男', nationality: '台灣', age: 29 },
-    // ❌ 已移除：劉振仕 (背號 16)
-    { id: 'ch-17', teamId: 't_chen', number: 17, name: '曾龍盛', englishName: 'ZENG,Long-Sheng', gender: '男', nationality: '台灣', age: 32 },
-    { id: 'ch-30', teamId: 't_chen', number: 30, name: '洪品宇', englishName: 'Hong,Pin-Yu', gender: '男', nationality: '台灣', age: 30 },
-    { id: 'ch-36', teamId: 't_chen', number: 36, name: '陳品憲', englishName: 'CHEN,Pin-Xian', gender: '男', nationality: '台灣', age: 27 },
-    { id: 'ch-37', teamId: 't_chen', number: 37, name: '林紀廷', englishName: 'LIN,Ji-Ting', gender: '男', nationality: '台灣', age: 28 },
-    { id: 'ch-57', teamId: 't_chen', number: 57, name: '張誌文', englishName: 'ZHANG,Zhi-Wen', gender: '男', nationality: '台灣', age: 26 },
-    { id: 'ch-82', teamId: 't_chen', number: 82, name: '吳明威', englishName: 'WU,Ming-Wei', gender: '男', nationality: '台灣', age: 27 },
-    { id: 'ch-24', teamId: 't_chen', number: 24, name: '洪彥翔', englishName: 'HONG,Yen-Xiang', gender: '男', nationality: '台灣', age: 32 },
-    { id: 'ch-66', teamId: 't_chen', number: 66, name: '王靖堯', englishName: 'WANG,Ching-Yao', gender: '男', nationality: '台灣', age: 32 },
-    { id: 'ch-13', teamId: 't_chen', number: 13, name: '李家勳', englishName: 'LI,JIA-XUN', gender: '男', nationality: '台灣', age: 29 },
-    { id: 'ch-25', teamId: 't_chen', number: 25, name: '陳俊介', englishName: 'CHEN,Chun-Chieh', gender: '男', nationality: '台灣', age: 43 },
-    { id: 'ch-99', teamId: 't_chen', number: 99, name: '蘇嘉雄', englishName: 'SU,Jiaxiong', gender: '男', nationality: '台灣', age: 33 },
-
-    // ==========================================
-    // 銅雀足球俱樂部 (t_tongque)
-    // ==========================================
-    { id: 'tq-10', teamId: 't_tongque', number: 10, name: '李相慶', englishName: 'LI HSIANG CHING', gender: '男', nationality: '台灣', age: 33 },
-    { id: 'tq-08', teamId: 't_tongque', number: 8, name: '李偉豪', englishName: 'LI WEI HAO', gender: '男', nationality: '台灣', age: 36 },
-    { id: 'tq-11', teamId: 't_tongque', number: 11, name: '趙南聰', englishName: 'DAVID CHIU LI', gender: '男', nationality: '宏都拉斯', age: 30 },
-    { id: 'tq-33', teamId: 't_tongque', number: 33, name: '陳揚', englishName: 'CHEN YANG', gender: '男', nationality: '台灣', age: 26 },
-    { id: 'tq-07', teamId: 't_tongque', number: 7, name: '翁才竣', englishName: 'WENG TSAI CHUN', gender: '男', nationality: '台灣', age: 31 },
-    { id: 'tq-18', teamId: 't_tongque', number: 18, name: '鄭孟育', englishName: 'MENG YU CHENG', gender: '男', nationality: '台灣', age: 41 },
-    { id: 'tq-12', teamId: 't_tongque', number: 12, name: '郭博彥', englishName: 'KUO BO YAN', gender: '男', nationality: '台灣', age: 26 },
-    { id: 'tq-36', teamId: 't_tongque', number: 36, name: '劉允閎', englishName: 'LIOU YUN HONG', gender: '男', nationality: '台灣', age: 34 },
-    { id: 'tq-03', teamId: 't_tongque', number: 3, name: '杜安', englishName: 'Duane Gemmep Noé', gender: '男', nationality: '宏都拉斯', age: 27 },
-    { id: 'tq-22', teamId: 't_tongque', number: 22, name: '魏士閔', englishName: 'LAWRANCE WEI', gender: '男', nationality: '台灣', age: 33 },
-    { id: 'tq-16', teamId: 't_tongque', number: 16, name: '巫嘉德', englishName: 'Daniel Alonso León Ugalde', gender: '男', nationality: '哥斯大黎加', age: 24 },
-    { id: 'tq-46', teamId: 't_tongque', number: 46, name: '林宴丞', englishName: 'LIN YEN CHENG', gender: '男', nationality: '台灣', age: 24 },
-    { id: 'tq-13', teamId: 't_tongque', number: 13, name: '謝侑霖', englishName: 'HSIEH YU LIN', gender: '男', nationality: '台灣', age: 30 },
-    { id: 'tq-44', teamId: 't_tongque', number: 44, name: '張斳恩', englishName: 'CHANG CHIN EN', gender: '男', nationality: '台灣', age: 31 },
-    { id: 'tq-77', teamId: 't_tongque', number: 77, name: '黃少威', englishName: 'HUANG SHAO WEI', gender: '男', nationality: '台灣', age: 19 },
-    { id: 'tq-04', teamId: 't_tongque', number: 4, name: '林晉威', englishName: 'LIN CHIN WEI', gender: '男', nationality: '台灣', age: 24 },
-    { id: 'tq-01', teamId: 't_tongque', number: 1, name: '克魯茲', englishName: 'Oscar Roberto Cruz Flores', gender: '男', nationality: '薩爾瓦多', age: 27 },
-    { id: 'tq-84', teamId: 't_tongque', number: 84, name: '趙學克', englishName: 'Zhao Xueke', gender: '男', nationality: '台灣', age: 27 },
-    { id: 'tq-90', teamId: 't_tongque', number: 90, name: '趙學邦', englishName: 'Zhao Xuebang', gender: '男', nationality: '台灣', age: 25 },
-    { id: 'tq-19', teamId: 't_tongque', number: 19, name: '王奕中', englishName: 'Wang I Chung', gender: '男', nationality: '台灣', age: 26 },
-
-    // ==========================================
-    // 酒號矯正署 (t_jiuhao)
-    // ==========================================
-    { id: 'jh-16', teamId: 't_jiuhao', number: 16, name: '林淮哲', englishName: 'LIN,HUAI-CHE', gender: '男', nationality: '台灣', age: 29 },
-    { id: 'jh-19', teamId: 't_jiuhao', number: 19, name: '何柏緯', englishName: 'HO,PO-WEI', gender: '男', nationality: '台灣', age: 26 },
-    { id: 'jh-22', teamId: 't_jiuhao', number: 22, name: '李宗翰', englishName: 'LI,TSUNG-HAN', gender: '男', nationality: '台灣', age: 28 },
-    { id: 'jh-00', teamId: 't_jiuhao', number: 0, name: '黃有全', englishName: 'HUANG,YU-CHUAN', gender: '男', nationality: '台灣', age: 27 },
-    { id: 'jh-67', teamId: 't_jiuhao', number: 67, name: '顏廷邕', englishName: 'YEN,TING-YUNG', gender: '男', nationality: '台灣', age: 30 },
-    { id: 'jh-06', teamId: 't_jiuhao', number: 6, name: '陳吉龍', englishName: 'CHEN,CHI-LUNG', gender: '男', nationality: '台灣', age: 28 },
-    { id: 'jh-88', teamId: 't_jiuhao', number: 88, name: '謝孟軒', englishName: 'HSIEH,MENG-HSUAN', gender: '男', nationality: '台灣', age: 39 },
-    { id: 'jh-23', teamId: 't_jiuhao', number: 23, name: '曾健康', englishName: 'TSENG,CHIEN-KANG', gender: '男', nationality: '台灣', age: 33 },
-    { id: 'jh-45', teamId: 't_jiuhao', number: 45, name: '許恩豪', englishName: 'HSU,EN-HAO', gender: '男', nationality: '台灣', age: 26 },
-    { id: 'jh-42', teamId: 't_jiuhao', number: 42, name: '李彼得', englishName: 'LI,PI-TE', gender: '男', nationality: '台灣', age: 24 },
-    { id: 'jh-99', teamId: 't_jiuhao', number: 99, name: '林鈺閔', englishName: 'LIN,YU-MIN', gender: '男', nationality: '台灣', age: 29 },
-    { id: 'jh-17', teamId: 't_jiuhao', number: 17, name: '林思維', englishName: 'LIN,SSU-WEI', gender: '男', nationality: '台灣', age: 29 },
-    { id: 'jh-10', teamId: 't_jiuhao', number: 10, name: '林冠亨', englishName: 'LIN,KUAN-HENG', gender: '男', nationality: '台灣', age: 25 },
-    { id: 'jh-12', teamId: 't_jiuhao', number: 12, name: '鄭詠翰', englishName: 'CHENG,YUNG-HAN', gender: '男', nationality: '台灣', age: 29 },
-    { id: 'jh-15', teamId: 't_jiuhao', number: 15, name: '陳揚青澔', englishName: 'CHEN,YANG-CHING-HAO', gender: '男', nationality: '台灣', age: 29 },
-    { id: 'jh-07', teamId: 't_jiuhao', number: 7, name: '吳啓明', englishName: 'WU,CHI-MING', gender: '男', nationality: '台灣', age: 35 },
-    { id: 'jh-14', teamId: 't_jiuhao', number: 14, name: '施聖章', englishName: 'SHIH,SHENG-CHANG', gender: '男', nationality: '台灣', age: 26 },
-    { id: 'jh-11', teamId: 't_jiuhao', number: 11, name: '劉庭嘉', englishName: 'LIU,TING-CHIA', gender: '男', nationality: '台灣', age: 28 },
-    { id: 'jh-27', teamId: 't_jiuhao', number: 27, name: '何政緯', englishName: 'HO,CHENG-WEI', gender: '男', nationality: '台灣', age: 26 },
-    { id: 'jh-02', teamId: 't_jiuhao', number: 2, name: '洪毅瑋', englishName: 'HUNG,YI-WEI', gender: '男', nationality: '台灣', age: 38 },
-
-    // ==========================================
-    // 鹿逐俱樂部 (t_luzhu)
-    // ==========================================
-    { id: 'lz-10', teamId: 't_luzhu', number: 10, name: '陳麒竣', englishName: 'CHEN CHI-CHUN', gender: '男', nationality: '台灣', age: 35 },
-    { id: 'lz-03', teamId: 't_luzhu', number: 3, name: '宋映德', englishName: 'SUNG YIN-TE', gender: '女', nationality: '台灣', age: 26 },
-    { id: 'lz-04', teamId: 't_luzhu', number: 4, name: '謝詒婷', englishName: 'HSIEH YI-TING', gender: '女', nationality: '台灣', age: 35 },
-    { id: 'lz-07', teamId: 't_luzhu', number: 7, name: '林伯仲', englishName: 'LIN PO-CHUNG', gender: '男', nationality: '台灣', age: 39 },
-    { id: 'lz-34', teamId: 't_luzhu', number: 34, name: '李修沛', englishName: 'LEE HSIU-PEI', gender: '男', nationality: '台灣', age: 40 },
-    { id: 'lz-17', teamId: 't_luzhu', number: 17, name: '梶原航', englishName: 'WATARU KAJIHARA', gender: '男', nationality: '日本', age: 42 },
-    { id: 'lz-52', teamId: 't_luzhu', number: 52, name: '鐘佳勳', englishName: 'CHUNG CHIA-HSUN', gender: '男', nationality: '台灣', age: 36 },
-    { id: 'lz-08', teamId: 't_luzhu', number: 8, name: '王子豪', englishName: 'WANG TZU-HAO', gender: '男', nationality: '台灣', age: 47 },
-    { id: 'lz-29', teamId: 't_luzhu', number: 29, name: '陳泰盛', englishName: 'CHEN TAI-SHENG', gender: '男', nationality: '台灣', age: 42 },
-    { id: 'lz-21', teamId: 't_luzhu', number: 21, name: '林敬祐', englishName: 'LIN CHING-YU', gender: '男', nationality: '台灣', age: 17 },
-    { id: 'lz-56', teamId: 't_luzhu', number: 56, name: '陳穧元', englishName: 'CHEN CHI-YUAN', gender: '男', nationality: '台灣', age: 58 },
-    { id: 'lz-13', teamId: 't_luzhu', number: 13, name: '李祐任', englishName: 'LI YOU-REN', gender: '男', nationality: '台灣', age: 37 },
-    { id: 'lz-02', teamId: 't_luzhu', number: 2, name: '蔡昀晏', englishName: 'TSAI YUN-YEN', gender: '男', nationality: '台灣', age: 34 },
-    { id: 'lz-38', teamId: 't_luzhu', number: 38, name: '方韻雅', englishName: 'FANG YUN-YA', gender: '女', nationality: '台灣', age: 41 },
-    { id: 'lz-88', teamId: 't_luzhu', number: 88, name: '林冠宇', englishName: 'Lin Guan Yu', gender: '男', nationality: '台灣', age: 40 },
-    { id: 'lz-09', teamId: 't_luzhu', number: 9, name: '陳韋呈', englishName: 'Chen Wei Cheng', gender: '男', nationality: '台灣', age: 34 },
-    { id: 'lz-06', teamId: 't_luzhu', number: 6, name: '林宜蓁', englishName: 'LIN YI ZHEN', gender: '女', nationality: '台灣', age: 20 },
-
-    // ==========================================
-    // 屏東野猿足球俱樂部 (t_pingtung)
-    // ==========================================
-    { id: 'pt-38', teamId: 't_pingtung', number: 38, name: '邱文良', englishName: 'Qiu Wen Liang', gender: '男', nationality: '台灣', age: 37 },
-    { id: 'pt-27', teamId: 't_pingtung', number: 27, name: '周宗德', englishName: 'Chou Tsung-te', gender: '男', nationality: '台灣', age: 30 },
-    { id: 'pt-24', teamId: 't_pingtung', number: 24, name: '尤尚佑', englishName: 'Yu Shang-yu', gender: '男', nationality: '台灣', age: 15 },
-    { id: 'pt-07', teamId: 't_pingtung', number: 7, name: '林彥文', englishName: 'Lin Yen-wen', gender: '男', nationality: '台灣', age: 37 },
-    { id: 'pt-04', teamId: 't_pingtung', number: 4, name: '林聿堂', englishName: 'Lin Yu-tang', gender: '男', nationality: '台灣', age: 17 },
-    { id: 'pt-21', teamId: 't_pingtung', number: 21, name: '張春生', englishName: 'Chang Chun-sheng', gender: '男', nationality: '台灣', age: 47 },
-    { id: 'pt-29', teamId: 't_pingtung', number: 29, name: '周承政', englishName: 'Chou Cheng-cheng', gender: '男', nationality: '台灣', age: 42 },
-    { id: 'pt-08', teamId: 't_pingtung', number: 8, name: '簡法亦', englishName: 'Chien Fa-i', gender: '男', nationality: '台灣', age: 31 },
-    { id: 'pt-11', teamId: 't_pingtung', number: 11, name: '謝晉元', englishName: 'Hsieh Chin-yuan', gender: '男', nationality: '台灣', age: 44 },
-    { id: 'pt-43', teamId: 't_pingtung', number: 43, name: '陳奕盛', englishName: 'Chen I-sheng', gender: '男', nationality: '台灣', age: 19 },
-    { id: 'pt-33', teamId: 't_pingtung', number: 33, name: '黃旭盛', englishName: 'Huang Hsu-sheng', gender: '男', nationality: '台灣', age: 33 },
-    { id: 'pt-13', teamId: 't_pingtung', number: 13, name: '張富勝', englishName: 'Chang Fu-sheng', gender: '男', nationality: '台灣', age: 30 },
-    { id: 'pt-16', teamId: 't_pingtung', number: 16, name: '吳明遠', englishName: 'Wu Ming-yuan', gender: '男', nationality: '台灣', age: 38 },
-    { id: 'pt-44', teamId: 't_pingtung', number: 44, name: '連哲緯', englishName: 'Lien Che-wei', gender: '男', nationality: '台灣', age: 17 },
-    { id: 'pt-66', teamId: 't_pingtung', number: 66, name: '林韋堯', englishName: 'Lin Wei Yao', gender: '男', nationality: '台灣', age: 26 },
-    { id: 'pt-02', teamId: 't_pingtung', number: 2, name: '李偲瑋', englishName: 'Lin Tsai Wei', gender: '男', nationality: '台灣', age: 27 },
-    { id: 'pt-99', teamId: 't_pingtung', number: 99, name: '蘇靖堂', englishName: 'Su Ching-tang', gender: '男', nationality: '台灣', age: 18 },
-    { id: 'pt-03', teamId: 't_pingtung', number: 3, name: '黃浩程', englishName: 'Hao cheng Huang', gender: '男', nationality: '台灣', age: 18 },
-    { id: 'pt-50', teamId: 't_pingtung', number: 50, name: '吳明興', englishName: 'Wu Ming Hsing', gender: '男', nationality: '台灣', age: 20 },
-    { id: 'pt-88', teamId: 't_pingtung', number: 88, name: '蔡振偉', englishName: 'Cai Zhen Wei', gender: '男', nationality: '台灣', age: 27 },
+    // ... (前面的球隊資料保持不變) ...
 
     // ==========================================
     // 瘋Dog (t_crazydog)
@@ -172,7 +32,10 @@ export const ALL_PLAYERS: PlayerProfile[] = [
     { id: 'cd-05', teamId: 't_crazydog', number: 5, name: '劉力瑋', englishName: 'LIU-LI-WEI', gender: '男', nationality: '台灣', age: 35 },
     { id: 'cd-06', teamId: 't_crazydog', number: 6, name: '楊承諺', englishName: 'Yang-Cheng-Yen', gender: '男', nationality: '台灣', age: 29 },
     { id: 'cd-08', teamId: 't_crazydog', number: 8, name: '吳詠祥', englishName: 'Wu-Yong-Xiang', gender: '男', nationality: '台灣', age: 19 },
+    // ✅ 新增：王佳祈
+    { id: 'cd-14-new', teamId: 't_crazydog', number: 14, name: '王佳祈', englishName: 'WANG,JIA-QI', gender: '男', nationality: '台灣', age: 25 },
 
+    // ... (後面的球隊資料保持不變) ...
     // ==========================================
     // 鳥仕足球俱樂部 (t_niaoshi)
     // ==========================================
