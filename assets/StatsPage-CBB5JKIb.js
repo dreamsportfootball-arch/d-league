@@ -1,4 +1,4 @@
-import{c as w,r as x,e as N,g as k,M as C,j as e,b as g,T as y,P as L}from"./index-w5w70DCF.js";/**
+import{c as w,r as x,e as N,g as k,M as C,j as e,b as g,T as y,P as L}from"./index-BIZdE3Hz.js";/**
  * @license lucide-react v0.554.0 - ISC
  *
  * This source code is licensed under the ISC license.
@@ -15,7 +15,7 @@ import{c as w,r as x,e as N,g as k,M as C,j as e,b as g,T as y,P as L}from"./ind
                                 `})]}),e.jsxs("div",{className:`flex flex-col justify-center min-w-0 ${a?"ml-6 md:ml-8":r==="SCORERS"?"ml-4":""}`,children:[e.jsx("span",{className:`
                         tracking-tight leading-tight block whitespace-normal break-words text-brand-black
                         ${o(s.name,a)} 
-                        ${a?"font-display italic text-brand-blue py-1":"font-sans"}
+                        ${a?"font-display font-black italic text-brand-blue py-1":"font-sans"} 
                     `,children:s.name}),e.jsx("div",{className:"flex items-center mt-0.5",children:e.jsx("span",{className:`text-neutral-400 uppercase font-bold truncate ${a?"text-xs tracking-widest":"text-[10px] tracking-wide"}`,children:(n==null?void 0:n.shortName)||"Unknown"})})]})]}),e.jsx("div",{className:"text-right pl-4 pr-2 md:pr-4 shrink-0 min-w-[80px]",children:r==="SCORERS"?e.jsxs("div",{className:"flex flex-col items-end",children:[e.jsx("span",{className:`
                             font-display font-black tabular-nums leading-none tracking-tighter
                             ${a?"text-5xl md:text-6xl text-brand-blue":"text-2xl md:text-3xl text-brand-black"}
