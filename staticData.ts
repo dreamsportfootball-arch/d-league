@@ -256,7 +256,6 @@ export const PLAYER_IMAGES: Record<string, string> = {
   '林湧鈞': '/d-league/assets/players/蒼龍FC/林湧鈞.png',
   '黃歷迦': '/d-league/assets/players/蒼龍FC/黃歷迦.png',
   '吳嘉華': '/d-league/assets/players/蒼龍FC/吳嘉華.png',
-  // ✅ 新增
   '林家鈞': '/d-league/assets/players/蒼龍FC/林家鈞.png',
   '曾少凱': '/d-league/assets/players/蒼龍FC/曾少凱.png',
   '蘇宗霆': '/d-league/assets/players/蒼龍FC/蘇宗霆.png',
