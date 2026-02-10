@@ -160,7 +160,7 @@ export const ALL_PLAYERS: PlayerProfile[] = [
     { id: 'cd-19', teamId: 't_crazydog', number: 19, name: '吳亦民', englishName: 'Wu Yi Min', gender: '男', nationality: '台灣', age: 28 },
     { id: 'cd-17', teamId: 't_crazydog', number: 17, name: '林柏佑', englishName: 'LIN PO YU', gender: '男', nationality: '台灣', age: 25 },
     { id: 'cd-03', teamId: 't_crazydog', number: 3, name: '王柏元', englishName: 'Wang Po-Yuan', gender: '男', nationality: '台灣', age: 25 },
-    { id: 'cd-14', teamId: 't_crazydog', number: 14, name: '劉佳興', englishName: 'Liu chia hsing', gender: '男', nationality: '台灣', age: 33 },
+    { id: 'cd-40', teamId: 't_crazydog', number: 40, name: '劉佳興', englishName: 'Liu chia hsing', gender: '男', nationality: '台灣', age: 33 },
     { id: 'cd-24', teamId: 't_crazydog', number: 24, name: '文俊偉', englishName: 'WUN JYUN-WEI', gender: '男', nationality: '台灣', age: 43 },
     { id: 'cd-10', teamId: 't_crazydog', number: 10, name: '張博宇', englishName: 'Zhang boyu', gender: '男', nationality: '台灣', age: 21 },
     { id: 'cd-07', teamId: 't_crazydog', number: 7, name: '徐鐸', englishName: 'HSU TUO', gender: '男', nationality: '台灣', age: 38 },

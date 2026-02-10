@@ -186,6 +186,7 @@ export const PLAYER_IMAGES: Record<string, string> = {
   // ✅ 新增
   '劉力瑋': '/d-league/assets/players/瘋Dog/劉力瑋.png',
   '吳詠祥': '/d-league/assets/players/瘋Dog/吳詠祥.png',
+  '王佳祈': '/d-league/assets/players/瘋Dog/王佳祈.png',
 
   // L2 - 鳥仕足球俱樂部
   '許御力': '/d-league/assets/players/鳥仕足球俱樂部/許御力.png',
