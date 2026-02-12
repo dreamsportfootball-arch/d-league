@@ -311,7 +311,7 @@ export const MATCH_EVENTS: Record<string, MatchEvent[]> = {
         { id: 'm25-2', minute: 12, player: '毛邦澤', type: 'GOAL', team: 'HOME' },
         { id: 'm25-3', minute: 18, player: '丁誌暉', type: 'GOAL', team: 'HOME' },
         { id: 'm25-4', minute: 32, player: '劉力瑋', type: 'GOAL', team: 'AWAY' },
-        { id: 'm25-5', minute: 34, player: '王佳祈', type: 'GOAL', team: 'AWAY' },
+        { id: 'm25-5', minute: 39, player: '王佳祈', type: 'GOAL', team: 'AWAY' },
     ],
 
     // M26: 屏東野猿 (3) vs 鹿逐 (1)
