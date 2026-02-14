@@ -327,8 +327,9 @@ export const MATCH_EVENTS: Record<string, MatchEvent[]> = {
         { id: 'm27-1', minute: 6, player: '吳明威', type: 'GOAL', team: 'HOME' },
         { id: 'm27-2', minute: 9, player: '洪品宇', type: 'GOAL', team: 'HOME' },
         { id: 'm27-3', minute: 17, player: '楊俊雄', type: 'GOAL', team: 'HOME' },
-        { id: 'm27-4', minute: 19, player: '楊俊雄', type: 'GOAL', team: 'HOME' },
-        { id: 'm27-5', minute: 19, player: '曾龍盛', type: 'GOAL', team: 'HOME' },
+        { id: 'm27-4', minute: 19, player: '曾龍盛', type: 'GOAL', team: 'HOME' },
+        { id: 'm27-5', minute: 19, player: '楊俊雄', type: 'GOAL', team: 'HOME' },
+
         // 烏龍球：鄭州偉 (嘉義) 替陳公舘進球 -> 記在 HOME
         { id: 'm27-6', minute: 23, player: '鄭州偉 (烏龍球)', type: 'GOAL', team: 'HOME' },
         { id: 'm27-7', minute: 40, player: '李鎮宇', type: 'GOAL', team: 'AWAY' },
