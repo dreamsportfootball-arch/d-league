@@ -144,33 +144,33 @@ const VideoHub: React.FC = () => {
                     </div>
 
                     <div className="flex flex-col space-y-3">
-                        {/* 1. 一氣呵成 (reels_01) - 2026/01/14 */}
+                        {/* 1.  */}
                         <SideVideoCard 
                             type="INSTAGRAM"
                             title={MOCK_VIDEOS[0].title}
                             meta={MOCK_VIDEOS[0].date}
                             image={MOCK_VIDEOS[0].thumbnail}
-                            link="https://www.instagram.com/d.league_tw/reel/DTfEnAMk0nb/"
+                            link={MOCK_VIDEOS[0].link || "https://www.instagram.com/d.league_tw/"} // 使用 MOCK_VIDEOS 內的 link
                             badge="REELS"
                         />
 
-                        {/* 2. 側身凌空射門 (reels_02) - 2026/01/13 */}
+                        {/* 2.  */}
                         <SideVideoCard 
                             type="INSTAGRAM"
                             title={MOCK_VIDEOS[1].title}
                             meta={MOCK_VIDEOS[1].date} 
                             image={MOCK_VIDEOS[1].thumbnail}
-                            link="https://www.instagram.com/d.league_tw/reel/DTb8tbYgeMv/"
+                            link={MOCK_VIDEOS[1].link || "https://www.instagram.com/d.league_tw/"} // 使用 MOCK_VIDEOS 內的 link
                             badge="REELS"
                         />
 
-                        {/* 3. 胸口一停 (reels_03) - 2025/12/11 */}
+                        {/* 3.  */}
                          <SideVideoCard 
                             type="INSTAGRAM"
                             title={MOCK_VIDEOS[2].title}
                             meta={MOCK_VIDEOS[2].date}
                             image={MOCK_VIDEOS[2].thumbnail}
-                            link="https://www.instagram.com/d.league_tw/reel/DSIGBE8k78E/"
+                            link={MOCK_VIDEOS[2].link || "https://www.instagram.com/d.league_tw/"} // 使用 MOCK_VIDEOS 內的 link
                             badge="REELS"
                         />
                     </div>
