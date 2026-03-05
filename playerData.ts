@@ -170,9 +170,9 @@ export const ALL_PLAYERS: PlayerProfile[] = [
     { id: 'cd-25', teamId: 't_crazydog', number: 25, name: '陳柏諧', englishName: 'Po Hsieh Chen', gender: '男', nationality: '台灣', age: 32 },
     { id: 'cd-22', teamId: 't_crazydog', number: 22, name: '蔡穎杰', englishName: 'TSAI YING CHIEN', gender: '男', nationality: '台灣/阿根廷', age: 42 },
     { id: 'cd-05', teamId: 't_crazydog', number: 5, name: '劉力瑋', englishName: 'LIU-LI-WEI', gender: '男', nationality: '台灣', age: 35 },
-    { id: 'cd-06', teamId: 't_crazydog', number: 6, name: '楊承諺', englishName: 'Yang-Cheng-Yen', gender: '男', nationality: '台灣', age: 29 },
-    { id: 'cd-08', teamId: 't_crazydog', number: 8, name: '吳詠祥', englishName: 'Wu-Yong-Xiang', gender: '男', nationality: '台灣', age: 19 },
-    { id: 'cd-14', teamId: 't_crazydog', number: 14, name: '王佳祈', englishName: 'WANG,JIA-QI', gender: '男', nationality: '台灣', age: 25 },
+    { id: 'cd-06', teamId: 't_crazydog', number: 6, name: '楊承諺', englishName: 'Yang-Cheng-Yen', gender: '男', nationality: '台灣', age: 19 },
+    { id: 'cd-08', teamId: 't_crazydog', number: 8, name: '吳詠祥', englishName: 'Wu-Yong-Xiang', gender: '男', nationality: '台灣', age: 29 },
+    { id: 'cd-14', teamId: 't_crazydog', number: 14, name: '王佳祈', englishName: 'WANG,JIA-QI', gender: '男', nationality: '台灣', age: 27 },
 
     // ==========================================
     // 鳥仕足球俱樂部 (t_niaoshi)
