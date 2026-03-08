@@ -60,12 +60,12 @@ export const MATCHES: Match[] = [
   // ✅ 15:00 銅雀 (1) vs 酒號 (4)
   { id: 'm28', round: 5, homeTeamId: 't_tongque', awayTeamId: 't_jiuhao', homeScore: 1, awayScore: 4, status: MatchStatus.FINISHED, timestamp: createDate('2026/02/08', '15:00'), venue: VENUE, league: 'L1' },
 
-  // Round 7 - 2026/03/08
-  { id: 'm29', round: 6, homeTeamId: 't_jiuhao', awayTeamId: 't_chen', homeScore: null, awayScore: null, status: MatchStatus.SCHEDULED, timestamp: createDate('2026/03/08', '10:00'), venue: VENUE, league: 'L1' },
-  { id: 'm30', round: 6, homeTeamId: 't_tongque', awayTeamId: 't_chiayi', homeScore: null, awayScore: null, status: MatchStatus.SCHEDULED, timestamp: createDate('2026/03/08', '11:00'), venue: VENUE, league: 'L1' },
-  { id: 'm31', round: 7, homeTeamId: 't_niaoshi', awayTeamId: 't_crazydog', homeScore: null, awayScore: null, status: MatchStatus.SCHEDULED, timestamp: createDate('2026/03/08', '13:00'), venue: VENUE, league: 'L2' },
-  { id: 'm32', round: 7, homeTeamId: 't_luzhu', awayTeamId: 't_ppi', homeScore: null, awayScore: null, status: MatchStatus.SCHEDULED, timestamp: createDate('2026/03/08', '14:00'), venue: VENUE, league: 'L2' },
-  { id: 'm33', round: 7, homeTeamId: 't_pingtung', awayTeamId: 't_canglong', homeScore: null, awayScore: null, status: MatchStatus.SCHEDULED, timestamp: createDate('2026/03/08', '15:00'), venue: VENUE, league: 'L2' },
+// Round 7 - 2026/03/08
+  { id: 'm29', round: 6, homeTeamId: 't_jiuhao', awayTeamId: 't_chen', homeScore: 5, awayScore: 2, status: MatchStatus.FINISHED, timestamp: createDate('2026/03/08', '10:00'), venue: VENUE, league: 'L1' },
+  { id: 'm30', round: 6, homeTeamId: 't_tongque', awayTeamId: 't_chiayi', homeScore: 1, awayScore: 2, status: MatchStatus.FINISHED, timestamp: createDate('2026/03/08', '11:00'), venue: VENUE, league: 'L1' },
+  { id: 'm31', round: 7, homeTeamId: 't_niaoshi', awayTeamId: 't_crazydog', homeScore: 3, awayScore: 4, status: MatchStatus.FINISHED, timestamp: createDate('2026/03/08', '13:00'), venue: VENUE, league: 'L2' },
+  { id: 'm32', round: 7, homeTeamId: 't_luzhu', awayTeamId: 't_ppi', homeScore: 1, awayScore: 6, status: MatchStatus.FINISHED, timestamp: createDate('2026/03/08', '14:00'), venue: VENUE, league: 'L2' },
+  { id: 'm33', round: 7, homeTeamId: 't_pingtung', awayTeamId: 't_canglong', homeScore: 1, awayScore: 1, status: MatchStatus.FINISHED, timestamp: createDate('2026/03/08', '15:00'), venue: VENUE, league: 'L2' },
 
   // Round 8 - 2026/03/22
   { id: 'm34', round: 8, homeTeamId: 't_luzhu', awayTeamId: 't_niaoshi', homeScore: null, awayScore: null, status: MatchStatus.SCHEDULED, timestamp: createDate('2026/03/22', '10:00'), venue: VENUE, league: 'L2' },
@@ -346,5 +346,55 @@ export const MATCH_EVENTS: Record<string, MatchEvent[]> = {
         { id: 'm28-4', minute: 28, player: '鄭詠翰', type: 'GOAL', team: 'AWAY' },
         { id: 'm28-5', minute: 30, player: '林晉威', type: 'YELLOW_CARD', team: 'HOME' },
         { id: 'm28-6', minute: 31, player: '林冠亨', type: 'GOAL', team: 'AWAY' },
+    ],
+
+// ============================================
+    // Round 7 (2026/03/08) 比賽紀錄
+    // ============================================
+    
+    // M29: 酒號矯正署 (5) vs 陳公舘 (2)
+    'm29': [
+        { id: 'm29-1', minute: 2, player: '林冠亨', type: 'GOAL', team: 'HOME' },
+        { id: 'm29-2', minute: 7, player: '何柏緯', type: 'GOAL', team: 'HOME' },
+        { id: 'm29-3', minute: 15, player: '楊俊雄', type: 'GOAL', team: 'AWAY' },
+        { id: 'm29-4', minute: 18, player: '洪品宇', type: 'GOAL', team: 'AWAY' },
+        { id: 'm29-5', minute: 19, player: '鄭詠翰', type: 'GOAL', team: 'HOME' },
+        { id: 'm29-6', minute: 32, player: '鄭詠翰', type: 'GOAL', team: 'HOME' },
+        { id: 'm29-7', minute: 39, player: '林冠亨', type: 'GOAL', team: 'HOME' },
+    ],
+
+    // M30: 銅雀足球俱樂部 (1) vs 嘉義諸羅山FC (2)
+    'm30': [
+        { id: 'm30-1', minute: 5, player: '趙南聰', type: 'GOAL', team: 'HOME' },
+        { id: 'm30-2', minute: 16, player: '溫立丞', type: 'GOAL', team: 'AWAY' },
+        { id: 'm30-3', minute: 18, player: '黃偉倫', type: 'GOAL', team: 'AWAY' },
+    ],
+
+    // M31: 鳥仕足球俱樂部 (3) vs 瘋Dog (4)
+    'm31': [
+        { id: 'm31-1', minute: 4, player: '陳宇翔', type: 'GOAL', team: 'HOME' },
+        { id: 'm31-2', minute: 7, player: '劉力瑋', type: 'GOAL', team: 'AWAY' },
+        { id: 'm31-3', minute: 17, player: '劉力瑋', type: 'GOAL', team: 'AWAY' },
+        { id: 'm31-4', minute: 18, player: '高義莉', type: 'GOAL', team: 'HOME' },
+        { id: 'm31-5', minute: 28, player: '王亦瑋', type: 'GOAL', team: 'AWAY' },
+        { id: 'm31-6', minute: 30, player: '蘇智龍', type: 'GOAL', team: 'HOME' },
+        { id: 'm31-7', minute: 39, player: '劉力瑋', type: 'GOAL', team: 'AWAY' },
+    ],
+
+    // M32: 鹿逐俱樂部 (1) vs PPI TAINAN (6)
+    'm32': [
+        { id: 'm32-1', minute: 1, player: '蔡昀晏', type: 'GOAL', team: 'HOME' },
+        { id: 'm32-2', minute: 12, player: '蘇凡迪', type: 'GOAL', team: 'AWAY' },
+        { id: 'm32-3', minute: 22, player: '布丹', type: 'GOAL', team: 'AWAY' },
+        { id: 'm32-4', minute: 24, player: '伊拉曼', type: 'GOAL', team: 'AWAY' },
+        { id: 'm32-5', minute: 29, player: '孺立', type: 'GOAL', team: 'AWAY' },
+        { id: 'm32-6', minute: 32, player: '蘇凡迪', type: 'GOAL', team: 'AWAY' },
+        { id: 'm32-7', minute: 39, player: '布丹', type: 'GOAL', team: 'AWAY' },
+    ],
+
+    // M33: 屏東野猿足球俱樂部 (1) vs 蒼龍FC (1)
+    'm33': [
+        { id: 'm33-1', minute: 29, player: '林韋堯', type: 'GOAL', team: 'HOME' },
+        { id: 'm33-2', minute: 36, player: '葉晉嘉', type: 'GOAL', team: 'AWAY' },
     ],
 };

@@ -686,7 +686,33 @@ D LEAGUE｜台南夢達七人足球聯賽 2025/26
     category: 'Match Report',
     imageUrl: '/d-league/assets/news/match-r6-m28.png',
     timestamp: new Date('2026-02-14T14:00:00Z').toISOString()
-  }
+  },
+
+// 賽程預告：第七比賽日 (2026/03/08)
+  {
+    id: 'matchday-preview-r7-20260305',
+    title: '【賽程預告】MatchDay 7｜03.08 賽事一覽⚽️',
+    summary: 'D LEAGUE 2025/26 賽季第七比賽日即將於 3 月 8 日登場！本週共有五場精彩對決，歡迎大家到場觀賽。',
+    content: `MatchDay ⚽️
+【03.08 賽程預告】
+
+10:00 酒號矯正署 vs 陳公舘
+11:00 銅雀足球俱樂部 vs 嘉義諸羅山FC
+13:00 鳥仕足球俱樂部 vs 瘋Dog
+14:00 鹿逐俱樂部 vs PPI TAINAN
+15:00 屏東野猿足球俱樂部 vs 蒼龍FC
+
+-----------------------------
+D LEAGUE｜台南夢達七人足球聯賽 2025/26
+📅 比賽日 7｜2026.03.08（日）
+📍 地點：仁德文賢國中人工草皮
+
+歡迎各位球迷朋友蒞臨現場，為支持嘅球隊加油！`,
+    category: 'Official',
+    imageUrl: '/d-league/assets/news/matchday-r7.png',
+    timestamp: new Date('2026-03-05T10:00:00Z').toISOString()
+  },
+
 
 ];
 
