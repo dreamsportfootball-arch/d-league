@@ -383,7 +383,7 @@ export const MATCH_EVENTS: Record<string, MatchEvent[]> = {
 
     // M32: 鹿逐俱樂部 (1) vs PPI TAINAN (6)
     'm32': [
-        { id: 'm32-1', minute: 1, player: '蔡昀晏', type: 'GOAL', team: 'HOME' },
+        { id: 'm32-1', minute: 1, player: '林敬祐', type: 'GOAL', team: 'HOME' },
         { id: 'm32-2', minute: 12, player: '蘇凡迪', type: 'GOAL', team: 'AWAY' },
         { id: 'm32-3', minute: 22, player: '布丹', type: 'GOAL', team: 'AWAY' },
         { id: 'm32-4', minute: 24, player: '伊拉曼', type: 'GOAL', team: 'AWAY' },
