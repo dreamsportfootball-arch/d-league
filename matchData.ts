@@ -366,8 +366,8 @@ export const MATCH_EVENTS: Record<string, MatchEvent[]> = {
     // M30: 銅雀足球俱樂部 (1) vs 嘉義諸羅山FC (2)
     'm30': [
         { id: 'm30-1', minute: 5, player: '趙南聰', type: 'GOAL', team: 'HOME' },
-        { id: 'm30-2', minute: 16, player: '溫立丞', type: 'GOAL', team: 'AWAY' },
-        { id: 'm30-3', minute: 18, player: '黃偉倫', type: 'GOAL', team: 'AWAY' },
+        { id: 'm30-2', minute: 36, player: '溫立丞', type: 'GOAL', team: 'AWAY' },
+        { id: 'm30-3', minute: 38, player: '黃偉倫', type: 'GOAL', team: 'AWAY' },
     ],
 
     // M31: 鳥仕足球俱樂部 (3) vs 瘋Dog (4)
