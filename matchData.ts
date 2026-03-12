@@ -387,8 +387,8 @@ export const MATCH_EVENTS: Record<string, MatchEvent[]> = {
         { id: 'm32-2', minute: 12, player: '蘇凡迪', type: 'GOAL', team: 'AWAY' },
         { id: 'm32-3', minute: 22, player: '布丹', type: 'GOAL', team: 'AWAY' },
         { id: 'm32-4', minute: 24, player: '伊拉曼', type: 'GOAL', team: 'AWAY' },
-        { id: 'm32-5', minute: 29, player: '孺立', type: 'GOAL', team: 'AWAY' },
-        { id: 'm32-6', minute: 32, player: '蘇凡迪', type: 'GOAL', team: 'AWAY' },
+        { id: 'm32-5', minute: 29, player: ' 陳泰盛 (烏龍球)', type: 'GOAL', team: 'AWAY' },
+        { id: 'm32-6', minute: 32, player: 'YEHUDA GAGAH WICAKSONO', type: 'GOAL', team: 'AWAY' },
         { id: 'm32-7', minute: 39, player: '布丹', type: 'GOAL', team: 'AWAY' },
     ],
 
