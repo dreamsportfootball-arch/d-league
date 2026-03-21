@@ -3,6 +3,29 @@
 import { NewsArticle } from "../types";
 
 export const MOCK_NEWS: NewsArticle[] = [
+
+{
+    id: 'matchday-preview-r8-20260321',
+    title: 'MatchDay 8 ⚽️ 【03.22 賽程預告】',
+    summary: 'D LEAGUE 2025/26 賽季第八比賽日將於 3 月 22 日登場！本週共有五場精彩對決，歡迎大家到場觀賽。',
+    content: `【03.22 賽程預告】
+
+10:00 鹿逐俱樂部 vs 鳥仕足球俱樂部
+11:00 PPI TAINAN vs 蒼龍FC
+13:00 銅雀足球俱樂部 vs 陳公舘
+14:00 嘉義諸羅山FC vs 酒號矯正署
+15:00 屏東野猿足球俱樂部 vs 瘋Dog
+
+-----------------------------
+D LEAGUE｜台南夢達七人足球聯賽 2025/26
+📅 比賽日 8｜2026.03.22（日）
+📍 地點：仁德文賢國中人工草皮
+
+歡迎各位球迷朋友蒞臨現場，為支持嘅球隊加油！`,
+    category: 'Official',
+    imageUrl: '/d-league/assets/news/matchday-r8.png', 
+    timestamp: new Date('2026-03-21T12:00:00Z').toISOString() 
+  },
   // 1. PPI vs 鳥仕
   {
     id: 'match-report-m5-20251025',

@@ -96,6 +96,7 @@ export const PLAYER_IMAGES: Record<string, string> = {
   '克魯茲': '/d-league/assets/players/銅雀足球俱樂部/克魯茲.png',
   // ✅ 新增
   '王奕中': '/d-league/assets/players/銅雀足球俱樂部/王奕中.png',
+  '余彥絨': '/d-league/assets/players/銅雀足球俱樂部/余彥絨.png',
   
   // L1 - 酒號矯正署
   '林淮哲': '/d-league/assets/players/酒號矯正署/林淮哲.png',
