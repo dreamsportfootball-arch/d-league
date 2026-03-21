@@ -82,7 +82,8 @@ export const ALL_PLAYERS: PlayerProfile[] = [
     { id: 'tq-04', teamId: 't_tongque', number: 4, name: '林晉威', englishName: 'LIN CHIN WEI', gender: '男', nationality: '台灣', age: 24 },
     { id: 'tq-01', teamId: 't_tongque', number: 1, name: '克魯茲', englishName: 'Oscar Roberto Cruz Flores', gender: '男', nationality: '薩爾瓦多', age: 27 },
     { id: 'tq-84', teamId: 't_tongque', number: 84, name: '趙學克', englishName: 'Zhao Xueke', gender: '男', nationality: '台灣', age: 27 },
-    { id: 'tq-90', teamId: 't_tongque', number: 90, name: '趙學邦', englishName: 'Zhao Xuebang', gender: '男', nationality: '台灣', age: 25 },
+    // ❌ 已移除因傷退出的趙學邦 (tq-90)
+    { id: 'tq-91', teamId: 't_tongque', number: 91, name: '余彥絨', englishName: 'Yu Yen Jung', gender: '男', nationality: '台灣', age: 31 },
     { id: 'tq-19', teamId: 't_tongque', number: 19, name: '王奕中', englishName: 'Wang I Chung', gender: '男', nationality: '台灣', age: 26 },
 
     // ==========================================
