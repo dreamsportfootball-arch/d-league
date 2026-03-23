@@ -115,7 +115,6 @@ const ProStatRow: React.FC<{
                         ${getNameSizeClass(player.name, isHero)} 
                         ${isHero ? 'font-display font-black italic text-brand-blue py-1' : 'font-sans'} 
                     `}>
-                        {/* 👆 修改重點：在 isHero 裡加入了 font-black */}
                         {player.name}
                     </span>
                     <div className="flex items-center mt-0.5">
@@ -197,7 +196,7 @@ const StatsPage: React.FC = () => {
             const match = MATCHES.find((m) => m.id === matchId);
             if (!match || match.league !== activeLeague) return;
             
-            events.forEach((event) => {
+            events.forEach((event: any) => {
                 const playerKey = event.player;
                 
                 let displayTeamId = event.team === 'HOME' ? match.homeTeamId : match.awayTeamId;
@@ -216,7 +215,8 @@ const StatsPage: React.FC = () => {
                     stats[playerKey].teamId = displayTeamId;
                 }
                 
-                if (event.type === 'GOAL' && !event.player.includes('(烏龍球)')) {
+                // 這裡就是修改的地方：如果是進球 (GOAL)，而且不是烏龍球 (!event.isOwnGoal)，而且名字裡面沒有包含「(烏龍球)」的字眼，才會算進射手榜
+                if (event.type === 'GOAL' && !event.isOwnGoal && !event.player.includes('(烏龍球)')) {
                     stats[playerKey].goals += 1;
                 }
                 if (event.type === 'YELLOW_CARD') stats[playerKey].yellowCards += 1;
