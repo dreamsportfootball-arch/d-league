@@ -16,26 +16,19 @@ const getEventIcon = (type: EventType) => {
             return <img src={ICON_URLS.GOAL} alt="Goal" className="w-4 h-4" />;
             
         case 'YELLOW_CARD':
-            // 🟨 純 CSS 黃牌 (固定尺寸 w-2.5 h-3.5)
             return (
                 <div className="w-2.5 h-3.5 bg-yellow-400 rounded-[1px] shadow-sm border border-black/10" title="Yellow Card"></div>
             );
             
         case 'RED_CARD':
-            // 🟥 純 CSS 紅牌 (固定尺寸 w-2.5 h-3.5)
             return (
                 <div className="w-2.5 h-3.5 bg-red-600 rounded-[1px] shadow-sm border border-black/10" title="Red Card"></div>
             );
         
-        // 🟨🟥 兩黃變一紅 (緊湊疊加版 - 視覺大小接近單張牌)
         case 'SECOND_YELLOW':
             return (
-                // 容器寬度縮小到 w-3，高度維持 h-3.5，讓整體不佔太多空間
                 <div className="relative w-3 h-3.5 flex items-center justify-center">
-                    {/* 黃牌在後 (左上) */}
                     <div className="absolute left-0 top-0 w-2.5 h-3.5 bg-yellow-400 rounded-[1px] shadow-sm border border-black/10 transform -rotate-6"></div>
-                    
-                    {/* 紅牌在前 (右下，稍微錯開 2px) */}
                     <div className="absolute left-[2px] top-[1px] w-2.5 h-3.5 bg-red-600 rounded-[1px] shadow-sm border border-black/10 transform rotate-3 z-10"></div>
                 </div>
             );
@@ -62,6 +55,9 @@ const MatchEvents: React.FC<{ matchId: string }> = ({ matchId }) => {
         const isLongName = event.player.length > 12;
         const textSizeClass = isLongName ? 'text-[10px] leading-tight' : 'text-sm';
 
+        // ✅ 新增：根據隱藏標籤，組合要顯示的附加文字 (例如 PK 或 烏龍球)
+        const extraText = event.isPK ? ' (PK)' : (event.isOwnGoal ? ' (烏龍球)' : '');
+
         return (
             <div className="flex w-full items-center relative py-1">
                 
@@ -69,9 +65,10 @@ const MatchEvents: React.FC<{ matchId: string }> = ({ matchId }) => {
                 <div className="flex-1 flex justify-end pr-2 min-w-0">
                     {isHome && (
                         <div className="flex items-center space-x-2 justify-end w-full">
-                            {/* 球員名稱 */}
+                            {/* 球員名稱 + 附加文字 */}
                             <span className={`font-medium ${textSizeClass} text-right text-brand-black break-words`}>
                                 {event.player}
+                                <span className="text-neutral-500 font-normal text-xs">{extraText}</span>
                             </span>
                             {/* 分鐘數 */}
                             <span className={`text-[10px] font-bold text-neutral-500 ${MINUTE_WIDTH_CLASS}`}>{event.minute}'</span>
@@ -90,9 +87,10 @@ const MatchEvents: React.FC<{ matchId: string }> = ({ matchId }) => {
                         <div className="flex items-center space-x-2 w-full">
                             {/* 分鐘數 */}
                             <span className={`text-[10px] font-bold text-neutral-500 ${MINUTE_WIDTH_CLASS}`}>{event.minute}'</span>
-                            {/* 球員名稱 */}
+                            {/* 球員名稱 + 附加文字 */}
                             <span className={`font-medium ${textSizeClass} text-left text-brand-black break-words`}>
                                 {event.player}
+                                <span className="text-neutral-500 font-normal text-xs">{extraText}</span>
                             </span>
                         </div>
                     )}

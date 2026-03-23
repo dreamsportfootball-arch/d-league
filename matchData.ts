@@ -67,12 +67,12 @@ export const MATCHES: Match[] = [
   { id: 'm32', round: 7, homeTeamId: 't_luzhu', awayTeamId: 't_ppi', homeScore: 1, awayScore: 6, status: MatchStatus.FINISHED, timestamp: createDate('2026/03/08', '14:00'), venue: VENUE, league: 'L2' },
   { id: 'm33', round: 7, homeTeamId: 't_pingtung', awayTeamId: 't_canglong', homeScore: 1, awayScore: 1, status: MatchStatus.FINISHED, timestamp: createDate('2026/03/08', '15:00'), venue: VENUE, league: 'L2' },
 
-  // Round 8 - 2026/03/22
-  { id: 'm34', round: 8, homeTeamId: 't_luzhu', awayTeamId: 't_niaoshi', homeScore: null, awayScore: null, status: MatchStatus.SCHEDULED, timestamp: createDate('2026/03/22', '10:00'), venue: VENUE, league: 'L2' },
-  { id: 'm35', round: 8, homeTeamId: 't_ppi', awayTeamId: 't_canglong', homeScore: null, awayScore: null, status: MatchStatus.SCHEDULED, timestamp: createDate('2026/03/22', '11:00'), venue: VENUE, league: 'L2' },
-  { id: 'm36', round: 7, homeTeamId: 't_tongque', awayTeamId: 't_chen', homeScore: null, awayScore: null, status: MatchStatus.SCHEDULED, timestamp: createDate('2026/03/22', '13:00'), venue: VENUE, league: 'L1' },
-  { id: 'm37', round: 7, homeTeamId: 't_chiayi', awayTeamId: 't_jiuhao', homeScore: null, awayScore: null, status: MatchStatus.SCHEDULED, timestamp: createDate('2026/03/22', '14:00'), venue: VENUE, league: 'L1' },
-  { id: 'm38', round: 8, homeTeamId: 't_pingtung', awayTeamId: 't_crazydog', homeScore: null, awayScore: null, status: MatchStatus.SCHEDULED, timestamp: createDate('2026/03/22', '15:00'), venue: VENUE, league: 'L2' },
+// Round 8 - 2026/03/22 (已完成)
+  { id: 'm34', round: 8, homeTeamId: 't_luzhu', awayTeamId: 't_niaoshi', homeScore: 0, awayScore: 3, status: MatchStatus.FINISHED, timestamp: createDate('2026/03/22', '10:00'), venue: VENUE, league: 'L2' },
+  { id: 'm35', round: 8, homeTeamId: 't_ppi', awayTeamId: 't_canglong', homeScore: 0, awayScore: 1, status: MatchStatus.FINISHED, timestamp: createDate('2026/03/22', '11:00'), venue: VENUE, league: 'L2' },
+  { id: 'm36', round: 7, homeTeamId: 't_tongque', awayTeamId: 't_chen', homeScore: 2, awayScore: 3, status: MatchStatus.FINISHED, timestamp: createDate('2026/03/22', '13:00'), venue: VENUE, league: 'L1' },
+  { id: 'm37', round: 7, homeTeamId: 't_chiayi', awayTeamId: 't_jiuhao', homeScore: 2, awayScore: 1, status: MatchStatus.FINISHED, timestamp: createDate('2026/03/22', '14:00'), venue: VENUE, league: 'L1' },
+  { id: 'm38', round: 8, homeTeamId: 't_pingtung', awayTeamId: 't_crazydog', homeScore: 3, awayScore: 1, status: MatchStatus.FINISHED, timestamp: createDate('2026/03/22', '15:00'), venue: VENUE, league: 'L2' },
 
   // Round 9 - 2026/04/12
   { id: 'm39', round: 9, homeTeamId: 't_luzhu', awayTeamId: 't_crazydog', homeScore: null, awayScore: null, status: MatchStatus.SCHEDULED, timestamp: createDate('2026/04/12', '10:00'), venue: VENUE, league: 'L2' },
@@ -97,7 +97,7 @@ export const MOCK_VIDEOS: Video[] = [
     id: 'v1', 
     title: '💥', 
     duration: 'Reels',
-    thumbnail: '/d-league/assets/reels/reels_03.png', // 若有新圖片請更新路徑
+    thumbnail: '/d-league/assets/reels/reels_03.png', 
     date: '2026.02.15',
     link: 'https://www.instagram.com/d.league_tw/reel/DUxX_iIkyQK/'
   },
@@ -105,7 +105,7 @@ export const MOCK_VIDEOS: Video[] = [
     id: 'v2', 
     title: '側掛金鈎🤩', 
     duration: 'Reels', 
-    thumbnail: '/d-league/assets/reels/reels_02.png', // 若有新圖片請更新路徑
+    thumbnail: '/d-league/assets/reels/reels_02.png', 
     date: '2026.02.15',
     link: 'https://www.instagram.com/d.league_tw/reel/DUxBjJckyGj/'
   },
@@ -122,12 +122,15 @@ export const MOCK_VIDEOS: Video[] = [
 // ✅ 新增：SECOND_YELLOW
 export type EventType = 'GOAL' | 'YELLOW_CARD' | 'RED_CARD' | 'SECOND_YELLOW';
 
+// ✅ 修改：加入 isPK 與 isOwnGoal 來標記特殊進球
 export interface MatchEvent {
     id: string;
     minute: number;
     player: string;
     type: EventType;
     team: 'HOME' | 'AWAY';
+    isPK?: boolean;       
+    isOwnGoal?: boolean;  
 }
 
 // ==========================================
@@ -141,12 +144,10 @@ export const MATCH_EVENTS: Record<string, MatchEvent[]> = {
         { id: 'm1-3', minute: 32, player: '吳明遠', type: 'GOAL', team: 'AWAY' },
     ],
     // M2: 瘋Dog (5) vs 蒼龍FC (0)
-    // ✅ 更新：潘晨維 兩黃變一紅 (SECOND_YELLOW)
     'm2': [
         { id: 'm2-1', minute: 3, player: '吳亦民', type: 'GOAL', team: 'HOME' },
-        { id: 'm2-2', minute: 5, player: '潘晨維', type: 'YELLOW_CARD', team: 'AWAY' }, // 第一張黃牌
-        // (原本的中間那張黃牌已刪除，避免重複)
-        { id: 'm2-4', minute: 5, player: '潘晨維', type: 'SECOND_YELLOW', team: 'AWAY' }, // 兩黃換一紅 (圖示會疊在一起)
+        { id: 'm2-2', minute: 5, player: '潘晨維', type: 'YELLOW_CARD', team: 'AWAY' }, 
+        { id: 'm2-4', minute: 5, player: '潘晨維', type: 'SECOND_YELLOW', team: 'AWAY' }, 
         { id: 'm2-5', minute: 23, player: '張博宇', type: 'GOAL', team: 'HOME' },
         { id: 'm2-6', minute: 24, player: '張博宇', type: 'GOAL', team: 'HOME' },
         { id: 'm2-7', minute: 26, player: '張博宇', type: 'GOAL', team: 'HOME' },
@@ -162,9 +163,10 @@ export const MATCH_EVENTS: Record<string, MatchEvent[]> = {
         { id: 'm3-6', minute: 38, player: '林冠亨', type: 'GOAL', team: 'AWAY' },
     ],
     // M4: 銅雀足球俱樂部 (0) vs 陳公舘 (2)
+    // ✅ 修改：用 isPK: true 標記點球
     'm4': [
-        { id: 'm4-1', minute: 18, player: '吳明威', type: 'GOAL', team: 'AWAY' },
-        { id: 'm4-2', minute: 34, player: '洪品丞', type: 'GOAL', team: 'AWAY' },
+        { id: 'm4-1', minute: 18, player: '吳明威', type: 'GOAL', team: 'AWAY', isPK: true }, 
+        { id: 'm4-2', minute: 34, player: '洪品丞', type: 'GOAL', team: 'AWAY', isPK: true }, 
     ],
     // M5: PPI TAINAN (0) vs 鳥仕足球俱樂部 (1)
     'm5': [
@@ -192,12 +194,13 @@ export const MATCH_EVENTS: Record<string, MatchEvent[]> = {
         { id: 'm8-4', minute: 33, player: '戴威閎', type: 'GOAL', team: 'HOME' },
     ],
     // M9: 蒼龍FC (4) vs 屏東野猿足球俱樂部 (3)
+    // ✅ 修改：用 isOwnGoal: true 標記烏龍球
     'm9': [
         { id: 'm9-1', minute: 1, player: '簡法亦', type: 'GOAL', team: 'AWAY' },
         { id: 'm9-2', minute: 4, player: '毛邦澤', type: 'GOAL', team: 'HOME' },
         { id: 'm9-3', minute: 5, player: '楊承諺', type: 'GOAL', team: 'HOME' },
         { id: 'm9-4', minute: 7, player: '邱文良', type: 'GOAL', team: 'AWAY' },
-        { id: 'm9-5', minute: 24, player: '林湧鈞 (烏龍球)', type: 'GOAL', team: 'AWAY' },
+        { id: 'm9-5', minute: 24, player: '林湧鈞', type: 'GOAL', team: 'AWAY', isOwnGoal: true },
         { id: 'm9-6', minute: 27, player: '毛邦澤', type: 'GOAL', team: 'HOME' },
         { id: 'm9-7', minute: 32, player: '李偲瑋', type: 'YELLOW_CARD', team: 'AWAY' },
         { id: 'm9-8', minute: 40, player: '王浩誠', type: 'GOAL', team: 'HOME' },
@@ -210,11 +213,12 @@ export const MATCH_EVENTS: Record<string, MatchEvent[]> = {
         { id: 'm10-4', minute: 36, player: '王竣弘', type: 'GOAL', team: 'HOME' },
     ],
     // M11: 瘋Dog (2) vs 屏東野猿足球俱樂部 (2)
+    // ✅ 修改：用 isPK: true 標記點球
     'm11': [
         { id: 'm11-1', minute: 6, player: '林韋堯', type: 'GOAL', team: 'AWAY' },
         { id: 'm11-2', minute: 13, player: '林韋堯', type: 'GOAL', team: 'AWAY' },
         { id: 'm11-3', minute: 24, player: '趙學邦', type: 'GOAL', team: 'HOME' },
-        { id: 'm11-4', minute: 29, player: '趙學邦', type: 'GOAL', team: 'HOME' },
+        { id: 'm11-4', minute: 29, player: '趙學邦', type: 'GOAL', team: 'HOME', isPK: true }, 
         { id: 'm11-5', minute: 40, player: '李偲瑋', type: 'YELLOW_CARD', team: 'AWAY' },
     ],
     // M12: 酒號矯正署 (2) vs 銅雀足球俱樂部 (0)
@@ -269,14 +273,14 @@ export const MATCH_EVENTS: Record<string, MatchEvent[]> = {
         { id: 'm19-6', minute: 33, player: '林冠亨', type: 'GOAL', team: 'HOME' },
     ],
     // M20: 陳公舘 (5) vs 銅雀足球俱樂部 (1)
+    // ✅ 修改：加入 isPK 與 isOwnGoal
     'm20': [
         { id: 'm20-1', minute: 4, player: '林家銘', type: 'GOAL', team: 'HOME' },
-        { id: 'm20-2', minute: 8, player: '巫嘉德 (烏龍球)', type: 'GOAL', team: 'HOME' },
+        { id: 'm20-2', minute: 8, player: '巫嘉德', type: 'GOAL', team: 'HOME', isOwnGoal: true },
         { id: 'm20-3', minute: 27, player: '林宴丞', type: 'GOAL', team: 'AWAY' },
-        { id: 'm20-4', minute: 29, player: '洪品宇', type: 'GOAL', team: 'HOME' },
+        { id: 'm20-4', minute: 29, player: '洪品宇', type: 'GOAL', team: 'HOME', isPK: true },
         { id: 'm20-5', minute: 36, player: '倪天銘', type: 'GOAL', team: 'HOME' },
         { id: 'm20-6', minute: 37, player: '洪品宇', type: 'GOAL', team: 'HOME' },
-
     ],
     // M21: 瘋Dog (0) vs PPI TAINAN (0)
     'm21': [],
@@ -326,15 +330,14 @@ export const MATCH_EVENTS: Record<string, MatchEvent[]> = {
     ],
 
     // M27: 陳公舘 (6) vs 嘉義諸羅山 (1)
+    // ✅ 修改：加入 isPK 與 isOwnGoal
     'm27': [
         { id: 'm27-1', minute: 6, player: '吳明威', type: 'GOAL', team: 'HOME' },
-        { id: 'm27-2', minute: 9, player: '洪品宇', type: 'GOAL', team: 'HOME' },
+        { id: 'm27-2', minute: 9, player: '洪品宇', type: 'GOAL', team: 'HOME', isPK: true },
         { id: 'm27-3', minute: 17, player: '楊俊雄', type: 'GOAL', team: 'HOME' },
         { id: 'm27-4', minute: 19, player: '曾龍盛', type: 'GOAL', team: 'HOME' },
         { id: 'm27-5', minute: 19, player: '楊俊雄', type: 'GOAL', team: 'HOME' },
-
-        // 烏龍球：鄭州偉 (嘉義) 替陳公舘進球 -> 記在 HOME
-        { id: 'm27-6', minute: 23, player: '鄭州偉 (烏龍球)', type: 'GOAL', team: 'HOME' },
+        { id: 'm27-6', minute: 23, player: '鄭州偉', type: 'GOAL', team: 'HOME', isOwnGoal: true },
         { id: 'm27-7', minute: 40, player: '李鎮宇', type: 'GOAL', team: 'AWAY' },
     ],
 
@@ -382,12 +385,13 @@ export const MATCH_EVENTS: Record<string, MatchEvent[]> = {
     ],
 
     // M32: 鹿逐俱樂部 (1) vs PPI TAINAN (6)
+    // ✅ 修改：加入 isOwnGoal
     'm32': [
         { id: 'm32-1', minute: 1, player: '林敬祐', type: 'GOAL', team: 'HOME' },
         { id: 'm32-2', minute: 12, player: '蘇凡迪', type: 'GOAL', team: 'AWAY' },
         { id: 'm32-3', minute: 22, player: '布丹', type: 'GOAL', team: 'AWAY' },
         { id: 'm32-4', minute: 24, player: '伊拉曼', type: 'GOAL', team: 'AWAY' },
-        { id: 'm32-5', minute: 29, player: ' 陳泰盛 (烏龍球)', type: 'GOAL', team: 'AWAY' },
+        { id: 'm32-5', minute: 29, player: '陳泰盛', type: 'GOAL', team: 'AWAY', isOwnGoal: true },
         { id: 'm32-6', minute: 32, player: 'YEHUDA GAGAH WICAKSONO', type: 'GOAL', team: 'AWAY' },
         { id: 'm32-7', minute: 39, player: '布丹', type: 'GOAL', team: 'AWAY' },
     ],
@@ -396,5 +400,39 @@ export const MATCH_EVENTS: Record<string, MatchEvent[]> = {
     'm33': [
         { id: 'm33-1', minute: 29, player: '林韋堯', type: 'GOAL', team: 'HOME' },
         { id: 'm33-2', minute: 36, player: '葉晉嘉', type: 'GOAL', team: 'AWAY' },
+    ],
+
+    // M34: 鹿逐 (0) vs 鳥仕 (3)
+    'm34': [
+        { id: 'm34-1', minute: 19, player: '吳昱陞', type: 'GOAL', team: 'AWAY' },
+        { id: 'm34-2', minute: 28, player: '林耀強', type: 'GOAL', team: 'AWAY' },
+        { id: 'm34-3', minute: 32, player: '陳遠泰', type: 'GOAL', team: 'AWAY' },
+    ],
+    // M35: PPI (0) vs 蒼龍 (1)
+    'm35': [
+        { id: 'm35-1', minute: 15, player: '盧冠宇', type: 'GOAL', team: 'AWAY' },
+    ],
+    // M36: 銅雀 (2) vs 陳公舘 (3)
+    // ✅ 修改：加入 isPK
+    'm36': [
+        { id: 'm36-1', minute: 5, player: '林晉威', type: 'GOAL', team: 'HOME' },
+        { id: 'm36-2', minute: 23, player: '潘志豪', type: 'GOAL', team: 'AWAY' },
+        { id: 'm36-3', minute: 24, player: '克魯茲', type: 'YELLOW_CARD', team: 'HOME' },
+        { id: 'm36-4', minute: 32, player: '洪品宇', type: 'GOAL', team: 'AWAY', isPK: true },
+        { id: 'm36-5', minute: 34, player: '吳明威', type: 'GOAL', team: 'AWAY' },
+        { id: 'm36-6', minute: 35, player: '趙南聰', type: 'GOAL', team: 'HOME' },
+    ],
+    // M37: 嘉義 (2) vs 酒號 (1)
+    'm37': [
+        { id: 'm37-1', minute: 22, player: '鄭州偉', type: 'GOAL', team: 'HOME' },
+        { id: 'm37-2', minute: 25, player: '鄭州偉', type: 'GOAL', team: 'HOME' },
+        { id: 'm37-3', minute: 38, player: '何柏緯', type: 'GOAL', team: 'AWAY' },
+    ],
+    // M38: 屏東 (3) vs 瘋Dog (1)
+    'm38': [
+        { id: 'm38-1', minute: 5, player: '連哲緯', type: 'GOAL', team: 'HOME' },
+        { id: 'm38-2', minute: 19, player: '王亦瑋', type: 'GOAL', team: 'AWAY' },
+        { id: 'm38-3', minute: 31, player: '連哲緯', type: 'GOAL', team: 'HOME' },
+        { id: 'm38-4', minute: 33, player: '黃浩程', type: 'GOAL', team: 'HOME' },
     ],
 };
