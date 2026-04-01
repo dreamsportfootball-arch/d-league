@@ -95,27 +95,27 @@ export const MATCHES: Match[] = [
 export const MOCK_VIDEOS: Video[] = [
   { 
     id: 'v1', 
-    title: '💥', 
+    title: '角度刁鑽🚀', 
     duration: 'Reels',
     thumbnail: '/d-league/assets/reels/reels_03.png', 
-    date: '2026.02.15',
+    date: '2026.03.31',
     link: 'https://www.instagram.com/d.league_tw/reel/DUxX_iIkyQK/'
   },
   { 
     id: 'v2', 
-    title: '側掛金鈎🤩', 
+    title: '💫Dribble and Assist', 
     duration: 'Reels', 
     thumbnail: '/d-league/assets/reels/reels_02.png', 
-    date: '2026.02.15',
-    link: 'https://www.instagram.com/d.league_tw/reel/DUxBjJckyGj/'
+    date: '2026.03.31',
+    link: 'https://www.instagram.com/d.league_tw/reel/DWi9M2fExcU/'
   },
   { 
     id: 'v3', 
-    title: '一氣呵成 💥',
+    title: '精彩反擊⚽️👺',
     duration: 'Reels', 
     thumbnail: '/d-league/assets/reels/reels_01.png', 
-    date: '2026.01.14',
-    link: 'https://www.instagram.com/d.league_tw/reel/DTfEnAMk0nb/'
+    date: '2026.03.30',
+    link: 'https://www.instagram.com/d.league_tw/reel/DWgUsXhky1m/'
   },
 ];
 

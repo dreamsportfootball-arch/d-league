@@ -54,6 +54,13 @@ const MOCK_ALBUMS = [
         cover: '/d-league/assets/media/0308.jpg',
         link: 'https://drive.google.com/drive/folders/1JZJoP3-R1dPT7oR5RGsNj9YKb2yGB7rM',
     },
+    {
+        id: 'album-r8',
+        title: '比賽日 8 (Match Day 8)',
+        date: '2026/03/22',
+        cover: '/d-league/assets/media/0322.jpg',
+        link: 'https://drive.google.com/drive/folders/1hn5eNN3ktdPIXZX5ry9PW7iZXmwnWEX_?usp=sharing',
+    },
 
 
 
