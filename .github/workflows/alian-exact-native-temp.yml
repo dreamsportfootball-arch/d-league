@@ -1,0 +1,38 @@
+name: Alian exact native temp decode
+
+on:
+  push:
+    branches:
+      - season/2026-27-highres-temp
+    paths:
+      - 'tmp/alian-exact-payload/**'
+      - '.github/workflows/alian-exact-native-temp.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  decode:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Decode exact native payload when ready
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f tmp/alian-exact-payload/READY || { echo 'payload not ready'; exit 0; }
+          cat tmp/alian-exact-payload/part-* > /tmp/alian-exact.b64
+          base64 -d /tmp/alian-exact.b64 > /tmp/alian-exact.zip
+          echo 'fa3657c257784737905fcea691ebd4bc072a3af0d94a7a3082d88843cd88cfda  /tmp/alian-exact.zip' | sha256sum -c -
+          rm -rf /tmp/alian-exact && mkdir -p /tmp/alian-exact
+          unzip -q /tmp/alian-exact.zip -d /tmp/alian-exact
+          cp /tmp/alian-exact/al26-* public/assets/seasons/2026-27/players/
+          rm -f public/assets/seasons/2026-27/players/al26-06.jpg public/assets/seasons/2026-27/players/al26-07.jpg public/assets/seasons/2026-27/players/al26-08.jpg public/assets/seasons/2026-27/players/al26-09.jpg public/assets/seasons/2026-27/players/al26-13.jpg
+          rm -rf tmp/alian-exact-payload
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'chore: materialize exact Alian native photos'
+          git push origin HEAD:season/2026-27-highres-temp
