@@ -1,0 +1,58 @@
+name: Alian highres temp decode
+
+on:
+  push:
+    branches:
+      - season/2026-27-highres-temp
+    paths:
+      - 'tmp/alian-payload/**'
+      - '.github/workflows/alian-highres-temp.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  decode:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Decode when ready
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ ! -f tmp/alian-payload/READY ]; then
+            echo 'payload not ready yet'
+            exit 0
+          fi
+          mkdir -p /tmp/alian
+          cat tmp/alian-payload/part-* > /tmp/alian.b64
+          base64 -d /tmp/alian.b64 > /tmp/alian.zip
+          unzip -q /tmp/alian.zip -d /tmp/alian
+          cp /tmp/alian/al26-* public/assets/seasons/2026-27/players/
+          rm -f \
+            public/assets/seasons/2026-27/players/al26-06.jpg \
+            public/assets/seasons/2026-27/players/al26-07.jpg \
+            public/assets/seasons/2026-27/players/al26-08.jpg \
+            public/assets/seasons/2026-27/players/al26-09.jpg \
+            public/assets/seasons/2026-27/players/al26-13.jpg
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path('data/seasons/2026-27/playerImages.json')
+          data = json.loads(p.read_text(encoding='utf-8'))
+          data['戴于翔'] = 'assets/seasons/2026-27/players/al26-06.png'
+          data['傅泳欽'] = 'assets/seasons/2026-27/players/al26-07.png'
+          data['陳楊青澔'] = 'assets/seasons/2026-27/players/al26-08.png'
+          data['施聖章'] = 'assets/seasons/2026-27/players/al26-09.png'
+          data['李坤城'] = 'assets/seasons/2026-27/players/al26-13.png'
+          p.write_text(json.dumps(data, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+          PY
+          rm -rf tmp/alian-payload
+          rm -f .github/workflows/alian-highres-temp.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'fix: preserve native Alian FC player photos'
+          git push origin HEAD:season/2026-27-highres-temp
