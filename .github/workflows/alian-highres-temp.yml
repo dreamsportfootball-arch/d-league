@@ -5,7 +5,7 @@ on:
     branches:
       - season/2026-27-highres-temp
     paths:
-      - 'tmp/alian-v2/**'
+      - 'tmp/alian-v3/**'
       - '.github/workflows/alian-highres-temp.yml'
 
 permissions:
@@ -22,14 +22,14 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          if [ ! -f tmp/alian-v2/READY ]; then
+          if [ ! -f tmp/alian-v3/READY ]; then
             echo 'payload not ready yet'
             exit 0
           fi
           mkdir -p /tmp/alian
-          cat tmp/alian-v2/part-* > /tmp/alian.b64
+          cat tmp/alian-v3/part-* > /tmp/alian.b64
           base64 -d /tmp/alian.b64 > /tmp/alian.zip
-          echo '8b04d88bd0c683b0c70c0a2e707e759b912aa8dc450fd83eae5dbd1587e8f8c3  /tmp/alian.zip' | sha256sum -c -
+          echo '8b7ce05d2de5ca3a8708c2128894df3cb47b66c6253f9904e9ed2e210a82b1bd  /tmp/alian.zip' | sha256sum -c -
           unzip -q /tmp/alian.zip -d /tmp/alian
           cp /tmp/alian/al26-* public/assets/seasons/2026-27/players/
           rm -f public/assets/seasons/2026-27/players/al26-06.jpg public/assets/seasons/2026-27/players/al26-07.jpg public/assets/seasons/2026-27/players/al26-08.jpg public/assets/seasons/2026-27/players/al26-09.jpg public/assets/seasons/2026-27/players/al26-13.jpg
@@ -45,7 +45,7 @@ jobs:
           data['李坤城'] = 'assets/seasons/2026-27/players/al26-13.png'
           p.write_text(json.dumps(data, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
           PY
-          rm -rf tmp/alian-v2 tmp/alian-payload
+          rm -rf tmp/alian-v3 tmp/alian-v2 tmp/alian-payload
           rm -f .github/workflows/alian-highres-temp.yml
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
