@@ -502,8 +502,29 @@
     "name": "Kuromi",
     "shortName": "Kuromi",
     "logo": "assets/seasons/2026-27/teams/kuromi.png",
-    "primaryColor": "#111111",
+    "primaryColor": "#002b4e",
     "secondaryColor": "#ffffff",
+    "kits": {
+      "home": "#002b4e",
+      "away": "#ffffff"
+    },
+    "staff": [
+      {
+        "role": "領隊",
+        "name": "劉佳興",
+        "englishName": "LIU CHIA HSING"
+      },
+      {
+        "role": "管理",
+        "name": "劉紀良",
+        "englishName": "LIU JI LIANG"
+      },
+      {
+        "role": "教練",
+        "name": "翁吉韡",
+        "englishName": "WENG Ji Wi"
+      }
+    ],
     "competitionStatus": "ACTIVE"
   }
 ]
