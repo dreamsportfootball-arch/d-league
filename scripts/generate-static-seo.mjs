@@ -16,6 +16,9 @@ const distDir = path.join(root, 'dist');
 const dataDir = path.join(root, 'data', 'seasons');
 const templatePath = path.join(distDir, 'index.html');
 const template = await fs.readFile(templatePath, 'utf8');
+const playerIdentityAliases = JSON.parse(
+  await fs.readFile(path.join(root, 'data', 'playerIdentityAliases.json'), 'utf8'),
+);
 
 const escapeHtml = (value) => String(value ?? '')
   .replaceAll('&', '&amp;')
@@ -33,6 +36,8 @@ const safeEntityId = (value, label) => {
   if (!value || String(value).includes('/')) throw new Error(`Invalid ${label} route id: ${value}`);
   return String(value);
 };
+const canonicalPlayerIdentity = (seasonId, player) =>
+  playerIdentityAliases[seasonId]?.[player.id] ?? player.identityId ?? player.id;
 const readJson = async (seasonId, fileName) =>
   JSON.parse(await fs.readFile(path.join(dataDir, seasonId, fileName), 'utf8'));
 
@@ -251,7 +256,7 @@ for (const [identity, recordsInput] of teamGroups) {
     );
     const roster = players.length
       ? `<ul>${players.map((player) => {
-          const playerIdentity = safeEntityId(player.identityId ?? player.id, 'player');
+          const playerIdentity = safeEntityId(canonicalPlayerIdentity(seasonId, player), 'player');
           return `<li><a href="${escapeHtml(routeUrl(`/players/${playerIdentity}`))}">#${escapeHtml(player.number)} ${escapeHtml(player.name)}</a></li>`;
         }).join('')}</ul>`
       : '<p>球員名單尚未公布。</p>';
@@ -283,7 +288,7 @@ const playerGroups = new Map();
 for (const seasonId of SEASON_IDS) {
   const payload = seasonPayloads[seasonId];
   for (const player of payload.players) {
-    const identity = safeEntityId(player.identityId ?? player.id, 'player');
+    const identity = safeEntityId(canonicalPlayerIdentity(seasonId, player), 'player');
     const group = playerGroups.get(identity) ?? [];
     group.push({
       seasonId,
@@ -367,7 +372,11 @@ for (const [identity, recordsInput] of playerGroups) {
     `<p>歷年事件比賽 ${totals.eventMatches} 場；進球 ${totals.goals}；黃牌 ${totals.yellowCards}；紅牌 ${redCards}。</p>
      <h2>歷年賽季</h2><ul>${historyBody}</ul>${eventBody}`,
   );
-  const routeIds = new Set([identity, ...records.map(({ player }) => safeEntityId(player.id, 'player'))]);
+  const routeIds = new Set([
+    identity,
+    ...records.map(({ player }) => safeEntityId(player.id, 'player')),
+    ...records.map(({ player }) => safeEntityId(player.identityId ?? player.id, 'player')),
+  ]);
   for (const routeId of routeIds) {
     const route = `/players/${routeId}`;
     await writeRoute(route, renderHtml({
