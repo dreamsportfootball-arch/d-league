@@ -1,0 +1,54 @@
+name: One-off set Matsumoto nationality
+
+on:
+  push:
+    branches:
+      - season/2026-27
+    paths:
+      - .github/workflows/one-off-set-matsumoto-nationality.yml
+
+permissions:
+  contents: write
+
+jobs:
+  update-player:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: season/2026-27
+          fetch-depth: 0
+
+      - name: Set Matsumoto nationality
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const file = 'data/seasons/2026-27/players.json';
+          const players = JSON.parse(fs.readFileSync(file, 'utf8'));
+          const player = players.find((item) => item.id === 'ka26-43');
+          if (!player) throw new Error('ka26-43 missing');
+          player.nationality = '日本';
+          fs.writeFileSync(file, `${JSON.stringify(players, null, 2)}\n`);
+          NODE
+
+      - name: Validate player record
+        run: |
+          node <<'NODE'
+          const players = require('./data/seasons/2026-27/players.json');
+          const player = players.find((item) => item.id === 'ka26-43');
+          if (!player) throw new Error('ka26-43 missing');
+          if (player.nationality !== '日本') throw new Error(`Unexpected nationality: ${player.nationality}`);
+          if (player.number !== 4) throw new Error(`Unexpected number: ${player.number}`);
+          if (player.birthDate !== '1985-09-15') throw new Error(`Unexpected birthDate: ${player.birthDate}`);
+          if (player.age !== 41) throw new Error(`Unexpected age: ${player.age}`);
+          NODE
+
+      - name: Commit update and remove one-off workflow
+        run: |
+          rm .github/workflows/one-off-set-matsumoto-nationality.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/seasons/2026-27/players.json .github/workflows/one-off-set-matsumoto-nationality.yml
+          git commit -m "Set Matsumoto Yosuke nationality"
+          git push origin HEAD:season/2026-27
