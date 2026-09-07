@@ -5,12 +5,17 @@ import { PAGE_SEO, SEASON_IDS, SITE_URL } from '../config/siteManifest.js';
 const root = process.cwd();
 const distDir = path.join(root, 'dist');
 const dataDir = path.join(root, 'data', 'seasons');
+const playerIdentityAliases = JSON.parse(
+  await fs.readFile(path.join(root, 'data', 'playerIdentityAliases.json'), 'utf8'),
+);
 const fail = (message) => { throw new Error(message); };
 const routeFile = (route) => route === '/'
   ? path.join(distDir, 'index.html')
   : path.join(distDir, route.replace(/^\//, ''), 'index.html');
 const readJson = async (seasonId, fileName) =>
   JSON.parse(await fs.readFile(path.join(dataDir, seasonId, fileName), 'utf8'));
+const canonicalPlayerIdentity = (seasonId, player) =>
+  playerIdentityAliases[seasonId]?.[player.id] ?? player.identityId ?? player.id;
 
 const checkHtml = async (
   route,
@@ -62,7 +67,7 @@ for (const seasonId of SEASON_IDS) {
     latestTeamNameByCanonicalId.set(team.identityId ?? team.id, team.name);
   }
   for (const player of players) {
-    latestPlayerNameByCanonicalId.set(player.identityId ?? player.id, player.name);
+    latestPlayerNameByCanonicalId.set(canonicalPlayerIdentity(seasonId, player), player.name);
   }
 }
 
@@ -91,7 +96,8 @@ for (const seasonId of SEASON_IDS) {
   }
 
   for (const player of players) {
-    const canonicalId = player.identityId ?? player.id;
+    const canonicalId = canonicalPlayerIdentity(seasonId, player);
+    const rawIdentityId = player.identityId ?? player.id;
     const expectedPlayerName = latestPlayerNameByCanonicalId.get(canonicalId) ?? player.name;
     playerCanonicalIds.add(canonicalId);
     await checkHtml(`/players/${player.id}`, expectedPlayerName, {
@@ -102,6 +108,12 @@ for (const seasonId of SEASON_IDS) {
       canonicalRoute: `/players/${canonicalId}`,
       schemaType: 'Person',
     });
+    if (rawIdentityId !== canonicalId && rawIdentityId !== player.id) {
+      await checkHtml(`/players/${rawIdentityId}`, expectedPlayerName, {
+        canonicalRoute: `/players/${canonicalId}`,
+        schemaType: 'Person',
+      });
+    }
   }
 
   for (const match of matches) {
