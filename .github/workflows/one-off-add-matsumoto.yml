@@ -1,0 +1,93 @@
+name: One-off add Matsumoto Yosuke
+
+on:
+  push:
+    branches:
+      - season/2026-27
+    paths:
+      - .github/workflows/one-off-add-matsumoto.yml
+
+permissions:
+  contents: write
+
+jobs:
+  update-roster:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: season/2026-27
+          fetch-depth: 0
+
+      - name: Add Matsumoto Yosuke to Kaohsiung Amateur
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const file = 'data/seasons/2026-27/players.json';
+          const players = JSON.parse(fs.readFileSync(file, 'utf8'));
+          const existing = players.find((player) => player.id === 'ka26-43' || player.name === '松本洋佑' || player.englishName === 'MATSUMOTO YOSUKE');
+          if (existing) {
+            throw new Error(`Player already exists: ${existing.id} ${existing.name}`);
+          }
+          const teamId = 't_kaohsiung_amateur_2026';
+          const teamIndexes = players
+            .map((player, index) => player.teamId === teamId ? index : -1)
+            .filter((index) => index >= 0);
+          if (teamIndexes.length !== 16) {
+            throw new Error(`Expected 16 existing Kaohsiung Amateur players, found ${teamIndexes.length}`);
+          }
+          const insertAt = Math.max(...teamIndexes) + 1;
+          const player = {
+            id: 'ka26-43',
+            identityId: 'matsumoto-yosuke',
+            number: 4,
+            name: '松本洋佑',
+            englishName: 'MATSUMOTO YOSUKE',
+            gender: '未提供',
+            nationality: '未提供',
+            age: 41,
+            teamId,
+            birthDate: '1985-09-15'
+          };
+          players.splice(insertAt, 0, player);
+          fs.writeFileSync(file, `${JSON.stringify(players, null, 2)}\n`);
+
+          const ref = new Date('2026-11-01T00:00:00Z');
+          const dob = new Date(`${player.birthDate}T00:00:00Z`);
+          let age = ref.getUTCFullYear() - dob.getUTCFullYear();
+          const beforeBirthday = ref.getUTCMonth() < dob.getUTCMonth() || (ref.getUTCMonth() === dob.getUTCMonth() && ref.getUTCDate() < dob.getUTCDate());
+          if (beforeBirthday) age -= 1;
+          if (age !== 41) throw new Error(`Age validation failed: ${age}`);
+          NODE
+
+      - name: Validate updated player record
+        run: |
+          node <<'NODE'
+          const players = require('./data/seasons/2026-27/players.json');
+          const player = players.find((item) => item.id === 'ka26-43');
+          if (!player) throw new Error('ka26-43 missing');
+          const expected = {
+            identityId: 'matsumoto-yosuke',
+            teamId: 't_kaohsiung_amateur_2026',
+            name: '松本洋佑',
+            englishName: 'MATSUMOTO YOSUKE',
+            number: 4,
+            birthDate: '1985-09-15',
+            age: 41
+          };
+          for (const [key, value] of Object.entries(expected)) {
+            if (player[key] !== value) throw new Error(`${key}: expected ${value}, got ${player[key]}`);
+          }
+          const count = players.filter((item) => item.teamId === 't_kaohsiung_amateur_2026').length;
+          if (count !== 17) throw new Error(`Expected 17 Kaohsiung Amateur players, got ${count}`);
+          NODE
+
+      - name: Commit roster update and remove one-off workflow
+        run: |
+          rm .github/workflows/one-off-add-matsumoto.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/seasons/2026-27/players.json .github/workflows/one-off-add-matsumoto.yml
+          git commit -m "Add Matsumoto Yosuke to Kaohsiung Amateur"
+          git push origin HEAD:season/2026-27
