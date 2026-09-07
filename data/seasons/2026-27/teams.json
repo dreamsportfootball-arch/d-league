@@ -493,5 +493,17 @@
       "home": "#05142b",
       "away": "#efb4c6"
     }
+  },
+  {
+    "id": "t_kuromi_2026",
+    "identityId": "kuromi",
+    "seasonId": "2026-27",
+    "leagueId": "L1",
+    "name": "Kuromi",
+    "shortName": "Kuromi",
+    "logo": "assets/seasons/2026-27/teams/kuromi.png",
+    "primaryColor": "#111111",
+    "secondaryColor": "#ffffff",
+    "competitionStatus": "ACTIVE"
   }
 ]
