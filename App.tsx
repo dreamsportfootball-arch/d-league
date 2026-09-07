@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useEffect } from 'react';
+import React, { lazy, Suspense, useEffect, useLayoutEffect } from 'react';
 import { Navigate, Route, Routes, useLocation, useNavigationType } from 'react-router-dom';
 import Analytics from './components/Analytics';
 import AppErrorBoundary from './components/AppErrorBoundary';
@@ -265,7 +265,7 @@ const ScrollMemory: React.FC = () => {
     return () => document.removeEventListener('click', handleTrackedNavigation, true);
   }, [key]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     let cancelled = false;
     let frameId = 0;
     let attempts = 0;
@@ -357,7 +357,17 @@ const ScrollMemory: React.FC = () => {
       window.scrollTo({ top: 0, behavior: 'auto' });
     };
 
-    frameId = window.requestAnimationFrame(restore);
+    if (
+      navigationType !== 'POP' &&
+      savedPosition === null &&
+      savedAnchor === null &&
+      !sectionId
+    ) {
+      window.scrollTo({ top: 0, behavior: 'auto' });
+    } else {
+      frameId = window.requestAnimationFrame(restore);
+    }
+
     return () => {
       cancelled = true;
       stopSavedPositionRestoration();
