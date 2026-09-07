@@ -9,6 +9,9 @@ import {
 const root = process.cwd();
 const distDir = path.join(root, 'dist');
 const dataDir = path.join(root, 'data', 'seasons');
+const playerIdentityAliases = JSON.parse(
+  await fs.readFile(path.join(root, 'data', 'playerIdentityAliases.json'), 'utf8'),
+);
 
 const escapeHtml = (value) => String(value ?? '')
   .replaceAll('&', '&amp;')
@@ -57,7 +60,8 @@ const upsertMeta = (html, attribute, key, value) => {
 };
 
 const teamIdentity = (team) => team.identityId ?? team.id;
-const playerIdentity = (player) => player.identityId ?? player.id;
+const playerIdentity = (seasonId, player) =>
+  playerIdentityAliases[seasonId]?.[player.id] ?? player.identityId ?? player.id;
 
 const resolveEventPlayer = (payload, match, event) => {
   const explicitId = event.playerId ?? event.subjectId;
@@ -140,7 +144,7 @@ const statsBody = [...SEASON_IDS].reverse().map((seasonId) => {
       const teamText = team
         ? `<a href="${escapeHtml(routeUrl(`/teams/${teamIdentity(team)}`))}">${escapeHtml(team.name)}</a>`
         : '未指定球隊';
-      return `<li><a href="${escapeHtml(routeUrl(`/players/${playerIdentity(player)}`))}">${escapeHtml(player.name)}</a> — ${teamText}；進球 ${stats.goals}、黃牌 ${stats.yellowCards}、雙黃 ${stats.secondYellowDismissals}、紅牌 ${stats.directRedCards}</li>`;
+      return `<li><a href="${escapeHtml(routeUrl(`/players/${playerIdentity(seasonId, player)}`))}">${escapeHtml(player.name)}</a> — ${teamText}；進球 ${stats.goals}、黃牌 ${stats.yellowCards}、雙黃 ${stats.secondYellowDismissals}、紅牌 ${stats.directRedCards}</li>`;
     }).join('')}</ol></section>`;
   }).join('')}</section>`;
 }).join('');
@@ -165,7 +169,7 @@ const playerGroups = new Map();
 for (const seasonId of SEASON_IDS) {
   const payload = payloads[seasonId];
   payload.players.forEach((player) => {
-    const identity = playerIdentity(player);
+    const identity = playerIdentity(seasonId, player);
     const group = playerGroups.get(identity) ?? [];
     group.push({
       seasonId,
@@ -217,7 +221,11 @@ for (const [identity, recordsInput] of playerGroups) {
     <h2>歷年賽季</h2><ul>${historyItems}</ul>
     <h2>個人比賽事件</h2>${eventItems.length ? `<ul>${eventItems.slice(0, 30).map((item) => item.html).join('')}</ul>` : '<p>目前沒有可連結的個人比賽事件。</p>'}`;
 
-  const routeIds = new Set([identity, ...records.map((record) => record.player.id)]);
+  const routeIds = new Set([
+    identity,
+    ...records.map((record) => record.player.id),
+    ...records.map((record) => record.player.identityId ?? record.player.id),
+  ]);
   for (const routeId of routeIds) {
     const file = routeFile(`/players/${routeId}`);
     let html = await fs.readFile(file, 'utf8');
@@ -281,7 +289,7 @@ for (const seasonId of SEASON_IDS) {
 
     const scorerText = summary.topScorer
       ? summary.topScorer.player
-        ? `<a href="${escapeHtml(routeUrl(`/players/${playerIdentity(summary.topScorer.player)}`))}">${escapeHtml(summary.topScorer.name)}</a>，${summary.topScorer.goals} 球`
+        ? `<a href="${escapeHtml(routeUrl(`/players/${playerIdentity(seasonId, summary.topScorer.player)}`))}">${escapeHtml(summary.topScorer.name)}</a>，${summary.topScorer.goals} 球`
         : `${escapeHtml(summary.topScorer.name)}，${summary.topScorer.goals} 球`
       : '目前尚無進球資料';
 
@@ -337,14 +345,14 @@ for (const seasonId of SEASON_IDS) {
     const eventItems = (payload.events[match.id] ?? []).map((event) => {
       const player = resolveEventPlayer(payload, match, event);
       const playerText = player
-        ? `<a href="${escapeHtml(routeUrl(`/players/${playerIdentity(player)}`))}">${escapeHtml(player.name)}</a>`
+        ? `<a href="${escapeHtml(routeUrl(`/players/${playerIdentity(seasonId, player)}`))}">${escapeHtml(player.name)}</a>`
         : escapeHtml(event.player);
       return `<li>${escapeHtml(event.minute)}' ${playerText} — ${escapeHtml(event.type)}</li>`;
     }).join('');
 
     const scorerText = summary.topScorer
       ? summary.topScorer.player
-        ? `<a href="${escapeHtml(routeUrl(`/players/${playerIdentity(summary.topScorer.player)}`))}">${escapeHtml(summary.topScorer.name)}</a> ${summary.topScorer.goals} 球`
+        ? `<a href="${escapeHtml(routeUrl(`/players/${playerIdentity(seasonId, summary.topScorer.player)}`))}">${escapeHtml(summary.topScorer.name)}</a> ${summary.topScorer.goals} 球`
         : `${escapeHtml(summary.topScorer.name)} ${summary.topScorer.goals} 球`
       : '尚無進球資料';
 
