@@ -63,6 +63,11 @@ jobs:
           AUDIT_BASE_URL: http://127.0.0.1:4173/d-league
         run: node scripts/diagnose-team-navigation-stability.mjs
 
+      - name: Validate direct-entry back navigation
+        env:
+          AUDIT_BASE_URL: http://127.0.0.1:4173/d-league
+        run: node scripts/validate-direct-entry-back-navigation.mjs
+
       - name: Capture responsive screenshots and diagnostics
         env:
           AUDIT_BASE_URL: http://127.0.0.1:4173/d-league
