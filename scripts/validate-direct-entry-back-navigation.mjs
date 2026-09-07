@@ -79,6 +79,8 @@ try {
     const { context, page } = await createPage(browser);
     try {
       await openAsDirectEntry(page, articleUrl);
+      await page.getByRole('heading', { name: '18 TEAMS. ONE LEAGUE.', exact: true }).waitFor({ state: 'visible' });
+
       const articleState = await page.evaluate(() => ({
         href: window.location.href,
         historyState: window.history.state,
@@ -89,11 +91,9 @@ try {
       }));
       console.log('[direct-entry/article]', JSON.stringify(articleState));
 
-      const backButtons = page.getByRole('button', { name: '返回最新消息' });
-      if ((await backButtons.count()) < 1) {
-        fail(`direct article entry did not show 返回最新消息: ${JSON.stringify(articleState)}`);
-      }
-      await backButtons.first().click();
+      const backButton = page.getByRole('button', { name: '返回最新消息' }).first();
+      await backButton.waitFor({ state: 'visible' });
+      await backButton.click();
       await page.waitForURL((url) => url.hash === '#/news');
     } finally {
       await page.close();
