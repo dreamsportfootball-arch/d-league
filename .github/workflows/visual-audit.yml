@@ -58,6 +58,11 @@ jobs:
           cat /tmp/d-league-preview.log
           exit 1
 
+      - name: Diagnose KUROMI navigation stability
+        env:
+          AUDIT_BASE_URL: http://127.0.0.1:4173/d-league
+        run: node scripts/diagnose-team-navigation-stability.mjs
+
       - name: Capture responsive screenshots and diagnostics
         env:
           AUDIT_BASE_URL: http://127.0.0.1:4173/d-league
