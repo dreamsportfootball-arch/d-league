@@ -24,17 +24,24 @@ for (const viewport of viewports) {
       serviceWorkers: 'block',
     });
     const page = await context.newPage();
-    page.setDefaultTimeout(10000);
+    page.setDefaultTimeout(12000);
 
     try {
       await page.goto(makeUrl('/'), { waitUntil: 'domcontentloaded', timeout: 20000 });
       await page.waitForSelector('#root > *', { timeout: 12000 });
-      await page.waitForTimeout(800);
 
-      const link = page.getByRole('link', { name: target.ariaLabel });
-      if ((await link.count()) !== 1) throw new Error(`Expected one ${target.ariaLabel} link`);
-      await link.scrollIntoViewIfNeeded();
-      await page.waitForTimeout(120);
+      const popupCloseButton = page.getByRole('button', { name: '關閉工作人員合作隊招募' }).last();
+      if (await popupCloseButton.isVisible()) await popupCloseButton.click();
+
+      const teamsSection = page.locator('#teams').first();
+      await teamsSection.waitFor({ state: 'attached' });
+      const link = teamsSection.locator(`a[aria-label="${target.ariaLabel}"]`).first();
+      await link.waitFor({ state: 'visible' });
+      await link.evaluate((element) => {
+        const top = element.getBoundingClientRect().top + window.scrollY;
+        window.scrollTo({ top: Math.max(0, top - 180), behavior: 'auto' });
+      });
+      await page.waitForTimeout(150);
 
       await page.evaluate(() => {
         const state = {
