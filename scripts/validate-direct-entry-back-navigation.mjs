@@ -20,7 +20,6 @@ const createPage = async (browser, viewport = { width: 390, height: 844 }) => {
 };
 
 const openAsDirectEntry = async (page, url) => {
-  await page.goto('about:blank');
   await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 20000 });
   await page.waitForSelector('#root > *');
 };
@@ -74,28 +73,26 @@ try {
     }
   }
 
-  let articleUrl = '';
-  {
-    const { context, page } = await createPage(browser);
-    try {
-      await page.goto(`${baseUrl}/#/news`, { waitUntil: 'domcontentloaded', timeout: 20000 });
-      await page.waitForSelector('#root > *');
-      const articleLink = page.locator('a[data-scroll-anchor-id^="news-"]:visible').first();
-      await articleLink.waitFor({ state: 'visible' });
-      articleUrl = await articleLink.evaluate((element) => element.href);
-      if (!articleUrl) fail('could not discover a news article permalink');
-    } finally {
-      await page.close();
-      await context.close();
-    }
-  }
+  const articleUrl = `${baseUrl}/#/news/2026-27-18-teams-one-league`;
 
   {
     const { context, page } = await createPage(browser);
     try {
       await openAsDirectEntry(page, articleUrl);
+      const articleState = await page.evaluate(() => ({
+        href: window.location.href,
+        historyState: window.history.state,
+        historyLength: window.history.length,
+        buttons: Array.from(document.querySelectorAll('button'))
+          .map((button) => button.textContent?.trim())
+          .filter(Boolean),
+      }));
+      console.log('[direct-entry/article]', JSON.stringify(articleState));
+
       const backButtons = page.getByRole('button', { name: '返回最新消息' });
-      if ((await backButtons.count()) < 1) fail('direct article entry did not show 返回最新消息');
+      if ((await backButtons.count()) < 1) {
+        fail(`direct article entry did not show 返回最新消息: ${JSON.stringify(articleState)}`);
+      }
       await backButtons.first().click();
       await page.waitForURL((url) => url.hash === '#/news');
     } finally {
