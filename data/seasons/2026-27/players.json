@@ -562,6 +562,18 @@
     "teamId": "t_kaohsiung_amateur_2026"
   },
   {
+    "id": "ka26-43",
+    "identityId": "matsumoto-yosuke",
+    "number": 4,
+    "name": "松本洋佑",
+    "englishName": "MATSUMOTO YOSUKE",
+    "gender": "未提供",
+    "nationality": "未提供",
+    "age": 41,
+    "teamId": "t_kaohsiung_amateur_2026",
+    "birthDate": "1985-09-15"
+  },
+  {
     "id": "tq26-01",
     "identityId": "tq-33",
     "teamId": "t_tongque_2026",
