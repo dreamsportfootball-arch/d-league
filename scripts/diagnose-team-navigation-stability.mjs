@@ -10,6 +10,7 @@ const viewports = [
   { name: 'mobile-390', width: 390, height: 844 },
   { name: 'desktop-1280', width: 1280, height: 900 },
 ];
+const allowedScrollDelta = 2;
 
 const browser = await chromium.launch({ headless: true });
 let failed = false;
@@ -137,13 +138,16 @@ for (const viewport of viewports) {
         if (finite.length === 0) return null;
         return Math.max(...finite) - Math.min(...finite);
       };
+      const scrollYRangeAfterTeamRender = range(teamSamples.map((sample) => sample.scrollY));
+      const firstRenderedScrollY = teamSamples[0].scrollY;
       const summary = {
         viewport: viewport.name,
         team: target.name,
         beforeScrollY,
+        firstRenderedScrollY,
         sampleCount: teamSamples.length,
         firstTeamSampleMs: Math.round(teamSamples[0].t),
-        scrollYRangeAfterTeamRender: range(teamSamples.map((sample) => sample.scrollY)),
+        scrollYRangeAfterTeamRender,
         headingTopRange: range(teamSamples.map((sample) => sample.headingTop)),
         headingHeightRange: range(teamSamples.map((sample) => sample.headingHeight)),
         heroTopRange: range(teamSamples.map((sample) => sample.heroTop)),
@@ -153,12 +157,18 @@ for (const viewport of viewports) {
         fontFamilies: [...new Set(teamSamples.map((sample) => sample.fontFamily).filter(Boolean))],
         logoStates: [...new Set(teamSamples.map((sample) => `${sample.logoComplete}:${sample.logoNaturalWidth}`))],
         layoutShiftTotal: Number(result.shifts.reduce((sum, shift) => sum + shift.value, 0).toFixed(6)),
-        layoutShifts: result.shifts,
-        firstSamples: teamSamples.slice(0, 8),
-        lastSamples: teamSamples.slice(-4),
       };
 
       console.log(`[team-navigation-stability] ${JSON.stringify(summary)}`);
+
+      if (
+        Math.abs(firstRenderedScrollY) > allowedScrollDelta ||
+        (scrollYRangeAfterTeamRender ?? 0) > allowedScrollDelta
+      ) {
+        throw new Error(
+          `${target.name} rendered before scroll reset: first=${firstRenderedScrollY}, range=${scrollYRangeAfterTeamRender}`,
+        );
+      }
     } catch (error) {
       failed = true;
       console.error(`[team-navigation-stability] ${viewport.name} / ${target.name}: ${error.message}`);
