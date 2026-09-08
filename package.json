@@ -5,7 +5,7 @@
   "type": "module",
   "homepage": "https://dreamsportfootball.github.io/d-league",
   "scripts": {
-    "prepare:data": "node scripts/apply-registration-imports.mjs",
+    "prepare:data": "node scripts/apply-registration-imports.mjs && node scripts/apply-player-image-assets.mjs",
     "dev": "npm run prepare:data && vite",
     "typecheck": "tsc --noEmit",
     "validate:data": "npm run prepare:data && node scripts/validate-season-data.mjs && node scripts/validate-participants.mjs && node scripts/validate-news-highlights.mjs && node scripts/validate-team-kits.mjs && node scripts/validate-player-identities.mjs",
@@ -29,6 +29,8 @@
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.17",
     "@types/node": "^22.14.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
     "@vitejs/plugin-react": "^5.0.0",
     "autoprefixer": "^10.4.22",
     "baseline-browser-mapping": "^2.10.10",
