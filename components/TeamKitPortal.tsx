@@ -42,28 +42,33 @@ const getKitStyle = (
   if (pattern === 'half-and-half' && secondaryColor) {
     return { backgroundImage: `linear-gradient(90deg, ${primaryColor} 0 50%, ${secondaryColor} 50% 100%)` };
   }
+
   if (pattern === 'vertical-stripes' && secondaryColor) {
     return {
       backgroundImage: `linear-gradient(90deg, ${primaryColor} 0 25%, ${secondaryColor} 25% 50%, ${primaryColor} 50% 75%, ${secondaryColor} 75% 100%)`,
     };
   }
+
   if (pattern === 'vertical-pinstripes' && secondaryColor) {
     return {
       backgroundImage: `repeating-linear-gradient(90deg, ${primaryColor} 0, ${primaryColor} 14px, ${secondaryColor} 14px, ${secondaryColor} 17px)`,
     };
   }
+
   if (pattern === 'contrast-sleeves' && secondaryColor) {
     return {
       backgroundImage: `linear-gradient(90deg, ${secondaryColor} 0 19%, ${primaryColor} 19% 81%, ${secondaryColor} 81% 100%)`,
     };
   }
+
   return { backgroundColor: primaryColor };
 };
 
-interface KitCardProps {
+interface KitPanelProps {
   team: SeasonTeam;
+  index: '01' | '02';
   label: string;
-  eyebrow: string;
+  eyebrow: 'HOME KIT' | 'AWAY KIT';
   primaryColor: string;
   secondaryColor?: string;
   pattern?: TeamKitPattern;
@@ -71,8 +76,9 @@ interface KitCardProps {
   atlasCol?: number;
 }
 
-const KitCard: React.FC<KitCardProps> = ({
+const KitPanel: React.FC<KitPanelProps> = ({
   team,
+  index,
   label,
   eyebrow,
   primaryColor,
@@ -84,17 +90,19 @@ const KitCard: React.FC<KitCardProps> = ({
   const hasRealKit = typeof atlasRow === 'number' && typeof atlasCol === 'number';
 
   return (
-    <article className="group min-w-[86%] snap-center overflow-hidden rounded-2xl border border-neutral-200 bg-white sm:min-w-0">
-      <div className="relative aspect-square overflow-hidden bg-neutral-50">
-        <span className="absolute left-4 top-4 z-10 rounded-full border border-neutral-200 bg-white/95 px-3 py-1.5 text-[9px] font-black uppercase tracking-[0.18em] text-brand-black shadow-sm backdrop-blur">
-          {eyebrow}
-        </span>
+    <article className="min-w-0">
+      <div className="relative aspect-square overflow-hidden border border-neutral-200 bg-neutral-50">
+        <div className="absolute left-4 top-4 z-10 flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.18em] text-neutral-500 sm:left-5 sm:top-5">
+          <span className="text-brand-blue">{index}</span>
+          <span aria-hidden="true" className="h-px w-5 bg-neutral-300" />
+          <span>{eyebrow}</span>
+        </div>
 
         {hasRealKit ? (
           <div
             role="img"
             aria-label={`${team.name} ${label}`}
-            className="absolute inset-0 bg-white bg-no-repeat transition-transform duration-300 group-hover:scale-[1.015]"
+            className="absolute inset-0 bg-white bg-no-repeat"
             style={{
               backgroundImage: `url(${KIT_ATLAS_URL})`,
               backgroundSize: '600% 600%',
@@ -102,11 +110,11 @@ const KitCard: React.FC<KitCardProps> = ({
             }}
           />
         ) : (
-          <div className="absolute inset-0 flex items-center justify-center p-8 sm:p-12">
+          <div className="absolute inset-0 flex items-center justify-center p-9 sm:p-14">
             <div
               role="img"
               aria-label={`${team.name} ${label}版型預覽`}
-              className="relative h-[72%] w-[72%] drop-shadow-[0_22px_26px_rgba(0,0,0,0.14)]"
+              className="relative h-[72%] w-[72%] drop-shadow-[0_18px_22px_rgba(0,0,0,0.12)]"
               style={{
                 ...getKitStyle(primaryColor, secondaryColor, pattern),
                 clipPath:
@@ -119,16 +127,16 @@ const KitCard: React.FC<KitCardProps> = ({
         )}
       </div>
 
-      <div className="flex items-center justify-between border-t border-neutral-200 bg-white px-4 py-4 sm:px-5">
+      <div className="flex items-start justify-between gap-4 border-b border-neutral-200 py-4 sm:py-5">
         <div>
-          <p className="text-[9px] font-black uppercase tracking-[0.16em] text-neutral-400">{eyebrow}</p>
-          <h3 className="mt-1 text-sm font-bold text-brand-black sm:text-base">{label}</h3>
+          <p className="text-[10px] font-black uppercase tracking-[0.18em] text-neutral-400">{eyebrow}</p>
+          <h3 className="mt-1 font-display text-xl font-extrabold text-brand-black sm:text-2xl">{label}</h3>
         </div>
-        <span
-          aria-hidden="true"
-          className="h-8 w-8 rounded-full border border-neutral-200 shadow-inner"
-          style={{ backgroundColor: primaryColor }}
-        />
+
+        <div className="mt-1 flex shrink-0 overflow-hidden border border-neutral-200" aria-label={`${label}代表色`}>
+          <span className="h-7 w-7" style={{ backgroundColor: primaryColor }} />
+          {secondaryColor && <span className="h-7 w-7 border-l border-white/70" style={{ backgroundColor: secondaryColor }} />}
+        </div>
       </div>
     </article>
   );
@@ -179,22 +187,23 @@ const TeamKitPortal: React.FC = () => {
   const atlas = KIT_ATLAS_MAP[team.name];
 
   return createPortal(
-    <section id="kits">
-      <div className="mb-5 flex items-end justify-between border-b border-neutral-200 pb-3">
+    <section id="kits" className="border-t border-neutral-200 pt-1">
+      <div className="mb-6 flex items-end justify-between border-b border-neutral-200 py-4 sm:mb-8 sm:py-5">
         <div>
-          <p className="mb-1 text-[10px] font-black uppercase tracking-[0.2em] text-brand-blue">
-            KIT · {season.shortName}
+          <p className="mb-1.5 text-[10px] font-black uppercase tracking-[0.22em] text-brand-blue">
+            TEAM KIT · {season.shortName}
           </p>
-          <h2 className="font-display text-2xl font-extrabold text-brand-black">球衣</h2>
+          <h2 className="font-display text-3xl font-extrabold tracking-tight text-brand-black">球衣</h2>
         </div>
-        <span className="hidden text-[10px] font-bold uppercase tracking-[0.16em] text-neutral-400 sm:block">
-          HOME / AWAY
-        </span>
+        <p className="hidden max-w-xs text-right text-xs font-semibold leading-5 text-neutral-400 sm:block">
+          {team.name} · 官方比賽球衣
+        </p>
       </div>
 
-      <div className="-mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0">
-        <KitCard
+      <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 sm:gap-6 lg:gap-8">
+        <KitPanel
           team={team}
+          index="01"
           label="主場球衣"
           eyebrow="HOME KIT"
           primaryColor={homeColor}
@@ -203,8 +212,9 @@ const TeamKitPortal: React.FC = () => {
           atlasRow={atlas?.row}
           atlasCol={atlas?.homeCol}
         />
-        <KitCard
+        <KitPanel
           team={team}
+          index="02"
           label="客場球衣"
           eyebrow="AWAY KIT"
           primaryColor={awayColor}
@@ -214,10 +224,6 @@ const TeamKitPortal: React.FC = () => {
           atlasCol={atlas?.awayCol}
         />
       </div>
-
-      <p className="mt-2 text-center text-[10px] font-semibold text-neutral-400 sm:hidden">
-        左右滑動查看球衣
-      </p>
     </section>,
     portalTarget,
   );
