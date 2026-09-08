@@ -81,7 +81,7 @@
     "kits": {
       "home": "#0d1e3e",
       "homeSecondary": "#95151b",
-      "homePattern": "vertical-stripes",
+      "homePattern": "half-and-half",
       "away": "#ffffff"
     },
     "staff": [
@@ -144,7 +144,7 @@
     "kits": {
       "home": "#f2d600",
       "homeSecondary": "#111111",
-      "homePattern": "vertical-stripes",
+      "homePattern": "half-and-half",
       "away": "#111111"
     },
     "staff": [
