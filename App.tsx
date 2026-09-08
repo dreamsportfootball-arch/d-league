@@ -365,7 +365,9 @@ const ScrollMemory: React.FC = () => {
     ) {
       window.scrollTo({ top: 0, behavior: 'auto' });
     } else {
-      frameId = window.requestAnimationFrame(restore);
+      // Restore during the layout phase whenever the destination DOM is already available.
+      // Waiting for the next animation frame can expose an incorrect intermediate scroll position.
+      restore();
     }
 
     return () => {

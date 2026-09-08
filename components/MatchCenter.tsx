@@ -236,6 +236,7 @@ const MatchCenter: React.FC = () => {
               </button>
               <Link
                 to={`/schedule?season=${activeSeason.id}`}
+                data-scroll-anchor-id={`home-full-schedule-${activeSeason.id}`}
                 className="ml-4 flex items-center text-sm font-bold text-neutral-500 hover:text-brand-black"
               >
                 完整賽程 <ChevronRight className="ml-1 h-4 w-4" />
