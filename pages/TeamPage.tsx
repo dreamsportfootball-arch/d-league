@@ -153,7 +153,7 @@ const MiniTeamKits: React.FC<{ team: SeasonTeam; seasonId: SeasonTeam['seasonId'
   const kitAssets = getTeamKitAssets(seasonId, team.id);
 
   return (
-    <span className="inline-flex shrink-0 items-center gap-1" aria-label={`${team.name} 球衣`}>
+    <span className="inline-flex shrink-0 items-center gap-2" aria-label={`${team.name} 球衣`}>
       <MiniKitIcon
         label={`${team.name} 主場球衣`}
         primaryColor={homeColor}
@@ -395,10 +395,21 @@ const TeamPage: React.FC = () => {
               fallbackTo={`/standings?season=${seasonId}`}
               className="inline-flex min-h-11 items-center text-xs font-bold text-neutral-500 hover:text-brand-black"
             />
+            {seasonId === '2026-27' && (
+              <div className="md:hidden">
+                <MiniTeamKits team={team} seasonId={seasonId} />
+              </div>
+            )}
             {socialLinks.length > 0 && renderSocialLinks(false)}
           </div>
 
-          <div className="mt-6 flex min-w-0 items-start gap-5 sm:items-center sm:gap-7 md:mt-4">
+          {seasonId === '2026-27' && (
+            <div className="absolute right-0 top-24 hidden md:block">
+              <MiniTeamKits team={team} seasonId={seasonId} />
+            </div>
+          )}
+
+          <div className="mt-6 flex min-w-0 items-start gap-5 sm:items-center sm:gap-7 md:mt-4 md:pr-28">
             {team.logo && failedTeamLogo !== team.logo && (
               <div className="flex h-24 w-24 shrink-0 items-center justify-center md:h-28 md:w-28">
                 <img
@@ -413,10 +424,7 @@ const TeamPage: React.FC = () => {
               <p className="mb-2 text-[11px] font-black uppercase tracking-[0.18em] text-brand-blue sm:text-xs">
                 {season.shortName} · {formatLeagueName(team.leagueId)}
               </p>
-              <div className="flex min-w-0 flex-col gap-1.5 sm:flex-row sm:items-end sm:gap-3">
-                <h1 className="min-w-0 flex-1"><AutoFitText text={team.name} minFontSize={16} lineHeight={0.98} className="font-display text-4xl font-extrabold tracking-tight text-brand-black sm:text-5xl xl:text-6xl" /></h1>
-                {seasonId === '2026-27' && <MiniTeamKits team={team} seasonId={seasonId} />}
-              </div>
+              <h1 className="min-w-0"><AutoFitText text={team.name} minFontSize={16} lineHeight={0.98} className="font-display text-4xl font-extrabold tracking-tight text-brand-black sm:text-5xl xl:text-6xl" /></h1>
               {displayShortName && <p className="mt-2 text-xs font-semibold text-neutral-500">球隊簡稱 <span className="ml-2 font-bold text-brand-black">{displayShortName}</span></p>}
               {socialLinks.length > 0 && renderSocialLinks(true)}
             </div>
