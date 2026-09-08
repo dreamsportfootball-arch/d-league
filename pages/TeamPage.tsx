@@ -29,7 +29,7 @@ import { useSeason } from '../hooks/useSeason';
 import { calculateLeagueTable } from '../services/competitionEngine';
 import { getPlayerIdentity, getTeamHistory, getTeamIdentity } from '../services/entityData';
 import { MatchStatus, type Match } from '../types';
-import type { SeasonTeam, TeamSocialLinks } from '../types/team';
+import type { SeasonTeam, TeamKitPattern, TeamSocialLinks } from '../types/team';
 
 interface RoundBucket {
   round: string;
@@ -65,6 +65,20 @@ const formatLeagueName = (leagueId: string): string => {
 
 const formatStatValue = (value: number | undefined): number | '-' =>
   typeof value === 'number' ? value : '-';
+
+const getKitSwatchStyle = (
+  primaryColor: string,
+  secondaryColor?: string,
+  pattern: TeamKitPattern = 'solid',
+): React.CSSProperties => {
+  if (pattern === 'vertical-stripes' && secondaryColor) {
+    return {
+      backgroundImage: `repeating-linear-gradient(90deg, ${primaryColor} 0, ${primaryColor} 12px, ${secondaryColor} 12px, ${secondaryColor} 24px)`,
+    };
+  }
+
+  return { backgroundColor: primaryColor };
+};
 
 const isSafeExternalUrl = (value: string): boolean => {
   try {
@@ -266,8 +280,22 @@ const TeamPage: React.FC = () => {
       <section className="relative overflow-hidden border-b border-neutral-200 bg-neutral-50 px-4 py-10 md:px-12 md:py-12">
         <div className="pointer-events-none absolute -right-20 top-8 h-72 w-72 rounded-full opacity-[0.08] blur-3xl" style={{ backgroundColor: team.primaryColor }} />
         <div className="pointer-events-none absolute inset-x-0 bottom-0 flex h-1" aria-hidden="true">
-          <span className="w-1/2" style={{ backgroundColor: team.kits?.home ?? team.primaryColor }} />
-          <span className="w-1/2" style={{ backgroundColor: team.kits?.away ?? team.secondaryColor ?? '#ffffff' }} />
+          <span
+            className="w-1/2"
+            style={getKitSwatchStyle(
+              team.kits?.home ?? team.primaryColor,
+              team.kits?.homeSecondary,
+              team.kits?.homePattern,
+            )}
+          />
+          <span
+            className="w-1/2"
+            style={getKitSwatchStyle(
+              team.kits?.away ?? team.secondaryColor ?? '#ffffff',
+              team.kits?.awaySecondary,
+              team.kits?.awayPattern,
+            )}
+          />
         </div>
         <div className="relative mx-auto max-w-7xl">
           <div className="flex items-start justify-between gap-4">
