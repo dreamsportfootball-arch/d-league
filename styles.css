@@ -52,20 +52,20 @@
 }
 
 [role="img"][aria-label$="球衣"]:has(> img) {
-  width: 3.5rem;
+  width: 4.1667rem;
   height: 5rem;
 }
 
 @media (min-width: 768px) {
   [role="img"][aria-label$="球衣"]:has(> img) {
-    width: 6rem;
+    width: 7.5rem;
     height: 9rem;
   }
 }
 
 @media (min-width: 1280px) {
   [role="img"][aria-label$="球衣"]:has(> img) {
-    width: 7rem;
+    width: 8.3333rem;
     height: 10rem;
   }
 }
