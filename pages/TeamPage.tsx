@@ -79,7 +79,7 @@ const getKitSwatchStyle = (
 
   if (pattern === 'vertical-stripes' && secondaryColor) {
     return {
-      backgroundImage: `repeating-linear-gradient(90deg, ${primaryColor} 0, ${primaryColor} 12px, ${secondaryColor} 12px, ${secondaryColor} 24px)`,
+      backgroundImage: `linear-gradient(90deg, ${primaryColor} 0 25%, ${secondaryColor} 25% 50%, ${primaryColor} 50% 75%, ${secondaryColor} 75% 100%)`,
     };
   }
 
