@@ -320,3 +320,17 @@ for (const team of currentTeams) {
     fail(`${CURRENT_SEASON_ID} team ${team.id}: published roster must contain 12-20 players`);
   }
 }
+
+const currentSeasonNews = read(CURRENT_SEASON_ID, 'news.json');
+const requiredCurrentSeasonNewsIds = [
+  `${CURRENT_SEASON_ID}-registration-open`,
+  `${CURRENT_SEASON_ID}-selection-announcement`,
+];
+const currentSeasonNewsIds = new Set(currentSeasonNews.map((article) => article.id));
+for (const articleId of requiredCurrentSeasonNewsIds) {
+  if (!currentSeasonNewsIds.has(articleId)) {
+    fail(`${CURRENT_SEASON_ID}: required announcement ${articleId} is missing`);
+  }
+}
+
+console.log('Season data validation passed');
