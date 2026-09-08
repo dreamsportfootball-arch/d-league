@@ -58,6 +58,15 @@ const exerciseReturn = async ({
   await page.waitForSelector('#root > *');
   if (beforeSourceReady) await beforeSourceReady();
 
+  // Each scenario establishes its own controlled source position. A prior scenario can leave
+  // a route scroll snapshot in sessionStorage, which legitimately starts POP restoration on
+  // a full page.goto. Simulate user interaction first so that stale restoration cannot fight
+  // the audit's deliberate scrollTo while preserving the Back restoration being tested below.
+  await page.evaluate(() => {
+    window.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, pointerType: 'mouse' }));
+  });
+  await page.waitForTimeout(20);
+
   const link = linkLocator();
   await link.waitFor({ state: 'visible' });
   await link.evaluate((element) => {
@@ -164,6 +173,9 @@ for (const viewport of viewports) {
 
     await page.goto(`${baseUrl}/#/standings?season=2026-27`, { waitUntil: 'domcontentloaded', timeout: 20000 });
     await page.waitForSelector('#root > *');
+    await page.evaluate(() => {
+      window.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, pointerType: 'mouse' }));
+    });
     const teamLink = page.locator('a[href*="/teams/"][data-scroll-anchor-id]:visible').first();
     await teamLink.waitFor({ state: 'visible' });
     const teamUrl = await teamLink.evaluate((element) => element.href);
