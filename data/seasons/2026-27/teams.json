@@ -79,7 +79,9 @@
     "primaryColor": "#2a2b30",
     "secondaryColor": "#ffffff",
     "kits": {
-      "home": "#00091c",
+      "home": "#0d1e3e",
+      "homeSecondary": "#95151b",
+      "homePattern": "vertical-stripes",
       "away": "#ffffff"
     },
     "staff": [
@@ -140,7 +142,9 @@
     "primaryColor": "#f2d600",
     "secondaryColor": "#111111",
     "kits": {
-      "home": "#f2d600",
+      "home": "#111111",
+      "homeSecondary": "#f2d600",
+      "homePattern": "vertical-stripes",
       "away": "#111111"
     },
     "staff": [
@@ -346,6 +350,8 @@
     "secondaryColor": "#ffffff",
     "kits": {
       "home": "#191e54",
+      "homeSecondary": "#111111",
+      "homePattern": "vertical-stripes",
       "away": "#ffffff"
     },
     "staff": [

@@ -19,9 +19,15 @@ export interface TeamStaffMember {
   englishName?: string;
 }
 
+export type TeamKitPattern = 'solid' | 'half-and-half' | 'vertical-stripes' | 'vertical-pinstripes' | 'contrast-sleeves';
+
 export interface TeamKits {
   home: string;
   away: string;
+  homeSecondary?: string;
+  awaySecondary?: string;
+  homePattern?: TeamKitPattern;
+  awayPattern?: TeamKitPattern;
 }
 
 export interface SeasonTeam {
