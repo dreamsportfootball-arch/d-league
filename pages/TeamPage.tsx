@@ -71,6 +71,12 @@ const getKitSwatchStyle = (
   secondaryColor?: string,
   pattern: TeamKitPattern = 'solid',
 ): React.CSSProperties => {
+  if (pattern === 'half-and-half' && secondaryColor) {
+    return {
+      backgroundImage: `linear-gradient(90deg, ${primaryColor} 0 50%, ${secondaryColor} 50% 100%)`,
+    };
+  }
+
   if (pattern === 'vertical-stripes' && secondaryColor) {
     return {
       backgroundImage: `repeating-linear-gradient(90deg, ${primaryColor} 0, ${primaryColor} 12px, ${secondaryColor} 12px, ${secondaryColor} 24px)`,
