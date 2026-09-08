@@ -22,9 +22,15 @@ const installPopProbe = async (page, descriptor) => {
     window.addEventListener('popstate', () => {
       window.requestAnimationFrame(() => {
         const links = [...document.querySelectorAll('a')];
+        const isVisible = (element) => {
+          if (!(element instanceof HTMLElement)) return false;
+          const rect = element.getBoundingClientRect();
+          const style = window.getComputedStyle(element);
+          return rect.width > 0 && rect.height > 0 && style.display !== 'none' && style.visibility !== 'hidden';
+        };
         const anchor = anchorId
-          ? links.find((element) => element.getAttribute('data-scroll-anchor-id') === anchorId)
-          : links.find((element) => element.getAttribute('href') === href);
+          ? links.find((element) => element.getAttribute('data-scroll-anchor-id') === anchorId && isVisible(element))
+          : links.find((element) => element.getAttribute('href') === href && isVisible(element));
         window.__dleaguePopProbe = {
           hash: window.location.hash,
           found: anchor instanceof HTMLElement,
@@ -111,7 +117,7 @@ for (const viewport of viewports) {
       viewportName: viewport.name,
       sourceUrl: `${baseUrl}/#/`,
       sourcePattern: /#\/$/,
-      linkLocator: () => page.locator('#teams a[data-scroll-anchor-id]').first(),
+      linkLocator: () => page.locator('#teams a[data-scroll-anchor-id]:visible').first(),
       targetPattern: /#\/teams\//,
       requireTeams: true,
       beforeSourceReady: async () => {
@@ -126,12 +132,12 @@ for (const viewport of viewports) {
       viewportName: viewport.name,
       sourceUrl: `${baseUrl}/#/`,
       sourcePattern: /#\/$/,
-      linkLocator: () => page.locator('a[data-scroll-anchor-id^="home-news-article-"]').first(),
+      linkLocator: () => page.locator('a[data-scroll-anchor-id^="home-news-article-"]:visible').first(),
       targetPattern: /#\/news\//,
       requireTeams: true,
       beforeSourceReady: async () => {
         await closeHomepagePopup(page);
-        await page.locator('a[data-scroll-anchor-id^="home-news-article-"]').first().waitFor({ state: 'visible' });
+        await page.locator('a[data-scroll-anchor-id^="home-news-article-"]:visible').first().waitFor({ state: 'visible' });
       },
       label: 'home -> news article -> back',
     });
@@ -141,7 +147,7 @@ for (const viewport of viewports) {
       viewportName: viewport.name,
       sourceUrl: `${baseUrl}/#/news`,
       sourcePattern: /#\/news$/,
-      linkLocator: () => page.locator('a[data-scroll-anchor-id^="news-"]').first(),
+      linkLocator: () => page.locator('a[data-scroll-anchor-id^="news-"]:visible').first(),
       targetPattern: /#\/news\//,
       label: 'news list -> article -> back',
     });
@@ -151,14 +157,14 @@ for (const viewport of viewports) {
       viewportName: viewport.name,
       sourceUrl: `${baseUrl}/#/standings?season=2026-27`,
       sourcePattern: /#\/standings\?season=2026-27$/,
-      linkLocator: () => page.locator('a[href*="/teams/"][data-scroll-anchor-id]').first(),
+      linkLocator: () => page.locator('a[href*="/teams/"][data-scroll-anchor-id]:visible').first(),
       targetPattern: /#\/teams\//,
       label: 'standings -> team -> back',
     });
 
     await page.goto(`${baseUrl}/#/standings?season=2026-27`, { waitUntil: 'domcontentloaded', timeout: 20000 });
     await page.waitForSelector('#root > *');
-    const teamLink = page.locator('a[href*="/teams/"][data-scroll-anchor-id]').first();
+    const teamLink = page.locator('a[href*="/teams/"][data-scroll-anchor-id]:visible').first();
     await teamLink.waitFor({ state: 'visible' });
     const teamUrl = await teamLink.evaluate((element) => element.href);
 
@@ -167,7 +173,7 @@ for (const viewport of viewports) {
       viewportName: viewport.name,
       sourceUrl: teamUrl,
       sourcePattern: /#\/teams\//,
-      linkLocator: () => page.locator('a[href*="/players/"]').first(),
+      linkLocator: () => page.locator('a[href*="/players/"]:visible').first(),
       targetPattern: /#\/players\//,
       label: 'team -> player -> back',
     });
