@@ -304,17 +304,4 @@ await browser.close();
 console.log('Navigation visual stability validation passed');
 ''')
 
-replace_once(
-    '.github/workflows/validate.yml',
-    """      - name: Validate return-state persistence\n""",
-    """      - name: Validate first-frame navigation stability\n        env:\n          AUDIT_BASE_URL: http://127.0.0.1:4173/d-league\n        run: node scripts/validate-navigation-visual-stability.mjs\n\n      - name: Validate return-state persistence\n""",
-)
-
-replace_once(
-    '.github/workflows/visual-audit.yml',
-    """      - name: Validate round entity page\n""",
-    """      - name: Validate first-frame navigation stability\n        if: always()\n        env:\n          AUDIT_BASE_URL: http://127.0.0.1:4173/d-league\n        run: node scripts/validate-navigation-visual-stability.mjs\n\n      - name: Validate round entity page\n""",
-)
-
-Path('.github/workflows/oneoff-fix-navigation-visual-stability.yml').unlink()
 Path('scripts/oneoff-fix-navigation-visual-stability.py').unlink()
