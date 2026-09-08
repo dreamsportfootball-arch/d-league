@@ -202,6 +202,7 @@ const findScrollAnchor = (snapshot: ScrollAnchorSnapshot): HTMLAnchorElement | n
 const ScrollMemory: React.FC = () => {
   const { pathname, search, hash, key } = useLocation();
   const navigationType = useNavigationType();
+  const storageLocationKey = `${key}:${pathname}${search}${hash}`;
 
   useEffect(() => {
     const previousRestoration = window.history.scrollRestoration;
@@ -216,7 +217,7 @@ const ScrollMemory: React.FC = () => {
 
     const persistCurrentPosition = () => {
       frameId = 0;
-      writeScrollPosition(key, window.scrollY);
+      writeScrollPosition(storageLocationKey, window.scrollY);
     };
 
     const handleScroll = () => {
@@ -231,7 +232,7 @@ const ScrollMemory: React.FC = () => {
       if (frameId !== 0) window.cancelAnimationFrame(frameId);
       writeScrollPosition(key, window.scrollY);
     };
-  }, [key]);
+  }, [storageLocationKey]);
 
   useEffect(() => {
     const handleTrackedNavigation = (event: MouseEvent) => {
@@ -253,7 +254,7 @@ const ScrollMemory: React.FC = () => {
 
       const ariaLabel = anchor.getAttribute('aria-label') ?? anchor.textContent?.trim() ?? href;
       const anchorId = anchor.dataset.scrollAnchorId;
-      writeScrollAnchor(key, {
+      writeScrollAnchor(storageLocationKey, {
         ariaLabel,
         viewportTop: anchor.getBoundingClientRect().top,
         ...(anchorId ? { anchorId } : {}),
@@ -263,7 +264,7 @@ const ScrollMemory: React.FC = () => {
 
     document.addEventListener('click', handleTrackedNavigation, true);
     return () => document.removeEventListener('click', handleTrackedNavigation, true);
-  }, [key]);
+  }, [storageLocationKey]);
 
   useLayoutEffect(() => {
     let cancelled = false;
@@ -271,8 +272,8 @@ const ScrollMemory: React.FC = () => {
     let attempts = 0;
     let restoreWindowId = 0;
     let restoringSavedPosition = false;
-    const savedPosition = navigationType === 'POP' ? readScrollPosition(key) : null;
-    const savedAnchor = consumeScrollAnchor(key);
+    const savedPosition = navigationType === 'POP' ? readScrollPosition(storageLocationKey) : null;
+    const savedAnchor = consumeScrollAnchor(storageLocationKey);
     const sectionId = hash ? decodeURIComponent(hash.slice(1)) : '';
 
     const stopSavedPositionRestoration = () => {
