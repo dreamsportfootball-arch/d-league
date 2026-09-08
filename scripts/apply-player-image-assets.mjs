@@ -7,7 +7,12 @@ const seasonDir = join(root, 'data', 'seasons', CURRENT_SEASON_ID);
 const playersPath = join(seasonDir, 'players.json');
 const imagesPath = join(seasonDir, 'playerImages.json');
 const assetsDir = join(root, 'public', 'assets', 'seasons', CURRENT_SEASON_ID, 'players');
-const supportedExtensions = new Set(['.png', '.jpg', '.jpeg', '.webp']);
+const extensionPriority = new Map([
+  ['.png', 0],
+  ['.jpg', 1],
+  ['.jpeg', 2],
+  ['.webp', 3],
+]);
 
 if (!existsSync(assetsDir)) {
   console.log('player image assets: no current-season asset directory');
@@ -17,16 +22,22 @@ if (!existsSync(assetsDir)) {
 const players = JSON.parse(readFileSync(playersPath, 'utf8'));
 const images = JSON.parse(readFileSync(imagesPath, 'utf8'));
 const assetFiles = readdirSync(assetsDir)
-  .filter((fileName) => supportedExtensions.has(extname(fileName).toLowerCase()))
+  .filter((fileName) => extensionPriority.has(extname(fileName).toLowerCase()))
   .sort();
 
 const assetsByPlayerId = new Map();
 for (const fileName of assetFiles) {
   const playerId = parse(fileName).name;
-  if (assetsByPlayerId.has(playerId)) {
-    throw new Error(`player image assets: duplicate files for player id ${playerId}`);
+  const extension = extname(fileName).toLowerCase();
+  const currentFile = assetsByPlayerId.get(playerId);
+  if (!currentFile) {
+    assetsByPlayerId.set(playerId, fileName);
+    continue;
   }
-  assetsByPlayerId.set(playerId, fileName);
+
+  const currentPriority = extensionPriority.get(extname(currentFile).toLowerCase());
+  const nextPriority = extensionPriority.get(extension);
+  if (nextPriority < currentPriority) assetsByPlayerId.set(playerId, fileName);
 }
 
 let added = 0;
