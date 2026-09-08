@@ -17,7 +17,7 @@
       },
       {
         "role": "管理",
-        "name": "許卸力",
+        "name": "許御力",
         "englishName": "Yu Li Shu"
       },
       {
@@ -46,7 +46,7 @@
       "identityId": "ns-10",
       "teamId": "t_niaoshi_2026",
       "number": 10,
-      "name": "許卸力",
+      "name": "許御力",
       "englishName": "Yu Li Shu",
       "gender": "男",
       "nationality": "台灣",
@@ -80,7 +80,7 @@
       "id": "ns26-05",
       "identityId": "ns-20",
       "teamId": "t_niaoshi_2026",
-      "number": null,
+      "number": 20,
       "name": "于克偉",
       "englishName": "Yu Ke Wei",
       "gender": "男",
@@ -200,7 +200,7 @@
       "id": "ns26-15",
       "identityId": "ns-30",
       "teamId": "t_niaoshi_2026",
-      "number": null,
+      "number": 30,
       "name": "陳學璋",
       "englishName": "Chen Hsueh Chang",
       "gender": "男",
