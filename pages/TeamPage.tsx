@@ -18,6 +18,7 @@ import FullSchedule from '../components/FullSchedule';
 import MatchDialog from '../components/MatchDialog';
 import TeamRankChart, { type TeamRankPoint } from '../components/TeamRankChart';
 import { isSeasonId } from '../config/seasons';
+import { getTeamKitAssets } from '../config/teamKitAssets';
 import { SeasonContext } from '../contexts/SeasonContext';
 import {
   CUP_EVENT,
@@ -103,6 +104,7 @@ interface MiniKitIconProps {
   primaryColor: string;
   secondaryColor?: string;
   pattern?: TeamKitPattern;
+  image?: string;
 }
 
 const MiniKitIcon: React.FC<MiniKitIconProps> = ({
@@ -110,42 +112,61 @@ const MiniKitIcon: React.FC<MiniKitIconProps> = ({
   primaryColor,
   secondaryColor,
   pattern,
-}) => (
-  <span
-    role="img"
-    aria-label={label}
-    title={label}
-    className="inline-flex h-7 w-7 shrink-0 items-center justify-center sm:h-8 sm:w-8"
-  >
-    <span
-      aria-hidden="true"
-      className="block h-6 w-6 drop-shadow-[0_1px_1px_rgba(0,0,0,0.16)] sm:h-7 sm:w-7"
-      style={{
-        ...getKitSwatchStyle(primaryColor, secondaryColor, pattern),
-        clipPath:
-          'polygon(20% 0, 38% 8%, 62% 8%, 80% 0, 100% 18%, 84% 34%, 76% 26%, 76% 100%, 24% 100%, 24% 26%, 16% 34%, 0 18%)',
-      }}
-    />
-  </span>
-);
-
-const MiniTeamKits: React.FC<{ team: SeasonTeam }> = ({ team }) => {
-  const homeColor = team.kits?.home ?? team.primaryColor;
-  const awayColor = team.kits?.away ?? team.secondaryColor ?? '#ffffff';
+  image,
+}) => {
+  const [imageFailed, setImageFailed] = useState(false);
+  const showRealKit = Boolean(image && !imageFailed);
 
   return (
-    <span className="inline-flex shrink-0 items-center gap-0.5" aria-label={`${team.name} 球衣`}>
+    <span
+      role="img"
+      aria-label={label}
+      title={label}
+      className="inline-flex h-9 w-7 shrink-0 items-center justify-center sm:h-10 sm:w-8"
+    >
+      {showRealKit ? (
+        <img
+          src={`${import.meta.env.BASE_URL}${image}`}
+          alt=""
+          aria-hidden="true"
+          className="max-h-full max-w-full object-contain drop-shadow-[0_1px_1px_rgba(0,0,0,0.12)]"
+          onError={() => setImageFailed(true)}
+        />
+      ) : (
+        <span
+          aria-hidden="true"
+          className="block h-6 w-6 drop-shadow-[0_1px_1px_rgba(0,0,0,0.16)] sm:h-7 sm:w-7"
+          style={{
+            ...getKitSwatchStyle(primaryColor, secondaryColor, pattern),
+            clipPath:
+              'polygon(20% 0, 38% 8%, 62% 8%, 80% 0, 100% 18%, 84% 34%, 76% 26%, 76% 100%, 24% 100%, 24% 26%, 16% 34%, 0 18%)',
+          }}
+        />
+      )}
+    </span>
+  );
+};
+
+const MiniTeamKits: React.FC<{ team: SeasonTeam; seasonId: SeasonTeam['seasonId'] }> = ({ team, seasonId }) => {
+  const homeColor = team.kits?.home ?? team.primaryColor;
+  const awayColor = team.kits?.away ?? team.secondaryColor ?? '#ffffff';
+  const kitAssets = getTeamKitAssets(seasonId, team.id);
+
+  return (
+    <span className="inline-flex shrink-0 items-center gap-1" aria-label={`${team.name} 球衣`}>
       <MiniKitIcon
         label={`${team.name} 主場球衣`}
         primaryColor={homeColor}
         secondaryColor={team.kits?.homeSecondary}
         pattern={team.kits?.homePattern}
+        image={kitAssets?.home}
       />
       <MiniKitIcon
         label={`${team.name} 客場球衣`}
         primaryColor={awayColor}
         secondaryColor={team.kits?.awaySecondary}
         pattern={team.kits?.awayPattern}
+        image={kitAssets?.away}
       />
     </span>
   );
@@ -394,7 +415,7 @@ const TeamPage: React.FC = () => {
               </p>
               <div className="flex min-w-0 flex-col gap-1.5 sm:flex-row sm:items-end sm:gap-3">
                 <h1 className="min-w-0 flex-1"><AutoFitText text={team.name} minFontSize={16} lineHeight={0.98} className="font-display text-4xl font-extrabold tracking-tight text-brand-black sm:text-5xl xl:text-6xl" /></h1>
-                {seasonId === '2026-27' && <MiniTeamKits team={team} />}
+                {seasonId === '2026-27' && <MiniTeamKits team={team} seasonId={seasonId} />}
               </div>
               {displayShortName && <p className="mt-2 text-xs font-semibold text-neutral-500">球隊簡稱 <span className="ml-2 font-bold text-brand-black">{displayShortName}</span></p>}
               {socialLinks.length > 0 && renderSocialLinks(true)}
