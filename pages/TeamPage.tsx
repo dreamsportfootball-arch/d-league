@@ -317,7 +317,7 @@ const TeamPage: React.FC = () => {
       completedMatches.push(...bucket.matches);
       const row = calculateLeagueTable({
         league: team.leagueId,
-        teams: activeLeagueTeams,
+        teams: data.teams,
         matches: completedMatches,
         matchEvents: data.matchEvents,
         rules: season.rules,
