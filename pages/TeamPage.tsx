@@ -404,7 +404,7 @@ const TeamPage: React.FC = () => {
           </div>
 
           {seasonId === '2026-27' && (
-            <div className="absolute right-0 top-24 hidden md:block">
+            <div className={`absolute right-0 hidden md:block ${socialLinks.length > 0 ? 'top-12' : 'top-0'}`}>
               <MiniTeamKits team={team} seasonId={seasonId} />
             </div>
           )}
