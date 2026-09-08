@@ -4,7 +4,7 @@ import { SEASON_IDS } from '../config/siteManifest.js';
 
 const root = process.cwd();
 const colorPattern = /^#[0-9a-f]{6}$/i;
-const kitPatterns = new Set(['solid', 'vertical-stripes']);
+const kitPatterns = new Set(['solid', 'vertical-stripes', 'vertical-pinstripes', 'contrast-sleeves']);
 const fail = (message) => {
   throw new Error(`Team kit validation: ${message}`);
 };
@@ -40,8 +40,8 @@ for (const seasonId of SEASON_IDS) {
       if (pattern !== undefined && !kitPatterns.has(pattern)) {
         fail(`${seasonId} ${team.id}: kits.${patternField} must be one of ${[...kitPatterns].join(', ')}`);
       }
-      if (pattern === 'vertical-stripes' && team.kits[secondaryField] === undefined) {
-        fail(`${seasonId} ${team.id}: kits.${secondaryField} is required for vertical-stripes`);
+      if (pattern !== undefined && pattern !== 'solid' && team.kits[secondaryField] === undefined) {
+        fail(`${seasonId} ${team.id}: kits.${secondaryField} is required for ${pattern}`);
       }
     }
   }
