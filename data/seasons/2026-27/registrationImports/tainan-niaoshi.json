@@ -11,11 +11,7 @@
     "secondaryColor": "#ffffff",
     "kits": {
       "home": "#c73037",
-      "homeSecondary": "#ffffff",
-      "homePattern": "vertical-pinstripes",
-      "away": "#ecdfbe",
-      "awaySecondary": "#2a484d",
-      "awayPattern": "contrast-sleeves"
+      "away": "#ecdfbe"
     },
     "staff": [
       {
