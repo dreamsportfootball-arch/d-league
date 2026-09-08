@@ -62,6 +62,7 @@ const RegistrationOverview: React.FC = () => {
 
               <Link
                 to="/registration"
+                data-scroll-anchor-id={`home-registration-details-${activeSeason.id}`}
                 data-analytics-event="registration_details_click"
                 className="inline-flex min-h-12 items-center justify-center border border-neutral-300 px-6 py-3 text-sm font-black uppercase tracking-widest text-brand-black transition-colors hover:border-brand-blue hover:text-brand-blue focus:outline-none focus:ring-2 focus:ring-brand-blue focus:ring-offset-2"
               >

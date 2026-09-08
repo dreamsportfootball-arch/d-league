@@ -86,7 +86,7 @@ const getPlayerSeasonTeams = (record: PlayerSeasonRecord): SeasonTeam[] => {
   });
 
   addTeam(record.player.teamId, Number.POSITIVE_INFINITY);
-  timeline.sort((a, b) => a.timestamp - b.timestamp);
+  timeline.sort((a, b) => b.timestamp - a.timestamp);
 
   const seen = new Set<string>();
   return timeline.flatMap(({ teamId }) => {

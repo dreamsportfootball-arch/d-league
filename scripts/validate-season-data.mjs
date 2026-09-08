@@ -133,9 +133,11 @@ for (const season of seasons) {
       if (playerIdentityIds.has(player.identityId)) fail(`${season} player ${player.id}: duplicate identityId ${player.identityId}`);
       playerIdentityIds.add(player.identityId);
     }
-    const teamNumberKey = `${player.teamId}:${player.number}`;
-    if (teamNumbers.has(teamNumberKey)) fail(`${season} player ${player.id}: duplicate shirt number ${player.number}`);
-    teamNumbers.add(teamNumberKey);
+    if (player.number > 0) {
+      const teamNumberKey = `${player.teamId}:${player.number}`;
+      if (teamNumbers.has(teamNumberKey)) fail(`${season} player ${player.id}: duplicate shirt number ${player.number}`);
+      teamNumbers.add(teamNumberKey);
+    }
     if (player.registrations) {
       for (const registration of player.registrations) {
         if (!teamIds.has(registration.teamId)) fail(`${season} player ${player.id}: unknown registration team`);

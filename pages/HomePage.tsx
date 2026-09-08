@@ -31,7 +31,7 @@ const HomePage: React.FC = () => {
     <div className="w-full overflow-x-hidden">
       {activeSeason.status === 'registration' && <StaffPartnerTeamPopup />}
       <Hero />
-      <DeferredSection minHeight={520} rootMargin="1000px 0px">
+      <DeferredSection minHeight={520} rootMargin="1000px 0px" persistKey="home-main-content">
         <Suspense fallback={<HomeContentFallback />}>
           {content}
         </Suspense>

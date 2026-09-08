@@ -44,6 +44,7 @@ const NewsSection: React.FC = () => {
               <Link
                 key={`${article.seasonId ?? 'global'}-${article.id}`}
                 to={`/news/${article.id}`}
+                data-scroll-anchor-id={`home-news-article-${article.seasonId ?? 'global'}-${article.id}`}
                 className="group relative flex cursor-pointer items-start space-x-5 overflow-hidden p-5 text-left transition-colors hover:bg-neutral-50"
               >
                 <div className="absolute bottom-0 left-0 top-0 w-1 -translate-x-full bg-brand-blue transition-transform duration-300 group-hover:translate-x-0" />
@@ -98,6 +99,7 @@ const NewsSection: React.FC = () => {
       <div className="mt-auto border-t border-neutral-100 bg-neutral-50 p-4 transition-colors hover:bg-white">
         <Link
           to="/news"
+          data-scroll-anchor-id="home-news-all"
           className="group/btn flex w-full items-center justify-center py-2 text-center text-xs font-black uppercase tracking-widest text-neutral-400 transition-colors hover:text-brand-black"
         >
           查看全部消息

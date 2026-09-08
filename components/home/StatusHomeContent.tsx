@@ -39,10 +39,10 @@ const StatusOverview: React.FC<StatusHomeContentProps> = ({ status }) => {
             : '錄取球隊、正式級別、球員登錄時程及完整賽程將依序公布'}
         </p>
         <div className="mt-7 flex flex-wrap justify-center gap-3">
-          <Link to="/news" className="rounded-full bg-brand-black px-6 py-3 text-xs font-black uppercase tracking-widest text-white">
+          <Link to="/news" data-scroll-anchor-id="home-status-news" className="rounded-full bg-brand-black px-6 py-3 text-xs font-black uppercase tracking-widest text-white">
             查看最新公告
           </Link>
-          <Link to="/registration" className="rounded-full border border-neutral-300 px-6 py-3 text-xs font-black uppercase tracking-widest text-brand-black">
+          <Link to="/registration" data-scroll-anchor-id="home-status-registration" className="rounded-full border border-neutral-300 px-6 py-3 text-xs font-black uppercase tracking-widest text-brand-black">
             查看賽季資訊
           </Link>
         </div>

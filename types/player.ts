@@ -10,7 +10,8 @@ export interface PlayerProfile {
   teamId: string;
   name: string;
   englishName?: string;
-  number: number;
+  /** Null means the shirt number has not yet been confirmed for this season. */
+  number: number | null;
   gender: string;
   nationality: string;
   /** ISO date (YYYY-MM-DD). When present, age is resolved at the season age reference date. */

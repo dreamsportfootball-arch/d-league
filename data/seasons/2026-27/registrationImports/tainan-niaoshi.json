@@ -1,0 +1,212 @@
+{
+  "team": {
+    "id": "t_niaoshi_2026",
+    "identityId": "tainan-niaoshi-fc",
+    "seasonId": "2026-27",
+    "leagueId": "L3",
+    "name": "台南鳥仕足球俱樂部",
+    "shortName": "台南鳥仕足球俱樂部",
+    "logo": "assets/seasons/2026-27/teams/tainan-niaoshi-fc.png",
+    "primaryColor": "#be1920",
+    "secondaryColor": "#ffffff",
+    "staff": [
+      {
+        "role": "領隊",
+        "name": "王志誠",
+        "englishName": "Wong Chi Shing"
+      },
+      {
+        "role": "管理",
+        "name": "許御力",
+        "englishName": "Yu Li Shu"
+      },
+      {
+        "role": "教練",
+        "name": "王志誠",
+        "englishName": "Wong Chi Shing"
+      }
+    ],
+    "competitionStatus": "ACTIVE"
+  },
+  "players": [
+    {
+      "id": "ns26-01",
+      "identityId": "ns-14",
+      "teamId": "t_niaoshi_2026",
+      "number": 14,
+      "name": "王志誠",
+      "englishName": "Wong Chi Shing",
+      "gender": "男",
+      "nationality": "香港",
+      "birthDate": "1993-10-10",
+      "age": 33
+    },
+    {
+      "id": "ns26-02",
+      "identityId": "ns-10",
+      "teamId": "t_niaoshi_2026",
+      "number": 10,
+      "name": "許御力",
+      "englishName": "Yu Li Shu",
+      "gender": "男",
+      "nationality": "台灣",
+      "birthDate": "1984-09-07",
+      "age": 42
+    },
+    {
+      "id": "ns26-03",
+      "identityId": "ns-25",
+      "teamId": "t_niaoshi_2026",
+      "number": 25,
+      "name": "王竣弘",
+      "gender": "男",
+      "nationality": "台灣",
+      "birthDate": "2001-06-25",
+      "age": 25
+    },
+    {
+      "id": "ns26-04",
+      "identityId": "ns-08",
+      "teamId": "t_niaoshi_2026",
+      "number": null,
+      "name": "于克元",
+      "englishName": "Yu Ke Yuan",
+      "gender": "男",
+      "nationality": "台灣",
+      "birthDate": "1995-02-12",
+      "age": 31
+    },
+    {
+      "id": "ns26-05",
+      "identityId": "ns-20",
+      "teamId": "t_niaoshi_2026",
+      "number": 20,
+      "name": "于克偉",
+      "englishName": "Yu Ke Wei",
+      "gender": "男",
+      "nationality": "台灣",
+      "birthDate": "1989-06-12",
+      "age": 37
+    },
+    {
+      "id": "ns26-06",
+      "identityId": "ns-06",
+      "teamId": "t_niaoshi_2026",
+      "number": 6,
+      "name": "吳昱陞",
+      "englishName": "Yu Sheng Wu",
+      "gender": "男",
+      "nationality": "台灣",
+      "birthDate": "2003-05-13",
+      "age": 23
+    },
+    {
+      "id": "ns26-07",
+      "identityId": "ns-76",
+      "teamId": "t_niaoshi_2026",
+      "number": 76,
+      "name": "鄭祖鏗",
+      "englishName": "Cheng Cho Hang",
+      "gender": "男",
+      "nationality": "香港",
+      "birthDate": "2000-06-12",
+      "age": 26
+    },
+    {
+      "id": "ns26-08",
+      "identityId": "kuo-i-chen",
+      "teamId": "t_niaoshi_2026",
+      "number": 19,
+      "name": "郭奕辰",
+      "englishName": "Kuo I Chen",
+      "gender": "男",
+      "nationality": "台灣",
+      "birthDate": "2004-12-22",
+      "age": 21
+    },
+    {
+      "id": "ns26-09",
+      "identityId": "yang-chieh-juh",
+      "teamId": "t_niaoshi_2026",
+      "number": 17,
+      "name": "楊傑儒",
+      "englishName": "Yang Chieh Juh",
+      "gender": "男",
+      "nationality": "台灣",
+      "birthDate": "2007-08-07",
+      "age": 19
+    },
+    {
+      "id": "ns26-10",
+      "identityId": "ns-09",
+      "teamId": "t_niaoshi_2026",
+      "number": 16,
+      "name": "蘇智龍",
+      "englishName": "Jhih Long So",
+      "gender": "男",
+      "nationality": "台灣",
+      "birthDate": "2004-01-26",
+      "age": 22
+    },
+    {
+      "id": "ns26-11",
+      "identityId": "yi-yun-xue",
+      "teamId": "t_niaoshi_2026",
+      "number": 64,
+      "name": "薛易昀",
+      "englishName": "Yi Yun Xue",
+      "gender": "男",
+      "nationality": "台灣",
+      "birthDate": "2003-05-22",
+      "age": 23
+    },
+    {
+      "id": "ns26-12",
+      "identityId": "hung-mao-lin",
+      "teamId": "t_niaoshi_2026",
+      "number": 44,
+      "name": "林宏懋",
+      "englishName": "Hung Mao Lin",
+      "gender": "男",
+      "nationality": "台灣",
+      "birthDate": "1986-06-19",
+      "age": 40
+    },
+    {
+      "id": "ns26-13",
+      "identityId": "hui-hon-kuen",
+      "teamId": "t_niaoshi_2026",
+      "number": 88,
+      "name": "許漢權",
+      "englishName": "Hui Hon Kuen",
+      "gender": "男",
+      "nationality": "香港",
+      "birthDate": "2000-05-02",
+      "age": 26
+    },
+    {
+      "id": "ns26-14",
+      "identityId": "ns-16",
+      "teamId": "t_niaoshi_2026",
+      "number": null,
+      "name": "黃首駿",
+      "englishName": "Wong Sau Chun",
+      "gender": "男",
+      "nationality": "香港",
+      "birthDate": "1995-08-25",
+      "age": 31
+    },
+    {
+      "id": "ns26-15",
+      "identityId": "ns-30",
+      "teamId": "t_niaoshi_2026",
+      "number": 30,
+      "name": "陳學璋",
+      "englishName": "Chen Hsueh Chang",
+      "gender": "男",
+      "nationality": "台灣",
+      "birthDate": "1992-11-28",
+      "age": 33
+    }
+  ]
+}

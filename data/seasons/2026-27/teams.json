@@ -493,5 +493,38 @@
       "home": "#05142b",
       "away": "#efb4c6"
     }
+  },
+  {
+    "id": "t_kuromi_2026",
+    "identityId": "kuromi",
+    "seasonId": "2026-27",
+    "leagueId": "L1",
+    "name": "KUROMI",
+    "shortName": "KUROMI",
+    "logo": "assets/seasons/2026-27/teams/kuromi.png",
+    "primaryColor": "#002b4e",
+    "secondaryColor": "#ffffff",
+    "kits": {
+      "home": "#002b4e",
+      "away": "#ffffff"
+    },
+    "staff": [
+      {
+        "role": "領隊",
+        "name": "劉佳興",
+        "englishName": "LIU CHIA HSING"
+      },
+      {
+        "role": "管理",
+        "name": "劉紀良",
+        "englishName": "LIU JI LIANG"
+      },
+      {
+        "role": "教練",
+        "name": "翁吉韡",
+        "englishName": "WENG Ji Wi"
+      }
+    ],
+    "competitionStatus": "ACTIVE"
   }
 ]

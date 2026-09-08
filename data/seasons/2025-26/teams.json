@@ -18,7 +18,8 @@
     "shortName": "酒號矯正署",
     "logo": "assets/teams/jiuhao.png",
     "primaryColor": "#000000",
-    "secondaryColor": "#ffffff"
+    "secondaryColor": "#ffffff",
+    "identityId": "alian-fc"
   },
   {
     "id": "t_tongque",
@@ -68,7 +69,8 @@
     "shortName": "瘋Dog",
     "logo": "assets/teams/crazydog.png",
     "primaryColor": "#ed8992",
-    "secondaryColor": "#000000"
+    "secondaryColor": "#000000",
+    "identityId": "kuromi"
   },
   {
     "id": "t_canglong",
@@ -78,7 +80,8 @@
     "shortName": "蒼龍FC",
     "logo": "assets/teams/canglong.png",
     "primaryColor": "#0c2450",
-    "secondaryColor": "#ffffff"
+    "secondaryColor": "#ffffff",
+    "identityId": "wanderers"
   },
   {
     "id": "t_ppi",
@@ -88,7 +91,8 @@
     "shortName": "PPI TAINAN",
     "logo": "assets/teams/ppi.png",
     "primaryColor": "#004026",
-    "secondaryColor": "#ffffff"
+    "secondaryColor": "#ffffff",
+    "identityId": "southboys-fc"
   },
   {
     "id": "t_niaoshi",
@@ -97,6 +101,7 @@
     "name": "鳥仕足球俱樂部",
     "shortName": "鳥仕足球俱樂部",
     "logo": "assets/teams/niaoshi.png",
-    "primaryColor": "#be1920"
+    "primaryColor": "#be1920",
+    "identityId": "tainan-niaoshi-fc"
   }
 ]

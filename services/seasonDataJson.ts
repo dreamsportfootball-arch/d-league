@@ -90,6 +90,7 @@ const makeData = (
     const identityId = playerAliases[player.id] ?? player.identityId;
     return {
       ...player,
+      number: player.number === 0 ? null : player.number,
       age: resolvePlayerAge(player, ageReferenceDate),
       ...(identityId ? { identityId } : {}),
     };

@@ -112,6 +112,7 @@ const ActiveHomeContent: React.FC = () => {
             <div className="mt-4 text-center">
               <Link
                 to="/standings"
+                data-scroll-anchor-id={`home-full-standings-${activeSeason.id}-${activeLeague}`}
                 onClick={() => {
                   try {
                     window.sessionStorage.setItem('standingsActiveLeague', activeLeague);
