@@ -143,6 +143,8 @@
     "secondaryColor": "#111111",
     "kits": {
       "home": "#f2d600",
+      "homeSecondary": "#111111",
+      "homePattern": "vertical-stripes",
       "away": "#111111"
     },
     "staff": [
@@ -348,6 +350,8 @@
     "secondaryColor": "#ffffff",
     "kits": {
       "home": "#191e54",
+      "homeSecondary": "#111111",
+      "homePattern": "vertical-stripes",
       "away": "#ffffff"
     },
     "staff": [
