@@ -80,6 +80,8 @@
     "secondaryColor": "#ffffff",
     "kits": {
       "home": "#0d1e3e",
+      "homeSecondary": "#95151b",
+      "homePattern": "vertical-stripes",
       "away": "#ffffff"
     },
     "staff": [
