@@ -230,7 +230,7 @@ const ScrollMemory: React.FC = () => {
     return () => {
       window.removeEventListener('scroll', handleScroll);
       if (frameId !== 0) window.cancelAnimationFrame(frameId);
-      writeScrollPosition(key, window.scrollY);
+      writeScrollPosition(storageLocationKey, window.scrollY);
     };
   }, [storageLocationKey]);
 
