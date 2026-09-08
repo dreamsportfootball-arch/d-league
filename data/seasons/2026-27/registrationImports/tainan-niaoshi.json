@@ -9,6 +9,14 @@
     "logo": "assets/seasons/2026-27/teams/tainan-niaoshi-fc.png",
     "primaryColor": "#be1920",
     "secondaryColor": "#ffffff",
+    "kits": {
+      "home": "#c73037",
+      "homeSecondary": "#ffffff",
+      "homePattern": "vertical-pinstripes",
+      "away": "#ecdfbe",
+      "awaySecondary": "#2a484d",
+      "awayPattern": "contrast-sleeves"
+    },
     "staff": [
       {
         "role": "領隊",
