@@ -77,6 +77,18 @@ const getKitSwatchStyle = (
     };
   }
 
+  if (pattern === 'vertical-pinstripes' && secondaryColor) {
+    return {
+      backgroundImage: `repeating-linear-gradient(90deg, ${primaryColor} 0, ${primaryColor} 11px, ${secondaryColor} 11px, ${secondaryColor} 13px)`,
+    };
+  }
+
+  if (pattern === 'contrast-sleeves' && secondaryColor) {
+    return {
+      backgroundImage: `linear-gradient(90deg, ${secondaryColor} 0 20%, ${primaryColor} 20% 80%, ${secondaryColor} 80% 100%)`,
+    };
+  }
+
   return { backgroundColor: primaryColor };
 };
 
