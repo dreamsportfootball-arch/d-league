@@ -4,7 +4,7 @@ import { SEASON_IDS } from '../config/siteManifest.js';
 
 const root = process.cwd();
 const colorPattern = /^#[0-9a-f]{6}$/i;
-const kitPatterns = new Set(['solid', 'vertical-stripes', 'vertical-pinstripes', 'contrast-sleeves']);
+const kitPatterns = new Set(['solid', 'half-and-half', 'vertical-stripes', 'vertical-pinstripes', 'contrast-sleeves']);
 const fail = (message) => {
   throw new Error(`Team kit validation: ${message}`);
 };
