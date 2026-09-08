@@ -19,7 +19,7 @@ export interface TeamStaffMember {
   englishName?: string;
 }
 
-export type TeamKitPattern = 'solid' | 'vertical-stripes';
+export type TeamKitPattern = 'solid' | 'vertical-stripes' | 'vertical-pinstripes' | 'contrast-sleeves';
 
 export interface TeamKits {
   home: string;
