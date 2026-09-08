@@ -46,7 +46,7 @@ jobs:
       - name: Type-check
         run: npm run typecheck
       - name: Validate season data
-        run: npm run validate:season-data
+        run: npm run validate:data
       - name: Build production site
         run: npm run build
       - name: Remove one-off workflows and commit
