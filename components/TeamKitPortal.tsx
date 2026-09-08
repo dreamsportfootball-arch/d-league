@@ -64,11 +64,10 @@ const getKitStyle = (
   return { backgroundColor: primaryColor };
 };
 
-interface KitPanelProps {
+interface CompactKitProps {
   team: SeasonTeam;
-  index: '01' | '02';
   label: string;
-  eyebrow: 'HOME KIT' | 'AWAY KIT';
+  eyebrow: 'HOME' | 'AWAY';
   primaryColor: string;
   secondaryColor?: string;
   pattern?: TeamKitPattern;
@@ -76,9 +75,8 @@ interface KitPanelProps {
   atlasCol?: number;
 }
 
-const KitPanel: React.FC<KitPanelProps> = ({
+const CompactKit: React.FC<CompactKitProps> = ({
   team,
-  index,
   label,
   eyebrow,
   primaryColor,
@@ -90,14 +88,8 @@ const KitPanel: React.FC<KitPanelProps> = ({
   const hasRealKit = typeof atlasRow === 'number' && typeof atlasCol === 'number';
 
   return (
-    <article className="min-w-0">
-      <div className="relative aspect-square overflow-hidden border border-neutral-200 bg-neutral-50">
-        <div className="absolute left-4 top-4 z-10 flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.18em] text-neutral-500 sm:left-5 sm:top-5">
-          <span className="text-brand-blue">{index}</span>
-          <span aria-hidden="true" className="h-px w-5 bg-neutral-300" />
-          <span>{eyebrow}</span>
-        </div>
-
+    <article className="flex min-w-0 items-center gap-2.5 sm:gap-3">
+      <div className="relative h-16 w-16 shrink-0 overflow-hidden border border-neutral-200 bg-neutral-50 sm:h-20 sm:w-20">
         {hasRealKit ? (
           <div
             role="img"
@@ -110,32 +102,29 @@ const KitPanel: React.FC<KitPanelProps> = ({
             }}
           />
         ) : (
-          <div className="absolute inset-0 flex items-center justify-center p-9 sm:p-14">
+          <div className="absolute inset-0 flex items-center justify-center p-3 sm:p-4">
             <div
               role="img"
               aria-label={`${team.name} ${label}版型預覽`}
-              className="relative h-[72%] w-[72%] drop-shadow-[0_18px_22px_rgba(0,0,0,0.12)]"
+              className="relative h-full w-full drop-shadow-[0_6px_8px_rgba(0,0,0,0.12)]"
               style={{
                 ...getKitStyle(primaryColor, secondaryColor, pattern),
                 clipPath:
                   'polygon(20% 0, 38% 8%, 62% 8%, 80% 0, 100% 18%, 84% 34%, 76% 26%, 76% 100%, 24% 100%, 24% 26%, 16% 34%, 0 18%)',
               }}
-            >
-              <div className="absolute left-1/2 top-[6%] h-[12%] w-[22%] -translate-x-1/2 rounded-b-full border-b-2 border-white/60 bg-black/10" />
-            </div>
+            />
           </div>
         )}
       </div>
 
-      <div className="flex items-start justify-between gap-4 border-b border-neutral-200 py-4 sm:py-5">
-        <div>
-          <p className="text-[10px] font-black uppercase tracking-[0.18em] text-neutral-400">{eyebrow}</p>
-          <h3 className="mt-1 font-display text-xl font-extrabold text-brand-black sm:text-2xl">{label}</h3>
-        </div>
-
-        <div className="mt-1 flex shrink-0 overflow-hidden border border-neutral-200" aria-label={`${label}代表色`}>
-          <span className="h-7 w-7" style={{ backgroundColor: primaryColor }} />
-          {secondaryColor && <span className="h-7 w-7 border-l border-white/70" style={{ backgroundColor: secondaryColor }} />}
+      <div className="min-w-0">
+        <p className="text-[9px] font-black uppercase tracking-[0.18em] text-brand-blue">{eyebrow}</p>
+        <h3 className="mt-0.5 text-xs font-bold leading-tight text-brand-black sm:text-sm">{label}</h3>
+        <div className="mt-2 flex items-center gap-1" aria-label={`${label}代表色`}>
+          <span className="h-2.5 w-2.5 border border-black/10" style={{ backgroundColor: primaryColor }} />
+          {secondaryColor && (
+            <span className="h-2.5 w-2.5 border border-black/10" style={{ backgroundColor: secondaryColor }} />
+          )}
         </div>
       </div>
     </article>
@@ -187,36 +176,29 @@ const TeamKitPortal: React.FC = () => {
   const atlas = KIT_ATLAS_MAP[team.name];
 
   return createPortal(
-    <section id="kits" className="border-t border-neutral-200 pt-1">
-      <div className="mb-6 flex items-end justify-between border-b border-neutral-200 py-4 sm:mb-8 sm:py-5">
-        <div>
-          <p className="mb-1.5 text-[10px] font-black uppercase tracking-[0.22em] text-brand-blue">
-            TEAM KIT · {season.shortName}
-          </p>
-          <h2 className="font-display text-3xl font-extrabold tracking-tight text-brand-black">球衣</h2>
-        </div>
-        <p className="hidden max-w-xs text-right text-xs font-semibold leading-5 text-neutral-400 sm:block">
-          {team.name} · 官方比賽球衣
-        </p>
+    <section id="kits">
+      <div className="mb-4 flex items-center justify-between border-b border-neutral-200 pb-3">
+        <h2 className="font-display text-2xl font-extrabold text-brand-black">球衣</h2>
+        <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-neutral-400">
+          {season.shortName}
+        </span>
       </div>
 
-      <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 sm:gap-6 lg:gap-8">
-        <KitPanel
+      <div className="grid max-w-md grid-cols-2 gap-3 sm:max-w-none sm:flex sm:gap-8">
+        <CompactKit
           team={team}
-          index="01"
           label="主場球衣"
-          eyebrow="HOME KIT"
+          eyebrow="HOME"
           primaryColor={homeColor}
           secondaryColor={team.kits?.homeSecondary}
           pattern={team.kits?.homePattern}
           atlasRow={atlas?.row}
           atlasCol={atlas?.homeCol}
         />
-        <KitPanel
+        <CompactKit
           team={team}
-          index="02"
           label="客場球衣"
-          eyebrow="AWAY KIT"
+          eyebrow="AWAY"
           primaryColor={awayColor}
           secondaryColor={team.kits?.awaySecondary}
           pattern={team.kits?.awayPattern}
