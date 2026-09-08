@@ -122,7 +122,7 @@ const MiniKitIcon: React.FC<MiniKitIconProps> = ({
       role="img"
       aria-label={label}
       title={label}
-      className="inline-flex h-9 w-7 shrink-0 items-center justify-center sm:h-10 sm:w-8"
+      className="inline-flex h-11 w-8 shrink-0 items-center justify-center sm:h-[52px] sm:w-10"
     >
       {showRealKit ? (
         <img
