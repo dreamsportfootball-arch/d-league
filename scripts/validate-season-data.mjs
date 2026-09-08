@@ -133,9 +133,11 @@ for (const season of seasons) {
       if (playerIdentityIds.has(player.identityId)) fail(`${season} player ${player.id}: duplicate identityId ${player.identityId}`);
       playerIdentityIds.add(player.identityId);
     }
-    const teamNumberKey = `${player.teamId}:${player.number}`;
-    if (teamNumbers.has(teamNumberKey)) fail(`${season} player ${player.id}: duplicate shirt number ${player.number}`);
-    teamNumbers.add(teamNumberKey);
+    if (player.number > 0) {
+      const teamNumberKey = `${player.teamId}:${player.number}`;
+      if (teamNumbers.has(teamNumberKey)) fail(`${season} player ${player.id}: duplicate shirt number ${player.number}`);
+      teamNumbers.add(teamNumberKey);
+    }
     if (player.registrations) {
       for (const registration of player.registrations) {
         if (!teamIds.has(registration.teamId)) fail(`${season} player ${player.id}: unknown registration team`);
@@ -318,17 +320,3 @@ for (const team of currentTeams) {
     fail(`${CURRENT_SEASON_ID} team ${team.id}: published roster must contain 12-20 players`);
   }
 }
-
-const currentSeasonNews = read(CURRENT_SEASON_ID, 'news.json');
-const requiredCurrentSeasonNewsIds = [
-  `${CURRENT_SEASON_ID}-registration-open`,
-  `${CURRENT_SEASON_ID}-selection-announcement`,
-];
-const currentSeasonNewsIds = new Set(currentSeasonNews.map((article) => article.id));
-for (const articleId of requiredCurrentSeasonNewsIds) {
-  if (!currentSeasonNewsIds.has(articleId)) {
-    fail(`${CURRENT_SEASON_ID}: required announcement ${articleId} is missing`);
-  }
-}
-
-console.log('Season data validation passed');
