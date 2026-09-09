@@ -8,8 +8,12 @@ export interface TeamKitAssetPair {
 const TEAM_KIT_ASSETS: Partial<Record<SeasonId, Record<string, TeamKitAssetPair>>> = {
   '2026-27': {
     t_tainan_evergreen_2026: {
-      home: 'assets/seasons/2026-27/kits/tainan-evergreen-home.webp',
-      away: 'assets/seasons/2026-27/kits/tainan-evergreen-away.webp',
+      home: 'assets/seasons/2026-27/kits/tainan-evergreen-home.png',
+      away: 'assets/seasons/2026-27/kits/tainan-evergreen-away.png',
+    },
+    t_black_wolf_2026: {
+      home: 'assets/seasons/2026-27/kits/black-wolf-fc-home.png',
+      away: 'assets/seasons/2026-27/kits/black-wolf-fc-away.png',
     },
   },
 };
