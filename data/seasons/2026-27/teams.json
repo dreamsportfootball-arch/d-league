@@ -84,6 +84,9 @@
       "homePattern": "vertical-stripes",
       "away": "#ffffff"
     },
+    "socialLinks": {
+      "instagram": "https://www.instagram.com/orichalarchaeo_fc/"
+    },
     "staff": [
       {
         "role": "領隊",
@@ -146,6 +149,11 @@
       "homeSecondary": "#f2d600",
       "homePattern": "vertical-stripes",
       "away": "#111111"
+    },
+    "socialLinks": {
+      "instagram": "https://www.instagram.com/khfc.2022/",
+      "facebook": "https://www.facebook.com/khfc2207",
+      "youtube": "https://www.youtube.com/@khfc2207"
     },
     "staff": [
       {
@@ -268,6 +276,9 @@
       "home": "#111111",
       "away": "#ffffff"
     },
+    "socialLinks": {
+      "instagram": "https://www.instagram.com/black_wolf_01567?igsh=MWoydTZld2R5c3d1Zg%3D%3D&utm_source=qr"
+    },
     "staff": [
       {
         "role": "領隊",
@@ -319,6 +330,9 @@
       "home": "#385984",
       "away": "#ffffff"
     },
+    "socialLinks": {
+      "facebook": "https://www.facebook.com/Luzhufootballclub"
+    },
     "staff": [
       {
         "role": "領隊",
@@ -354,6 +368,9 @@
       "homePattern": "vertical-stripes",
       "away": "#ffffff"
     },
+    "socialLinks": {
+      "instagram": "https://www.instagram.com/kaohsiung_harbor_wanderers_fc/"
+    },
     "staff": [
       {
         "role": "領隊",
@@ -386,6 +403,9 @@
     "kits": {
       "home": "#8fa8b8",
       "away": "#2b1a76"
+    },
+    "socialLinks": {
+      "instagram": "https://www.instagram.com/chiayi.235.fc_2026/"
     },
     "staff": [
       {
@@ -449,6 +469,9 @@
     "logo": "assets/seasons/2026-27/teams/kaohsiung-black-knights.png",
     "primaryColor": "#111111",
     "secondaryColor": "#ffffff",
+    "socialLinks": {
+      "instagram": "https://www.instagram.com/blackknightstv/"
+    },
     "staff": [
       {
         "role": "領隊",
@@ -482,6 +505,9 @@
     "logo": "assets/seasons/2026-27/teams/holy-knights-fc.png",
     "primaryColor": "#111111",
     "secondaryColor": "#ffffff",
+    "socialLinks": {
+      "instagram": "https://www.instagram.com/paladin.fc_01/"
+    },
     "staff": [
       {
         "role": "領隊",
