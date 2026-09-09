@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   CalendarDays,
   ExternalLink,
@@ -115,27 +115,48 @@ const MiniKitIcon: React.FC<MiniKitIconProps> = ({
   image,
 }) => {
   const [imageFailed, setImageFailed] = useState(false);
-  const showRealKit = Boolean(image && !imageFailed);
+  const imageUrl = image ? `${import.meta.env.BASE_URL}${image}` : null;
+
+  useEffect(() => {
+    if (!imageUrl) {
+      setImageFailed(false);
+      return undefined;
+    }
+
+    setImageFailed(false);
+    const preload = new Image();
+    preload.onload = () => setImageFailed(false);
+    preload.onerror = () => setImageFailed(true);
+    preload.src = imageUrl;
+
+    return () => {
+      preload.onload = null;
+      preload.onerror = null;
+    };
+  }, [imageUrl]);
+
+  const showRealKit = Boolean(imageUrl && !imageFailed);
 
   return (
     <span
       role="img"
       aria-label={label}
       title={label}
-      className="inline-flex h-11 w-8 shrink-0 items-center justify-center sm:h-[52px] sm:w-10"
+      draggable={false}
+      onContextMenu={(event) => event.preventDefault()}
+      className="inline-flex h-11 w-8 shrink-0 select-none items-center justify-center sm:h-[52px] sm:w-10"
     >
       {showRealKit ? (
-        <img
-          src={`${import.meta.env.BASE_URL}${image}`}
-          alt=""
+        <span
           aria-hidden="true"
-          className="max-h-full max-w-full object-contain drop-shadow-[0_1px_1px_rgba(0,0,0,0.12)]"
-          onError={() => setImageFailed(true)}
+          draggable={false}
+          className="pointer-events-none block h-full w-full select-none bg-contain bg-center bg-no-repeat drop-shadow-[0_1px_1px_rgba(0,0,0,0.12)] [-webkit-user-drag:none]"
+          style={{ backgroundImage: `url(${JSON.stringify(imageUrl)})` }}
         />
       ) : (
         <span
           aria-hidden="true"
-          className="block h-6 w-6 drop-shadow-[0_1px_1px_rgba(0,0,0,0.16)] sm:h-7 sm:w-7"
+          className="pointer-events-none block h-6 w-6 select-none drop-shadow-[0_1px_1px_rgba(0,0,0,0.16)] sm:h-7 sm:w-7"
           style={{
             ...getKitSwatchStyle(primaryColor, secondaryColor, pattern),
             clipPath:
@@ -153,7 +174,7 @@ const MiniTeamKits: React.FC<{ team: SeasonTeam; seasonId: SeasonTeam['seasonId'
   const kitAssets = getTeamKitAssets(seasonId, team.id);
 
   return (
-    <span className="inline-flex shrink-0 items-center gap-2" aria-label={`${team.name} 球衣`}>
+    <span className="inline-flex shrink-0 select-none items-center gap-2" aria-label={`${team.name} 球衣`} onContextMenu={(event) => event.preventDefault()}>
       <MiniKitIcon
         label={`${team.name} 主場球衣`}
         primaryColor={homeColor}
@@ -218,107 +239,76 @@ const TeamPage: React.FC = () => {
         <div className="mx-auto max-w-5xl">
           <EmptyState title="找不到此球隊" description="此球隊不存在、尚未登錄，或網址已失效" />
           <div className="mt-8 text-center">
-            <BackButton
-              fallbackTo={isSeasonId(requestedSeason) ? `/standings?season=${requestedSeason}` : '/standings'}
-              className="inline-flex min-h-11 items-center text-sm font-bold text-brand-blue hover:text-brand-black"
-            />
+            <BackButton fallbackTo="/standings" />
           </div>
         </div>
       </div>
     );
   }
 
-  const selectedRecord =
-    (isSeasonId(requestedSeason)
-      ? history.find((record) => record.seasonId === requestedSeason)
-      : undefined) ?? history[0];
-  const { team, data, season, seasonId } = selectedRecord;
+  const requestedSeasonId = requestedSeason && isSeasonId(requestedSeason) ? requestedSeason : null;
+  const availableHistory = history.filter((entry) => availableSeasons.some((season) => season.id === entry.seasonId));
+  const seasonEntry =
+    (requestedSeasonId ? availableHistory.find((entry) => entry.seasonId === requestedSeasonId) : null) ??
+    availableHistory[0] ??
+    history[0];
+  const seasonId = seasonEntry.seasonId;
+  const team = seasonEntry.team;
+  const { season, data, leagueConfig } = useSeason(seasonId);
+  const players = data.players.filter((player) => player.teamId === team.id);
+  const teamMatches = data.matches.filter((match) => match.homeTeamId === team.id || match.awayTeamId === team.id);
+  const standing = data.standings.find((row) => row.teamId === team.id);
+  const activeLeagueTeams = data.teams.filter((candidate) => candidate.leagueId === team.leagueId && candidate.competitionStatus !== 'WITHDRAWN');
   const socialLinks = getTeamSocialLinks(team);
-  const displayShortName = team.shortName?.trim() && team.shortName.trim() !== team.name.trim()
-    ? team.shortName.trim()
-    : '';
-  const players = data.players
-    .filter((player) => player.teamId === team.id)
-    .sort((a, b) => a.number - b.number || a.name.localeCompare(b.name, 'zh-TW'));
-  const teamMatches = data.matches
-    .filter((match) => match.homeTeamId === team.id || match.awayTeamId === team.id)
-    .sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
+  const displayShortName = team.shortName && team.shortName !== team.name ? team.shortName : null;
+  const seasonHasStarted = Date.now() >= new Date(season.startDate).getTime();
+  const dialogSeasonContext = useMemo(
+    () => ({
+      seasonId,
+      season,
+      data,
+      leagueConfig,
+    }),
+    [data, leagueConfig, season, seasonId],
+  );
+
   const cupTeam = getCupTeamByIdentity(getTeamIdentity(team));
   const cupMatches = cupTeam ? getCupMatchesForTeam(cupTeam.id) : [];
   const cupPlacement = cupTeam ? getCupTeamPlacementLabel(cupTeam.id) : null;
-  const competitionHistory: TeamCompetitionHistoryRow[] = (() => {
-    const leagueRows: TeamCompetitionHistoryRow[] = history.map((record) => {
-      const row = calculateLeagueTable({
-        league: record.team.leagueId,
-        teams: record.data.teams,
-        matches: record.data.matches,
-        matchEvents: record.data.matchEvents,
-        rules: record.season.rules,
-        leagueConfig: record.season.leagues[record.team.leagueId],
-      }).find((item) => item.teamId === record.team.id);
-
+  const competitionHistory: TeamCompetitionHistoryRow[] = [
+    ...history.map((entry) => {
+      const entrySeason = availableSeasons.find((candidate) => candidate.id === entry.seasonId);
       return {
-        id: `league-${record.seasonId}`,
-        period: record.season.shortName,
-        competition: `D LEAGUE ${record.team.leagueId}`,
-        result: row?.played ? `#${row.rank}` : '-',
-        startYear: Number.parseInt(record.seasonId.slice(0, 4), 10),
+        id: `league-${entry.seasonId}`,
+        period: entrySeason?.shortName ?? entry.seasonId.replace('-', '/'),
+        competition: 'D LEAGUE',
+        result: entry.team.leagueId ? formatLeagueName(entry.team.leagueId) : '-',
+        startYear: Number.parseInt(entry.seasonId.slice(0, 4), 10) || 0,
+        href: `/teams/${getTeamIdentity(entry.team)}?season=${entry.seasonId}`,
       };
-    });
-
-    if (!cupTeam || cupMatches.length === 0) return leagueRows;
-
-    const cupYear = new Date(CUP_EVENT.date).getFullYear();
-    const cupRow: TeamCompetitionHistoryRow = {
-      id: `cup-${cupTeam.id}-${cupYear}`,
-      period: String(cupYear),
-      competition: CUP_EVENT.shortName,
-      result: cupPlacement ?? '參賽',
-      startYear: cupYear,
-      href: '/cup',
-    };
-    const insertIndex = leagueRows.findIndex((row) => row.startYear < cupYear);
-
-    return insertIndex === -1
-      ? [...leagueRows, cupRow]
-      : [...leagueRows.slice(0, insertIndex), cupRow, ...leagueRows.slice(insertIndex)];
-  })();
-  const dialogSeasonContext = {
-    activeSeasonId: seasonId,
-    activeSeason: season,
-    seasonData: data,
-    availableSeasons,
-    setActiveSeason: () => {},
-  };
-
-  const leagueConfig = season.leagues[team.leagueId];
-  const standings = calculateLeagueTable({
-    league: team.leagueId,
-    teams: data.teams,
-    matches: data.matches,
-    matchEvents: data.matchEvents,
-    rules: season.rules,
-    leagueConfig,
-  });
-  const standing = standings.find((row) => row.teamId === team.id);
-  const activeLeagueTeams = data.teams.filter(
-    (candidate) => candidate.leagueId === team.leagueId && candidate.competitionStatus !== 'WITHDRAWN',
-  );
-  const activeLeagueTeamIds = new Set(activeLeagueTeams.map((candidate) => candidate.id));
-  const eligibleLeagueMatches = data.matches.filter(
-    (match) =>
-      match.league === team.leagueId &&
-      activeLeagueTeamIds.has(match.homeTeamId) &&
-      activeLeagueTeamIds.has(match.awayTeamId),
-  );
-  const seasonHasStarted = eligibleLeagueMatches.some(isResolvedMatch);
+    }),
+    ...(cupTeam && cupPlacement
+      ? [
+          {
+            id: `cup-${CUP_EVENT.id}`,
+            period: CUP_EVENT.date.slice(0, 4),
+            competition: CUP_EVENT.name,
+            result: cupPlacement,
+            startYear: Number.parseInt(CUP_EVENT.date.slice(0, 4), 10) || 0,
+            href: `/cup/${CUP_EVENT.slug}`,
+          },
+        ]
+      : []),
+  ].sort((a, b) => b.startYear - a.startYear || a.competition.localeCompare(b.competition));
 
   const rankHistory: TeamRankPoint[] = (() => {
-    if (activeLeagueTeams.length < 2) return [];
+    if (!seasonHasStarted) return [];
+
     const buckets = new Map<string, RoundBucket>();
-    eligibleLeagueMatches.forEach((match) => {
-      const round = String(match.round);
-      const kickoff = new Date(match.timestamp).getTime();
+    const leagueMatches = data.matches.filter((match) => match.leagueId === team.leagueId && match.round);
+    leagueMatches.forEach((match) => {
+      const round = match.round as string;
+      const kickoff = new Date(match.kickoffAt).getTime();
       const current = buckets.get(round);
       if (current) {
         current.matches.push(match);
