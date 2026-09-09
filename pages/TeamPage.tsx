@@ -396,7 +396,7 @@ const TeamPage: React.FC = () => {
               className="inline-flex min-h-11 items-center text-xs font-bold text-neutral-500 hover:text-brand-black"
             />
             {seasonId === '2026-27' && (
-              <div className="md:hidden">
+              <div className="h-11 overflow-visible md:hidden">
                 <MiniTeamKits team={team} seasonId={seasonId} />
               </div>
             )}
