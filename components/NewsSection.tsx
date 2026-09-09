@@ -52,7 +52,7 @@ const NewsSection: React.FC = () => {
                 <div className="z-10 min-w-0 flex-1">
                   <div className="mb-2 flex flex-wrap items-center gap-2">
                     <span
-                      className={`inline-flex items-center justify-center rounded-sm px-2 pb-[3px] pt-[5px] text-[10px] font-bold uppercase leading-none tracking-wider shadow-sm ${getBadgeStyle(
+                      className={`inline-flex h-[18px] items-center justify-center rounded-sm px-2 text-[10px] font-bold uppercase leading-none tracking-wider shadow-sm ${getBadgeStyle(
                         article.category,
                       )}`}
                     >
