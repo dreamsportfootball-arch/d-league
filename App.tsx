@@ -176,27 +176,63 @@ const consumeScrollAnchor = (locationKey: string): ScrollAnchorSnapshot | null =
   }
 };
 
+const isUsableScrollAnchor = (element: HTMLAnchorElement): boolean => {
+  if (!element.isConnected) return false;
+  const rect = element.getBoundingClientRect();
+  const style = window.getComputedStyle(element);
+  return (
+    rect.width > 0 &&
+    rect.height > 0 &&
+    style.display !== 'none' &&
+    style.visibility !== 'hidden'
+  );
+};
+
+const selectClosestScrollAnchor = (
+  candidates: HTMLAnchorElement[],
+  snapshot: ScrollAnchorSnapshot,
+): HTMLAnchorElement | null => {
+  const usableCandidates = candidates.filter(isUsableScrollAnchor);
+  if (usableCandidates.length === 0) return null;
+
+  return usableCandidates.reduce((closest, candidate) => {
+    const closestDelta = Math.abs(closest.getBoundingClientRect().top - snapshot.viewportTop);
+    const candidateDelta = Math.abs(candidate.getBoundingClientRect().top - snapshot.viewportTop);
+    return candidateDelta < closestDelta ? candidate : closest;
+  });
+};
+
 const findScrollAnchor = (snapshot: ScrollAnchorSnapshot): HTMLAnchorElement | null => {
   if (snapshot.anchorId) {
-    const identifiedAnchors = document.querySelectorAll<HTMLAnchorElement>('a[data-scroll-anchor-id]');
-    const identifiedAnchor = Array.from(identifiedAnchors).find(
-      (element) => element.dataset.scrollAnchorId === snapshot.anchorId,
-    );
+    const identifiedAnchors = Array.from(
+      document.querySelectorAll<HTMLAnchorElement>('a[data-scroll-anchor-id]'),
+    ).filter((element) => element.dataset.scrollAnchorId === snapshot.anchorId);
+    const identifiedAnchor = selectClosestScrollAnchor(identifiedAnchors, snapshot);
     if (identifiedAnchor) return identifiedAnchor;
   }
 
   if (snapshot.href) {
-    const hrefAnchors = document.querySelectorAll<HTMLAnchorElement>('a[href]');
-    const hrefAnchor = Array.from(hrefAnchors).find(
-      (element) => element.getAttribute('href') === snapshot.href,
-    );
+    const hrefAnchors = Array.from(
+      document.querySelectorAll<HTMLAnchorElement>('a[href]'),
+    ).filter((element) => element.getAttribute('href') === snapshot.href);
+    const hrefAnchor = selectClosestScrollAnchor(hrefAnchors, snapshot);
     if (hrefAnchor) return hrefAnchor;
   }
 
-  const candidates = document.querySelectorAll<HTMLAnchorElement>('a[aria-label]');
-  return Array.from(candidates).find(
-    (element) => element.getAttribute('aria-label') === snapshot.ariaLabel,
-  ) ?? null;
+  const labelledAnchors = Array.from(
+    document.querySelectorAll<HTMLAnchorElement>('a[aria-label]'),
+  ).filter((element) => element.getAttribute('aria-label') === snapshot.ariaLabel);
+  return selectClosestScrollAnchor(labelledAnchors, snapshot);
+};
+
+const isInsideViewportPinnedContainer = (element: HTMLElement): boolean => {
+  let current: HTMLElement | null = element;
+  while (current) {
+    const position = window.getComputedStyle(current).position;
+    if (position === 'fixed' || position === 'sticky') return true;
+    current = current.parentElement;
+  }
+  return false;
 };
 
 const ScrollMemory: React.FC = () => {
@@ -204,7 +240,7 @@ const ScrollMemory: React.FC = () => {
   const navigationType = useNavigationType();
   const storageLocationKey = `${key}:${pathname}${search}${hash}`;
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const previousRestoration = window.history.scrollRestoration;
     window.history.scrollRestoration = 'manual';
     return () => {
@@ -212,7 +248,7 @@ const ScrollMemory: React.FC = () => {
     };
   }, []);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     let frameId = 0;
 
     const persistCurrentPosition = () => {
@@ -225,10 +261,20 @@ const ScrollMemory: React.FC = () => {
       frameId = window.requestAnimationFrame(persistCurrentPosition);
     };
 
+    const handlePageHide = () => {
+      if (frameId !== 0) {
+        window.cancelAnimationFrame(frameId);
+        frameId = 0;
+      }
+      writeScrollPosition(storageLocationKey, window.scrollY);
+    };
+
     window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('pagehide', handlePageHide);
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('pagehide', handlePageHide);
       if (frameId !== 0) window.cancelAnimationFrame(frameId);
       writeScrollPosition(storageLocationKey, window.scrollY);
     };
@@ -250,10 +296,19 @@ const ScrollMemory: React.FC = () => {
         ? target.closest<HTMLAnchorElement>('a[data-scroll-anchor-id], a[href*="/players/"]')
         : null;
       const href = anchor?.getAttribute('href');
-      if (!anchor || !href) return;
+      if (
+        !anchor ||
+        !href ||
+        anchor.target === '_blank' ||
+        anchor.hasAttribute('download') ||
+        !isUsableScrollAnchor(anchor)
+      ) return;
 
       const ariaLabel = anchor.getAttribute('aria-label') ?? anchor.textContent?.trim() ?? href;
       const anchorId = anchor.dataset.scrollAnchorId;
+
+      // Harden the source history entry synchronously before React Router can change location.
+      writeScrollPosition(storageLocationKey, window.scrollY);
       writeScrollAnchor(storageLocationKey, {
         ariaLabel,
         viewportTop: anchor.getBoundingClientRect().top,
@@ -302,8 +357,13 @@ const ScrollMemory: React.FC = () => {
 
       const maxScrollY = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
       const anchorElement = savedAnchor ? findScrollAnchor(savedAnchor) : null;
+      const canUseAnchor = Boolean(
+        anchorElement &&
+        savedAnchor &&
+        !isInsideViewportPinnedContainer(anchorElement),
+      );
 
-      if (anchorElement && savedAnchor) {
+      if (canUseAnchor && anchorElement && savedAnchor) {
         const anchorDelta = anchorElement.getBoundingClientRect().top - savedAnchor.viewportTop;
         if (Math.abs(anchorDelta) > SCROLL_RESTORE_TOLERANCE_PX) {
           const targetScrollY = Math.max(0, Math.min(maxScrollY, window.scrollY + anchorDelta));

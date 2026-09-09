@@ -3,9 +3,16 @@ import { chromium } from 'playwright';
 const baseUrl = process.env.AUDIT_BASE_URL ?? 'http://127.0.0.1:4173/d-league';
 const viewports = [
   { name: 'mobile-375', width: 375, height: 812 },
+  { name: 'mobile-390', width: 390, height: 844 },
+  { name: 'tablet-768', width: 768, height: 1024 },
+  { name: 'laptop-1024', width: 1024, height: 768 },
   { name: 'desktop-1280', width: 1280, height: 900 },
+  { name: 'desktop-1440', width: 1440, height: 960 },
 ];
-const allowedFirstFrameDelta = 64;
+const allowedFirstFrameDelta = 8;
+const allowedSettledDelta = 8;
+const allowedPostPopDrift = 4;
+const settledProbeDelayMs = 700;
 
 const fail = (message) => {
   throw new Error(`Navigation visual stability validation failed: ${message}`);
@@ -28,9 +35,18 @@ const installPopProbe = async (page, descriptor) => {
           const style = window.getComputedStyle(element);
           return rect.width > 0 && rect.height > 0 && style.display !== 'none' && style.visibility !== 'hidden';
         };
-        const anchor = anchorId
-          ? links.find((element) => element.getAttribute('data-scroll-anchor-id') === anchorId && isVisible(element))
-          : links.find((element) => element.getAttribute('href') === href && isVisible(element));
+        const matchingLinks = links.filter((element) => {
+          if (!isVisible(element)) return false;
+          if (anchorId) return element.getAttribute('data-scroll-anchor-id') === anchorId;
+          return element.getAttribute('href') === href;
+        });
+        const anchor = matchingLinks
+          .slice()
+          .sort((left, right) => {
+            const leftTop = left instanceof HTMLElement ? left.getBoundingClientRect().top : Number.POSITIVE_INFINITY;
+            const rightTop = right instanceof HTMLElement ? right.getBoundingClientRect().top : Number.POSITIVE_INFINITY;
+            return Math.abs(leftTop - window.__dleaguePopExpectedTop) - Math.abs(rightTop - window.__dleaguePopExpectedTop);
+          })[0];
         window.__dleaguePopProbe = {
           hash: window.location.hash,
           found: anchor instanceof HTMLElement,
@@ -42,6 +58,36 @@ const installPopProbe = async (page, descriptor) => {
     }, { once: true });
   }, descriptor);
 };
+
+const measureAnchor = async (page, descriptor, expectedTop) => page.evaluate(
+  ({ anchorId, href, top }) => {
+    const links = [...document.querySelectorAll('a')];
+    const isVisible = (element) => {
+      if (!(element instanceof HTMLElement)) return false;
+      const rect = element.getBoundingClientRect();
+      const style = window.getComputedStyle(element);
+      return rect.width > 0 && rect.height > 0 && style.display !== 'none' && style.visibility !== 'hidden';
+    };
+    const matchingLinks = links.filter((element) => {
+      if (!isVisible(element)) return false;
+      if (anchorId) return element.getAttribute('data-scroll-anchor-id') === anchorId;
+      return element.getAttribute('href') === href;
+    });
+    const anchor = matchingLinks
+      .slice()
+      .sort((left, right) => {
+        const leftTop = left instanceof HTMLElement ? left.getBoundingClientRect().top : Number.POSITIVE_INFINITY;
+        const rightTop = right instanceof HTMLElement ? right.getBoundingClientRect().top : Number.POSITIVE_INFINITY;
+        return Math.abs(leftTop - top) - Math.abs(rightTop - top);
+      })[0];
+    return {
+      found: anchor instanceof HTMLElement,
+      top: anchor instanceof HTMLElement ? anchor.getBoundingClientRect().top : null,
+      scrollY: window.scrollY,
+    };
+  },
+  { ...descriptor, top: expectedTop },
+);
 
 const exerciseReturn = async ({
   page,
@@ -84,6 +130,9 @@ const exerciseReturn = async ({
   }
 
   const beforeTop = await link.evaluate((element) => element.getBoundingClientRect().top);
+  await page.evaluate((top) => {
+    window.__dleaguePopExpectedTop = top;
+  }, beforeTop);
   await installPopProbe(page, { ...descriptor, requireTeams });
 
   await link.click();
@@ -105,7 +154,22 @@ const exerciseReturn = async ({
     fail(`${viewportName} ${label}: first POP frame shifted ${probe.top === null ? 'without anchor' : `${Math.abs(probe.top - beforeTop).toFixed(1)}px`}; before=${beforeTop}, probe=${JSON.stringify(probe)}`);
   }
 
-  console.log(`${viewportName} ${label}: first POP frame stable within ${Math.abs(probe.top - beforeTop).toFixed(1)}px`);
+  await page.waitForTimeout(settledProbeDelayMs);
+  const settledProbe = await measureAnchor(page, descriptor, beforeTop);
+  if (!settledProbe.found || settledProbe.top === null) {
+    fail(`${viewportName} ${label}: source anchor disappeared after POP settled; probe=${JSON.stringify(settledProbe)}`);
+  }
+
+  const settledDelta = Math.abs(settledProbe.top - beforeTop);
+  const postPopDrift = Math.abs(settledProbe.top - probe.top);
+  if (settledDelta > allowedSettledDelta) {
+    fail(`${viewportName} ${label}: settled POP position shifted ${settledDelta.toFixed(1)}px; before=${beforeTop}, first=${probe.top}, settled=${settledProbe.top}`);
+  }
+  if (postPopDrift > allowedPostPopDrift) {
+    fail(`${viewportName} ${label}: page drifted ${postPopDrift.toFixed(1)}px after the first restored frame; first=${probe.top}, settled=${settledProbe.top}`);
+  }
+
+  console.log(`${viewportName} ${label}: first-frame ${Math.abs(probe.top - beforeTop).toFixed(1)}px, settled ${settledDelta.toFixed(1)}px, post-POP drift ${postPopDrift.toFixed(1)}px`);
 };
 
 const browser = await chromium.launch({ headless: true });
