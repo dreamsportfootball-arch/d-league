@@ -58,6 +58,7 @@
 
 [role="img"][aria-label$="球衣"] > .bg-contain {
   transform: scale(1.08);
+  transform-origin: center;
 }
 
 @media (min-width: 768px) {
