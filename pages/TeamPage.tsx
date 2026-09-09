@@ -348,8 +348,8 @@ const TeamPage: React.FC = () => {
     });
   })();
 
-  const renderSocialLinks = (mobile: boolean) => (
-    <div className={mobile ? 'mt-4 flex flex-wrap gap-x-5 gap-y-2 md:hidden' : 'hidden flex-wrap justify-end gap-x-5 gap-y-2 md:flex'}>
+  const renderSocialLinks = () => (
+    <div className="mt-2 flex flex-wrap gap-x-5 gap-y-2">
       {socialLinks.map((link) => (
         <a
           key={link.platform}
@@ -408,12 +408,6 @@ const TeamPage: React.FC = () => {
             </div>
           )}
 
-          {socialLinks.length > 0 && (
-            <div className="absolute -top-11 right-0 hidden md:block">
-              {renderSocialLinks(false)}
-            </div>
-          )}
-
           <div className="mt-6 flex min-w-0 items-start gap-5 sm:items-center sm:gap-7 md:mt-4 md:pr-28">
             {team.logo && failedTeamLogo !== team.logo && (
               <div className="flex h-24 w-24 shrink-0 items-center justify-center md:h-28 md:w-28">
@@ -430,8 +424,8 @@ const TeamPage: React.FC = () => {
                 {season.shortName} · {formatLeagueName(team.leagueId)}
               </p>
               <h1 className="min-w-0"><AutoFitText text={team.name} minFontSize={16} lineHeight={0.98} className="font-display text-4xl font-extrabold tracking-tight text-brand-black sm:text-5xl xl:text-6xl" /></h1>
+              {socialLinks.length > 0 && renderSocialLinks()}
               {displayShortName && <p className="mt-2 text-xs font-semibold text-neutral-500">球隊簡稱 <span className="ml-2 font-bold text-brand-black">{displayShortName}</span></p>}
-              {socialLinks.length > 0 && renderSocialLinks(true)}
             </div>
           </div>
 
