@@ -51,6 +51,34 @@ const TEAM_KIT_ASSETS: Partial<Record<SeasonId, Record<string, TeamKitAssetPair>
       home: 'assets/seasons/2026-27/kits/pingtung-wild-ape-fc-home.png',
       away: 'assets/seasons/2026-27/kits/pingtung-wild-ape-fc-away.png',
     },
+    t_kaohsiung_black_knights_2026: {
+      home: 'assets/seasons/2026-27/kits/kaohsiung-black-knights-home.png',
+      away: 'assets/seasons/2026-27/kits/kaohsiung-black-knights-away.png',
+    },
+    t_kuromi_2026: {
+      home: 'assets/seasons/2026-27/kits/kuromi-home.png',
+      away: 'assets/seasons/2026-27/kits/kuromi-away.png',
+    },
+    t_tongque_2026: {
+      home: 'assets/seasons/2026-27/kits/tongque-club-home.png',
+      away: 'assets/seasons/2026-27/kits/tongque-club-away.png',
+    },
+    t_southboys_2026: {
+      home: 'assets/seasons/2026-27/kits/southboys-fc-home.png',
+      away: 'assets/seasons/2026-27/kits/southboys-fc-away.png',
+    },
+    t_sf_2026: {
+      home: 'assets/seasons/2026-27/kits/sf-football-club-home.png',
+      away: 'assets/seasons/2026-27/kits/sf-football-club-away.png',
+    },
+    t_wanderers_2026: {
+      home: 'assets/seasons/2026-27/kits/wanderers-home.png',
+      away: 'assets/seasons/2026-27/kits/wanderers-away.png',
+    },
+    t_holy_knights_2026: {
+      home: 'assets/seasons/2026-27/kits/holy-knights-fc-home.png',
+      away: 'assets/seasons/2026-27/kits/holy-knights-fc-away.png',
+    },
   },
 };
 
