@@ -349,7 +349,7 @@ const TeamPage: React.FC = () => {
   })();
 
   const renderSocialLinks = (mobile: boolean) => (
-    <div className={mobile ? 'mt-4 flex flex-wrap gap-x-5 gap-y-2 sm:hidden' : 'hidden flex-wrap justify-end gap-x-5 gap-y-2 sm:flex'}>
+    <div className={mobile ? 'mt-4 flex flex-wrap gap-x-5 gap-y-2 md:hidden' : 'hidden flex-wrap justify-end gap-x-5 gap-y-2 md:flex'}>
       {socialLinks.map((link) => (
         <a
           key={link.platform}
@@ -400,17 +400,17 @@ const TeamPage: React.FC = () => {
                 <MiniTeamKits team={team} seasonId={seasonId} />
               </div>
             )}
-            {socialLinks.length > 0 && (
-              <div className="md:hidden">
-                {renderSocialLinks(false)}
-              </div>
-            )}
           </div>
 
-          {(seasonId === '2026-27' || socialLinks.length > 0) && (
-            <div className="absolute right-0 top-0 hidden items-start gap-6 md:flex">
-              {seasonId === '2026-27' && <MiniTeamKits team={team} seasonId={seasonId} />}
-              {socialLinks.length > 0 && renderSocialLinks(false)}
+          {seasonId === '2026-27' && (
+            <div className="absolute right-0 top-0 hidden md:block">
+              <MiniTeamKits team={team} seasonId={seasonId} />
+            </div>
+          )}
+
+          {socialLinks.length > 0 && (
+            <div className="absolute -top-11 right-0 hidden md:block">
+              {renderSocialLinks(false)}
             </div>
           )}
 
