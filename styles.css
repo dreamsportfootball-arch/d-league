@@ -56,6 +56,10 @@
   height: 5rem;
 }
 
+[role="img"][aria-label$="球衣"] > .bg-contain {
+  transform: scale(1.08);
+}
+
 @media (min-width: 768px) {
   [role="img"][aria-label$="球衣"]:has(> img) {
     width: 7.5rem;
