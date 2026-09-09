@@ -400,12 +400,17 @@ const TeamPage: React.FC = () => {
                 <MiniTeamKits team={team} seasonId={seasonId} />
               </div>
             )}
-            {socialLinks.length > 0 && renderSocialLinks(false)}
+            {socialLinks.length > 0 && (
+              <div className="md:hidden">
+                {renderSocialLinks(false)}
+              </div>
+            )}
           </div>
 
-          {seasonId === '2026-27' && (
-            <div className={`absolute right-0 hidden md:block ${socialLinks.length > 0 ? 'top-12' : 'top-0'}`}>
-              <MiniTeamKits team={team} seasonId={seasonId} />
+          {(seasonId === '2026-27' || socialLinks.length > 0) && (
+            <div className="absolute right-0 top-0 hidden items-start gap-6 md:flex">
+              {seasonId === '2026-27' && <MiniTeamKits team={team} seasonId={seasonId} />}
+              {socialLinks.length > 0 && renderSocialLinks(false)}
             </div>
           )}
 
