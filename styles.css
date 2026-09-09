@@ -51,6 +51,30 @@
   scrollbar-width: none;
 }
 
+[role="img"][aria-label$="球衣"]:has(> img) {
+  width: 4.1667rem;
+  height: 5rem;
+}
+
+[role="img"][aria-label$="球衣"] > .bg-contain {
+  transform: scale(1.08);
+  transform-origin: center;
+}
+
+@media (min-width: 768px) {
+  [role="img"][aria-label$="球衣"]:has(> img) {
+    width: 7.5rem;
+    height: 9rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  [role="img"][aria-label$="球衣"]:has(> img) {
+    width: 8.3333rem;
+    height: 10rem;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto !important;

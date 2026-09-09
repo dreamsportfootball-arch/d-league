@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   CalendarDays,
   ExternalLink,
@@ -18,6 +18,7 @@ import FullSchedule from '../components/FullSchedule';
 import MatchDialog from '../components/MatchDialog';
 import TeamRankChart, { type TeamRankPoint } from '../components/TeamRankChart';
 import { isSeasonId } from '../config/seasons';
+import { getTeamKitAssets } from '../config/teamKitAssets';
 import { SeasonContext } from '../contexts/SeasonContext';
 import {
   CUP_EVENT,
@@ -96,6 +97,103 @@ const getKitSwatchStyle = (
   }
 
   return { backgroundColor: primaryColor };
+};
+
+interface MiniKitIconProps {
+  label: string;
+  primaryColor: string;
+  secondaryColor?: string;
+  pattern?: TeamKitPattern;
+  image?: string;
+}
+
+const MiniKitIcon: React.FC<MiniKitIconProps> = ({
+  label,
+  primaryColor,
+  secondaryColor,
+  pattern,
+  image,
+}) => {
+  const [imageFailed, setImageFailed] = useState(false);
+  const imageUrl = image ? `${import.meta.env.BASE_URL}${image}` : null;
+
+  useEffect(() => {
+    if (!imageUrl) {
+      setImageFailed(false);
+      return undefined;
+    }
+
+    setImageFailed(false);
+    const preload = new Image();
+    preload.onload = () => setImageFailed(false);
+    preload.onerror = () => setImageFailed(true);
+    preload.src = imageUrl;
+
+    return () => {
+      preload.onload = null;
+      preload.onerror = null;
+    };
+  }, [imageUrl]);
+
+  const showRealKit = Boolean(imageUrl && !imageFailed);
+
+  return (
+    <span
+      role="img"
+      aria-label={label}
+      title={label}
+      draggable={false}
+      className="inline-flex h-11 w-8 shrink-0 select-none items-center justify-center sm:h-[52px] sm:w-10"
+    >
+      {showRealKit ? (
+        <span
+          aria-hidden="true"
+          draggable={false}
+          className="pointer-events-none block h-full w-full select-none bg-contain bg-center bg-no-repeat drop-shadow-[0_1px_1px_rgba(0,0,0,0.12)] [-webkit-user-drag:none]"
+          style={{ backgroundImage: `url(${imageUrl})` }}
+        />
+      ) : (
+        <span
+          aria-hidden="true"
+          className="pointer-events-none block h-6 w-6 select-none drop-shadow-[0_1px_1px_rgba(0,0,0,0.16)] sm:h-7 sm:w-7"
+          style={{
+            ...getKitSwatchStyle(primaryColor, secondaryColor, pattern),
+            clipPath:
+              'polygon(20% 0, 38% 8%, 62% 8%, 80% 0, 100% 18%, 84% 34%, 76% 26%, 76% 100%, 24% 100%, 24% 26%, 16% 34%, 0 18%)',
+          }}
+        />
+      )}
+    </span>
+  );
+};
+
+const MiniTeamKits: React.FC<{ team: SeasonTeam; seasonId: SeasonTeam['seasonId'] }> = ({ team, seasonId }) => {
+  const homeColor = team.kits?.home ?? team.primaryColor;
+  const awayColor = team.kits?.away ?? team.secondaryColor ?? '#ffffff';
+  const kitAssets = getTeamKitAssets(seasonId, team.id);
+
+  return (
+    <span
+      className="inline-flex shrink-0 select-none items-center gap-2"
+      aria-label={`${team.name} 球衣`}
+      onContextMenu={(event) => event.preventDefault()}
+    >
+      <MiniKitIcon
+        label={`${team.name} 主場球衣`}
+        primaryColor={homeColor}
+        secondaryColor={team.kits?.homeSecondary}
+        pattern={team.kits?.homePattern}
+        image={kitAssets?.home}
+      />
+      <MiniKitIcon
+        label={`${team.name} 客場球衣`}
+        primaryColor={awayColor}
+        secondaryColor={team.kits?.awaySecondary}
+        pattern={team.kits?.awayPattern}
+        image={kitAssets?.away}
+      />
+    </span>
+  );
 };
 
 const isSafeExternalUrl = (value: string): boolean => {
@@ -274,8 +372,8 @@ const TeamPage: React.FC = () => {
     });
   })();
 
-  const renderSocialLinks = (mobile: boolean) => (
-    <div className={mobile ? 'mt-4 flex flex-wrap gap-x-5 gap-y-2 sm:hidden' : 'hidden flex-wrap justify-end gap-x-5 gap-y-2 sm:flex'}>
+  const renderSocialLinks = () => (
+    <div className="mt-2 flex flex-wrap gap-x-5 gap-y-2">
       {socialLinks.map((link) => (
         <a
           key={link.platform}
@@ -321,10 +419,20 @@ const TeamPage: React.FC = () => {
               fallbackTo={`/standings?season=${seasonId}`}
               className="inline-flex min-h-11 items-center text-xs font-bold text-neutral-500 hover:text-brand-black"
             />
-            {socialLinks.length > 0 && renderSocialLinks(false)}
+            {seasonId === '2026-27' && (
+              <div className="h-11 overflow-visible md:hidden">
+                <MiniTeamKits team={team} seasonId={seasonId} />
+              </div>
+            )}
           </div>
 
-          <div className="mt-6 flex min-w-0 items-start gap-5 sm:items-center sm:gap-7 md:mt-4">
+          {seasonId === '2026-27' && (
+            <div className="absolute right-0 top-0 hidden md:block">
+              <MiniTeamKits team={team} seasonId={seasonId} />
+            </div>
+          )}
+
+          <div className="mt-6 flex min-w-0 items-start gap-5 sm:items-center sm:gap-7 md:mt-4 md:pr-28">
             {team.logo && failedTeamLogo !== team.logo && (
               <div className="flex h-24 w-24 shrink-0 items-center justify-center md:h-28 md:w-28">
                 <img
@@ -339,9 +447,9 @@ const TeamPage: React.FC = () => {
               <p className="mb-2 text-[11px] font-black uppercase tracking-[0.18em] text-brand-blue sm:text-xs">
                 {season.shortName} · {formatLeagueName(team.leagueId)}
               </p>
-              <h1><AutoFitText text={team.name} minFontSize={16} lineHeight={0.98} className="font-display text-4xl font-extrabold tracking-tight text-brand-black sm:text-5xl xl:text-6xl" /></h1>
+              <h1 className="min-w-0"><AutoFitText text={team.name} minFontSize={16} lineHeight={0.98} className="font-display text-4xl font-extrabold tracking-tight text-brand-black sm:text-5xl xl:text-6xl" /></h1>
+              {socialLinks.length > 0 && renderSocialLinks()}
               {displayShortName && <p className="mt-2 text-xs font-semibold text-neutral-500">球隊簡稱 <span className="ml-2 font-bold text-brand-black">{displayShortName}</span></p>}
-              {socialLinks.length > 0 && renderSocialLinks(true)}
             </div>
           </div>
 
