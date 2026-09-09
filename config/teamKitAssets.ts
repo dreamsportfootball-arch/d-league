@@ -39,6 +39,18 @@ const TEAM_KIT_ASSETS: Partial<Record<SeasonId, Record<string, TeamKitAssetPair>
       home: 'assets/seasons/2026-27/kits/tainan-niaoshi-home.png',
       away: 'assets/seasons/2026-27/kits/tainan-niaoshi-away.png',
     },
+    t_chiayi_235_2026: {
+      home: 'assets/seasons/2026-27/kits/chiayi-235-fc-home.png',
+      away: 'assets/seasons/2026-27/kits/chiayi-235-fc-away.png',
+    },
+    t_kaohsiung_amateur_2026: {
+      home: 'assets/seasons/2026-27/kits/kaohsiung-amateur-fc-home.png',
+      away: 'assets/seasons/2026-27/kits/kaohsiung-amateur-fc-away.png',
+    },
+    t_pingtung_wild_ape_2026: {
+      home: 'assets/seasons/2026-27/kits/pingtung-wild-ape-fc-home.png',
+      away: 'assets/seasons/2026-27/kits/pingtung-wild-ape-fc-away.png',
+    },
   },
 };
 
