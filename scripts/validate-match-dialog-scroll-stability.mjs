@@ -94,7 +94,7 @@ const chooseTargetButton = async (page, testCase) => {
   return buttons[Math.floor(buttons.length / 2)];
 };
 
-const positionTarget = async (button) => {
+const positionTarget = async (page, button) => {
   await button.evaluate((element) => {
     const rect = element.getBoundingClientRect();
     const absoluteTop = rect.top + window.scrollY;
@@ -103,11 +103,11 @@ const positionTarget = async (button) => {
     const targetScrollY = Math.max(0, Math.min(maxScrollY, absoluteTop - desiredTop));
     window.scrollTo({ top: targetScrollY, behavior: 'auto' });
   });
-  await button.page().waitForTimeout(120);
+  await page.waitForTimeout(120);
 };
 
-const readPosition = async (button) => ({
-  scrollY: await button.page().evaluate(() => window.scrollY),
+const readPosition = async (page, button) => ({
+  scrollY: await page.evaluate(() => window.scrollY),
   top: await button.evaluate((element) => element.getBoundingClientRect().top),
 });
 
@@ -140,11 +140,11 @@ for (const viewport of viewports) {
       await prepareCase(page, testCase);
 
       const targetButton = await chooseTargetButton(page, testCase);
-      await positionTarget(targetButton);
+      await positionTarget(page, targetButton);
       const matchId = await targetButton.getAttribute('data-analytics-label');
       if (!matchId) throw new Error('target match button has no analytics label');
 
-      const before = await readPosition(targetButton);
+      const before = await readPosition(page, targetButton);
       await targetButton.click();
       const dialog = page.locator('[role="dialog"][aria-labelledby="match-dialog-title"]');
       await dialog.waitFor({ state: 'visible' });
@@ -178,7 +178,7 @@ for (const viewport of viewports) {
         `[data-analytics-event="match_open"][data-analytics-label="${matchId}"]:visible`,
       ).first();
       await originalButton.waitFor({ state: 'visible' });
-      const after = await readPosition(originalButton);
+      const after = await readPosition(page, originalButton);
       const closeDelta = assertDelta(viewport.name, testCase.name, 'close-scroll', after.scrollY, before.scrollY);
       const cardDelta = assertDelta(viewport.name, testCase.name, 'close-card-position', after.top, before.top);
 
