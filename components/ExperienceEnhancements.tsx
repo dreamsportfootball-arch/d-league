@@ -49,27 +49,30 @@ const ScheduleMatchScrollGuard: React.FC = () => {
 
   useLayoutEffect(() => {
     const previous = previousLocationRef.current;
-    if (previous && isScheduleMatchDialogTransition(previous, location)) {
-      window.scrollTo({ top: previous.scrollY, behavior: 'auto' });
+    const shouldRestore = Boolean(previous && isScheduleMatchDialogTransition(previous, location));
+    const restoredScrollY = shouldRestore && previous ? previous.scrollY : window.scrollY;
+
+    if (shouldRestore) {
+      window.scrollTo({ top: restoredScrollY, behavior: 'auto' });
     }
 
-    previousLocationRef.current = {
+    const currentSnapshot: ScheduleViewSnapshot = {
       pathname: location.pathname,
       search: location.search,
       hash: location.hash,
-      scrollY: window.scrollY,
+      scrollY: restoredScrollY,
+    };
+    previousLocationRef.current = currentSnapshot;
+
+    const handleScroll = () => {
+      if (previousLocationRef.current === currentSnapshot) {
+        currentSnapshot.scrollY = window.scrollY;
+      }
     };
 
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => {
-      const snapshot = previousLocationRef.current;
-      if (
-        snapshot &&
-        snapshot.pathname === location.pathname &&
-        snapshot.search === location.search &&
-        snapshot.hash === location.hash
-      ) {
-        snapshot.scrollY = window.scrollY;
-      }
+      window.removeEventListener('scroll', handleScroll);
     };
   }, [location.hash, location.pathname, location.search]);
 
